@@ -8,7 +8,7 @@
         role="group"
         aria-roledescription="slide"
       >
-        <div ref="cards" class="translate-x-12 opacity-0" @click.prevent="openFaucet(faucet)">
+        <div ref="cards" class="translate-x-12 opacity-0 h-full" @click.prevent="openFaucet(faucet)">
           <FaucetCard
             :data-ref="motions[idx].value.id"
             :motion="motions[idx]"
