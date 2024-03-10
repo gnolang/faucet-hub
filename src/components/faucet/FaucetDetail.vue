@@ -78,7 +78,7 @@ const requestFaucet = async (address: string, amount: number) => {
   console.log(address)
   console.log(amount)
 
-  const res = await req()
+  const res = await req('success')
   store.status = res.code
 
   if (store.status === 'error') {
