@@ -31,10 +31,12 @@ onMounted(() => {
     })
 
     store.DOM.title = DOMTitle.value
-    store.titleToggle()
   }
 
-  gsap.to(DOMSiteloader.value, { autoAlpha: 0, duration: 0.4 })
+  window.addEventListener('load', () => {
+    gsap.to(DOMSiteloader.value, { autoAlpha: 0, duration: 0.4 })
+    store.titleToggle()
+  })
 })
 </script>
 

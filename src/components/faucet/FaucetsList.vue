@@ -53,11 +53,13 @@ const openFaucet = (faucet: Faucet) => {
 }
 
 onMounted(() => {
-  // TODO: To custom with async data
-  if (cards.value && cards.value?.length > 0) {
-    store.DOM.cards = cards.value
-    store.cardDisplay()
-  }
+  window.addEventListener('load', () => {
+    // TODO: To custom with async data
+    if (cards.value && cards.value?.length > 0) {
+      store.DOM.cards = cards.value
+      store.cardDisplay()
+    }
+  })
 })
 </script>
 
