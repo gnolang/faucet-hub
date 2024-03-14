@@ -1,33 +1,18 @@
 <template>
-  <div
-    ref="DOMbackground"
-    class="fixed w-screen h-screen top-0 left-0 z-30 bg-darkblur backdrop-blur-sm invisible opacity-0"
-  ></div>
+  <div ref="DOMbackground" class="fixed w-screen h-screen top-0 left-0 z-30 bg-darkblur backdrop-blur-sm invisible opacity-0"></div>
 
   <section
     ref="DOMpopup"
-    class="popup fixed flex flex-col items-center rounded w-[36rem] bg-grey-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
+    class="popup fixed flex flex-col items-center rounded w-[90vw] max-w-[36rem] bg-grey-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
   >
     <div ref="DOMFaucetRequest" class="p-12">
-      <FaucetContentForm
-        :name="store.selectedFaucet.name ?? 'Faucet'"
-        :options="store.faucetAmount"
-        v-show="store.contentStep === 0"
-        class="js-faucetform opacity-100"
-        :error="error"
-        @requestFaucet="requestFaucet"
-      />
+      <FaucetContentForm :name="store.selectedFaucet.name ?? 'Faucet'" :options="store.faucetAmount" v-show="store.contentStep === 0" class="js-faucetform opacity-100" :error="error" @requestFaucet="requestFaucet" />
       <div>
         <div ref="gnoRequestLogo" v-show="store.contentStep >= 1" class="opacity-0">
           <Vue3Lottie :animationData="GnoJSON" :loop="true" :height="200" :width="200" :autoPlay="true" />
         </div>
         <FaucetContentRequest v-show="store.contentStep === 1" class="js-faucetpending" />
-        <FaucetContentSuccess
-          v-show="store.contentStep === 2"
-          :tx-link="txLink"
-          class="js-faucetsuccess opacity-0"
-          @doneFaucet="donefaucet()"
-        />
+        <FaucetContentSuccess v-show="store.contentStep === 2" :tx-link="txLink" class="js-faucetsuccess opacity-0" @doneFaucet="donefaucet()" />
       </div>
     </div>
   </section>
@@ -190,11 +175,6 @@ watch(
 }
 .popup::before {
   opacity: var(--op);
-  background: radial-gradient(
-    farthest-corner circle at var(--mx, 0%) var(--my, 100%),
-    #aeffb6 0%,
-    #121212 20%,
-    #121212 100%
-  );
+  background: radial-gradient(farthest-corner circle at var(--mx, 0%) var(--my, 100%), #aeffb6 0%, #121212 20%, #121212 100%);
 }
 </style>

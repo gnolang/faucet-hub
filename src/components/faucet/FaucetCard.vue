@@ -14,13 +14,13 @@ import { computed } from 'vue'
 import Card from '@/components/ui/Card.vue'
 import FaucetAvailability from './FaucetAvailability.vue'
 
-import { MotionTracker } from '@/composables/useMouseDelegation'
+import { type MotionTracker } from '@/composables/useMouseDelegation'
 
 import { Faucet } from '@/types'
 
 interface Props {
   faucet: Faucet
-  motion: MotionTracker
+  motion?: MotionTracker
   isLoading: boolean
 }
 

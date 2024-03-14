@@ -1,13 +1,8 @@
 <template>
-  <footer class="px-20 mb-12 w-full flex text-grey-100 text-100 justify-between items-center">
-    <div>
-      Faucet Hub is a community project.<br />Check out
-      <a href="https://github.com/gnolang/gno" class="hover:text-grey-50 transition-colors ease-in-out underline"
-        >Github Repo</a
-      >.
-    </div>
-    <div class="flex items-center">
-      <div class="mr-6">Learn more about Gno.land <br />and be part of the conversation:</div>
+  <footer class="px-4 md:px-14 lg:px-20 mb-12 w-full max-w-[110rem] mx-auto flex flex-col md:flex-row text-grey-100 text-100 text-center md:text-left justify-between items-center">
+    <div class="mb-10 md:mb-0">Faucet Hub is a community project.<br />Check out <a href="https://github.com/gnolang/gno" class="hover:text-grey-50 transition-colors ease-in-out underline">Github Repo</a>.</div>
+    <div class="flex flex-col md:flex-row items-center">
+      <div class="mr-6 mb-6 md:mb-0">Learn more about Gno.land <br />and be part of the conversation:</div>
       <ul class="flex space-x-4">
         <li v-for="(social, idx) in socials" :key="idx">
           <a :href="social.link" class="hover:text-grey-50 transition-colors ease-in-out">
