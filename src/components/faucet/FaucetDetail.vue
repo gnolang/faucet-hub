@@ -45,7 +45,7 @@ const gnoRequestLogo = ref<HTMLElement | null>(null)
 const popupHeight = reactive({ from: 0, to: 0 })
 const error = ref<Status | null>(null)
 
-const requestFaucet = async (address: string, amount: number) => {
+const requestFaucet = async (address: string, amount: number, secret: string) => {
   popupHeight.from = DOMpopup.value?.getBoundingClientRect().height ?? 0
   gsap.set(DOMpopup.value, { height: popupHeight.from + 'px' })
 
@@ -62,6 +62,7 @@ const requestFaucet = async (address: string, amount: number) => {
   //TODO: Request - replace fake request
   console.log(address)
   console.log(amount)
+  console.log(secret)
 
   const res = await req('success')
   store.status = res.code
