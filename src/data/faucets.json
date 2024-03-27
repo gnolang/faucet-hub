@@ -1,58 +1,15 @@
 {
   "faucets": [
     {
-      "name": "Very long network name 1",
-      "availability": true,
-      "network": "network name",
-      "token": "$GNOT",
-      "amounts": [5, 10, 20]
-    },
-    {
-      "name": "Very long network name 2",
-      "availability": false,
-      "network": "network name",
-      "token": "$GNOT"
-    },
-    {
-      "name": "Very long network name 3",
-      "availability": true,
-      "network": "network name",
-      "token": "$GNOT",
-      "amounts": [5, 10, 15]
-    },
-    {
-      "name": "Very long network name 4",
-      "availability": true,
-      "network": "network name",
-      "token": "$GNOT",
-      "amounts": [5, 10, 15]
-    },
-    {
-      "name": "Very long network name 1",
-      "availability": true,
-      "network": "network name",
-      "token": "$GNOT",
-      "amounts": [5, 10, 15]
-    },
-    {
-      "name": "Very long network name 2",
-      "availability": false,
-      "network": "network name",
-      "token": "$GNOT",
-      "amounts": [5, 10, 15]
-    },
-    {
-      "name": "Very long network name 3",
-      "availability": true,
-      "network": "network name",
-      "token": "$GNOT",
-      "amounts": [5, 10, 15]
-    },
-    {
-      "name": "Very long network name 4",
-      "availability": true,
-      "network": "network name",
-      "token": "$GNOT"
+      "name": "Gno Portal Loop",
+      "chain_id": "portal-loop",
+      "amounts": [
+        1,
+        5,
+        10
+      ],
+      "url": "https://rpc.gno.land:443",
+      "recaptcha": "6Lc245EpAAAAAJHI6WezI7VSsy6NiKTq1I7OLlUy"
     }
   ]
 }
