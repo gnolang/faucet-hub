@@ -1,9 +1,11 @@
 <template>
   <div ref="projectCarouselEL" class="col-span-12 my-20">
     <Carousel name="Carousel">
-      <li v-for="(faucet, idx) in faucets" :key="idx" class="js-card p-4 flex-none w-full" role="group" aria-roledescription="slide">
+      <li v-for="(faucet, idx) in faucets" :key="idx" class="js-card p-4 flex-none w-full" role="group"
+          aria-roledescription="slide">
         <div ref="cards" class="translate-x-12 opacity-0 h-full" @click.prevent="openFaucet(faucet)">
-          <FaucetCard :data-ref="motions[idx].value.id" :motion="width >= 768 ? motions[idx] : undefined" :data-index="idx" :faucet="faucet" :is-loading="isLoading" />
+          <FaucetCard :data-ref="motions[idx].value.id" :motion="width >= 768 ? motions[idx] : undefined"
+                      :data-index="idx" :faucet="faucet" :is-loading="isLoading" />
         </div>
       </li>
     </Carousel>

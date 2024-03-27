@@ -1,8 +1,8 @@
 <template>
   <Card :tracker="tracker">
-    <FaucetAvailability :available="faucet.availability" class="self-end" />
+    <FaucetAvailability :available="true" class="self-end" />
     <div class="mt-28">
-      <span class="mb-2 text-grey-100 text-50 uppercase">{{ faucet.network }}</span>
+      <span class="mb-2 text-grey-100 text-50 uppercase">{{ faucet.chain_id }}</span>
       <h2 class="text-500 text-grey-50">{{ faucet.name }}</h2>
     </div>
   </Card>

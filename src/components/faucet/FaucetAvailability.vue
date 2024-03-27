@@ -12,7 +12,7 @@ const props = defineProps<Props>()
     :class="props.available ? 'bg-green-900 before:bg-green-200' : 'bg-red-900 before:bg-red-200'"
   >
     <span :class="props.available ? 'text-green-200' : 'text-red-200'">{{
-      props.available ? 'Enough faucet' : 'Empty. Try Later'
-    }}</span>
+        props.available ? 'Available' : 'Unavailable'
+      }}</span>
   </div>
 </template>

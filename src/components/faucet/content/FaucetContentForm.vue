@@ -7,8 +7,8 @@
       <Recaptcha @validation="captchaValidation" />
       <div>
         <div class="flex gap-4">
+          <Button text="Request drip" class="w-full" type="submit" />
           <Button text="Cancel" variant="outline" @click.prevent="() => closePopup()" class="w-full" />
-          <Button text="Request Faucet" class="w-full" type="submit" />
         </div>
         <div v-if="error" class="text-center text-red-200 mt-6">{{ errorDetail[error] }}</div>
       </div>
