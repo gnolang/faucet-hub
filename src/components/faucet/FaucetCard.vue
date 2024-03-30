@@ -1,15 +1,15 @@
 <template>
   <Card :tracker="tracker">
-    <FaucetAvailability :available="faucet.availability" class="self-end" />
+    <FaucetAvailability :available="availability" class="self-end" />
     <div class="mt-28">
-      <span class="mb-2 text-grey-100 text-50 uppercase">{{ faucet.network }}</span>
-      <h2 class="text-500 text-grey-50">{{ faucet.name }}</h2>
+      <span class="mb-2 text-grey-100 text-50 uppercase" v-if="faucet.Network">{{ faucet.Network }}</span>
+      <h2 class="text-500 text-grey-50">{{ faucet.Name }}</h2>
     </div>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import Card from '@/components/ui/Card.vue'
 import FaucetAvailability from './FaucetAvailability.vue'
@@ -25,6 +25,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+//TODO: request to get availibility (or from props - parent req)
+const availability = ref(true)
 
 const tracker = computed(() => {
   return {
