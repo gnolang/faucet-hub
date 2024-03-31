@@ -4,21 +4,21 @@ export type Status = 'FAIL' | 'EMPTY' | 'INVALID_ADDRESS' | 'BUSY_FAUCET' | unde
 export type Code = 'success' | 'error'
 
 export interface Faucet {
-  Name: string // name of the testnet
-  Amounts?: number[] // faucet serve amounts (UI)
-  URL: string // the faucet URL
-  ReCaptcha: string // the recaptcha site key, if any
-  Network?: string // name of the network if any
-  Token?: string // token name - $GNOT by default
+  name: string // name of the testnet
+  chain_id: string // name of the testnet
+  amounts: number[] // faucet serve amounts (UI)
+  url: string // the faucet URL
+  recaptcha: string // the recaptcha site key, if any
+  token?: string // token name: default $GNOT
 }
 
 export interface Request {
-  To: string // recipient address
-  Amount: string // <AMOUNT>ugnot
-  Captcha: string
+  to: string // recipient address
+  amount: string // <AMOUNT>ugnot
+  captcha: string
 }
 
-export interface Response {
-  Result: string //json: "result
-  Error: string //json: error,omitempty
+export interface FaucetResponse {
+  result: string //json: "result
+  error: Status //json: error,omitempty
 }

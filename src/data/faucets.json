@@ -1,18 +1,11 @@
 {
   "faucets": [
     {
-      "Name": "Very long network name 1",
-      "Network": "network name",
-      "Amounts": [5, 10, 20],
-      "URL": "",
-      "ReCaptcha": ""
-    },
-    {
-      "Name": "Very long network name 2",
-      "Network": "network name",
-      "Token": "$GNOT",
-      "URL": "",
-      "ReCaptcha": ""
+      "name": "Gno Portal Loop",
+      "chain_id": "portal-loop",
+      "amounts": [1, 5, 10],
+      "url": "https://rpc.gno.land:443",
+      "recaptcha": "6Lc245EpAAAAAJHI6WezI7VSsy6NiKTq1I7OLlUy"
     }
   ]
 }

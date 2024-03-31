@@ -20,8 +20,8 @@ export const useFaucetDetail = defineStore('faucetDetail', {
   }),
   getters: {
     faucetAmount: (state) =>
-      state.selectedFaucet.Amounts?.map((amount: number) => ({
-        content: `${amount} ${state.selectedFaucet.Token ?? '$GNOT'}`,
+      state.selectedFaucet.amounts?.map((amount: number) => ({
+        content: `${amount} ${state.selectedFaucet?.token ?? '$GNOT'}`,
         value: amount,
       })) ?? [{ content: '', value: 0 }],
   },

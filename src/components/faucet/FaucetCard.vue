@@ -1,9 +1,9 @@
 <template>
   <Card :tracker="tracker">
-    <FaucetAvailability :available="availability" class="self-end" />
+    <FaucetAvailability :available="true" class="self-end" />
     <div class="mt-28">
-      <span class="mb-2 text-grey-100 text-50 uppercase" v-if="faucet.Network">{{ faucet.Network }}</span>
-      <h2 class="text-500 text-grey-50">{{ faucet.Name }}</h2>
+      <span class="mb-2 text-grey-100 text-50 uppercase">{{ faucet.chain_id }}</span>
+      <h2 class="text-500 text-grey-50">{{ faucet.name }}</h2>
     </div>
   </Card>
 </template>

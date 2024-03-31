@@ -6,7 +6,7 @@
     class="popup fixed flex flex-col items-center rounded w-[90vw] max-w-[36rem] bg-grey-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
   >
     <div ref="DOMFaucetRequest" class="p-12">
-      <FaucetContentForm :name="store.selectedFaucet.Name ?? 'Faucet'" :options="store.faucetAmount" v-show="store.contentStep === 0" class="js-faucetform opacity-100" :error="error" @requestFaucet="requestFaucet" />
+      <FaucetContentForm :name="store.selectedFaucet.name ?? 'Faucet'" :options="store.faucetAmount" v-show="store.contentStep === 0" class="js-faucetform opacity-100" :error="error" @requestFaucet="requestFaucet" />
       <div>
         <div ref="gnoRequestLogo" v-show="store.contentStep >= 1" class="opacity-0">
           <Vue3Lottie :animationData="GnoJSON" :loop="true" :height="200" :width="200" :autoPlay="true" />
@@ -32,7 +32,7 @@ import GnoJSON from '@/assets/lottie/logo.json'
 import { useFaucetDetail } from '@/stores/faucetDetail'
 
 // import { req } from '@/data/mockedRequest'
-import { Status, Request } from '@/types'
+import { Status, Request, FaucetResponse } from '@/types'
 
 const txLink = ref('')
 
@@ -60,26 +60,38 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
   })
   gsap.to(gnoRequestLogo.value, { autoAlpha: 1, delay: 0.5 })
 
-  const data: Request = {
-    To: address,
-    Amount: amount.toString(),
-    Captcha: secret,
-  }
-
   console.log(address)
   console.log(amount)
   console.log(secret)
 
-  await axios.get(store.selectedFaucet.URL, { data })
+  const opt: Request = {
+    to: address,
+    amount: amount.toString(),
+    captcha: secret,
+  }
 
-  const res = await req('success')
-  store.status = res.code
+  try {
+    const { data }: { data: FaucetResponse } = await axios.post(store.selectedFaucet.url, {
+      opt,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
 
-  if (store.status === 'error') {
-    error.value = res.status
-    store.contentStep = 0
-  } else {
-    txLink.value = res.txLink ?? ''
+    console.log(data)
+
+    //TODO: check types and error / result content
+    if (data.error) {
+      error.value = data.error
+      store.contentStep = 0
+      throw new Error(data.error)
+    } else {
+      store.status = 'success'
+      txLink.value = data.result ?? ''
+    }
+  } catch (e) {
+    console.error('error ' + e)
   }
 }
 
