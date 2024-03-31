@@ -30,9 +30,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       gsap.to(this.DOM.cards, {
         x: 0,
         autoAlpha: 1,
-        stagger: {
-          amount: 1,
-        },
+        stagger: 0.1,
         ease: CustomEase.create('custom', 'M0,0 C0.331,1.606 0.516,0.948 1,1 '),
         duration: 0.8,
       })
