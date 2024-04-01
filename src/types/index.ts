@@ -1,7 +1,5 @@
 export type RequestStatus = 'pending' | 'success' | 'error' | 'null'
 
-export type Code = 'success' | 'error'
-
 export interface Faucet {
   name: string // name of the testnet
   chain_id: string // name of the testnet
