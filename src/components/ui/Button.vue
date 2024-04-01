@@ -1,16 +1,16 @@
 <template>
-  <button class="p-4 rounded border border-light ease-in-out duration-300" :class="css[variant]">
-    {{ text }}
-  </button>
+  <button class="p-4 rounded border border-light ease-in-out duration-300" :class="[css[variant], disabled && ['bg-grey-100 border-grey-100 hover:bg-grey-100 hover:!border-grey-100 hover:cursor-not-allowed']]">{{ text }}</button>
 </template>
 
 <script setup lang="ts">
 type Props = {
   text: string
   variant?: 'default' | 'outline'
+  disabled?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   variant: 'default',
+  disabled: false,
 })
 
 const css = {

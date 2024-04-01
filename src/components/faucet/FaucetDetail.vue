@@ -5,7 +5,7 @@
     ref="DOMpopup"
     class="popup fixed flex flex-col items-center rounded w-[90vw] max-w-[36rem] bg-grey-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
   >
-    <div ref="DOMFaucetRequest" class="p-12">
+    <div ref="DOMFaucetRequest" class="py-12 px-20 w-full">
       <FaucetContentForm :name="store.selectedFaucet.name ?? 'Faucet'" :options="store.faucetAmount" v-show="store.contentStep === 0" class="js-faucetform opacity-100" :error="error" @requestFaucet="requestFaucet" />
       <div>
         <div ref="gnoRequestLogo" v-show="store.contentStep >= 1" class="opacity-0">
@@ -31,8 +31,7 @@ import GnoJSON from '@/assets/lottie/logo.json'
 
 import { useFaucetDetail } from '@/stores/faucetDetail'
 
-// import { req } from '@/data/mockedRequest'
-import { Status, Request, FaucetResponse } from '@/types'
+import { Request, FaucetResponse } from '@/types'
 
 const txLink = ref('')
 
@@ -44,7 +43,7 @@ const DOMFaucetRequest = ref<HTMLElement | null>(null)
 const gnoRequestLogo = ref<HTMLElement | null>(null)
 
 const popupHeight = reactive({ from: 0, to: 0 })
-const error = ref<Status | null>(null)
+const error = ref<string | null>(null)
 
 const requestFaucet = async (address: string, amount: number, secret: string) => {
   popupHeight.from = DOMpopup.value?.getBoundingClientRect().height ?? 0
@@ -60,38 +59,36 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
   })
   gsap.to(gnoRequestLogo.value, { autoAlpha: 1, delay: 0.5 })
 
-  console.log(address)
-  console.log(amount)
-  console.log(secret)
-
-  const opt: Request = {
-    to: address,
-    amount: amount.toString(),
-    captcha: secret,
-  }
+  // default
+  const minTimer = new Promise((resolve) => setTimeout(resolve, 2000))
 
   try {
-    const { data }: { data: FaucetResponse } = await axios.post(store.selectedFaucet.url, {
-      opt,
+    const response = await fetch(store.selectedFaucet.url, {
+      method: 'POST',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        to: address,
+        amount: amount.toString(),
+        captcha: secret,
+      }),
     })
 
-    console.log(data)
+    await minTimer
+    const faucetResponse = await response.json()
 
-    //TODO: check types and error / result content
-    if (data.error) {
-      error.value = data.error
+    store.status = !faucetResponse.result ? 'error' : 'success'
+
+    // Check the faucet response
+    if (!response.ok || store.status === 'error') {
+      error.value = faucetResponse.error.message
       store.contentStep = 0
-      throw new Error(data.error)
     } else {
-      store.status = 'success'
-      txLink.value = data.result ?? ''
+      txLink.value = faucetResponse.result ?? ''
     }
   } catch (e) {
-    console.error('error ' + e)
+    console.log('error :' + e)
   }
 }
 

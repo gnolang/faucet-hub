@@ -1,6 +1,5 @@
 export type RequestStatus = 'pending' | 'success' | 'error' | 'null'
 
-export type Status = 'FAIL' | 'EMPTY' | 'INVALID_ADDRESS' | 'BUSY_FAUCET' | undefined
 export type Code = 'success' | 'error'
 
 export interface Faucet {
@@ -20,5 +19,5 @@ export interface Request {
 
 export interface FaucetResponse {
   result: string //json: "result
-  error: Status //json: error,omitempty
+  error: string //json: error,omitempty
 }
