@@ -22,7 +22,6 @@
 import { onMounted, ref, reactive, watch, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { Vue3Lottie } from 'vue3-lottie'
-import axios from 'axios'
 
 import FaucetContentForm from './content/FaucetContentForm.vue'
 import FaucetContentRequest from './content/FaucetContentRequest.vue'
@@ -30,8 +29,6 @@ import FaucetContentSuccess from './content/FaucetContentSuccess.vue'
 import GnoJSON from '@/assets/lottie/logo.json'
 
 import { useFaucetDetail } from '@/stores/faucetDetail'
-
-import { Request, FaucetResponse } from '@/types'
 
 const txLink = ref('')
 
@@ -59,7 +56,7 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
   })
   gsap.to(gnoRequestLogo.value, { autoAlpha: 1, delay: 0.5 })
 
-  // default
+  // min default loading timer
   const minTimer = new Promise((resolve) => setTimeout(resolve, 2000))
 
   try {
@@ -85,7 +82,7 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
       error.value = faucetResponse.error.message
       store.contentStep = 0
     } else {
-      txLink.value = faucetResponse.result ?? ''
+      txLink.value = faucetResponse.result ?? '' //TODO: get tx link
     }
   } catch (e) {
     console.log('error :' + e)
