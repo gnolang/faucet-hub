@@ -58,7 +58,14 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
 
   // min default loading timer
   const minTimer = new Promise((resolve) => setTimeout(resolve, 2000))
+  console.log(secret)
 
+  const displayError = (e) => {
+    store.status = 'error'
+    console.error(e)
+    error.value = e as string
+    store.contentStep = 0
+  }
   try {
     const response = await fetch(store.selectedFaucet.url, {
       method: 'POST',
@@ -79,13 +86,14 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
 
     // Check the faucet response
     if (!response.ok || store.status === 'error') {
-      error.value = faucetResponse.error.message
-      store.contentStep = 0
+      displayError(faucetResponse.error.message)
     } else {
+      store.status = 'success'
       txLink.value = faucetResponse.result ?? '' //TODO: get tx link
     }
   } catch (e) {
-    console.log('error :' + e)
+    await minTimer
+    displayError(e)
   }
 }
 
