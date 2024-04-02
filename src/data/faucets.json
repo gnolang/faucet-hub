@@ -4,7 +4,7 @@
       "name": "Gno Portal Loop",
       "chain_id": "portal-loop",
       "amounts": [1, 5, 10],
-      "url": "https://rpc.gno.land:443",
+      "url": "https://faucet-api.portal.gnoteam.com",
       "recaptcha": "6Lc245EpAAAAAJHI6WezI7VSsy6NiKTq1I7OLlUy"
     }
   ]
