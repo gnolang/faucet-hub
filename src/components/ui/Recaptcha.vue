@@ -10,7 +10,7 @@ const siteKey = ref(import.meta.env.VITE_reCAPTCHA_SITE_KEY ?? '')
 const emit = defineEmits(['validation'])
 
 const handleError = (res: string) => {
-  emit('validation', { code: 'error', secret: res })
+  emit('validation', { code: 'error', secret: res ?? 'error' })
 }
 
 const handleSuccess = (res: string) => {

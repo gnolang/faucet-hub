@@ -60,11 +60,11 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
   const minTimer = new Promise((resolve) => setTimeout(resolve, 2000))
   console.log(secret)
 
-  const displayError = (e) => {
+  const displayError = (e: string) => {
     store.status = 'error'
-    console.error(e)
-    error.value = e as string
+    error.value = e
     store.contentStep = 0
+    console.error(e)
   }
   try {
     const response = await fetch(store.selectedFaucet.url, {
@@ -74,7 +74,7 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
       },
       body: JSON.stringify({
         to: address,
-        amount: amount.toString(),
+        amount: amount * 1000000 + 'ugnot',
         captcha: secret,
       }),
     })
@@ -93,7 +93,7 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
     }
   } catch (e) {
     await minTimer
-    displayError(e)
+    displayError(e as string)
   }
 }
 
