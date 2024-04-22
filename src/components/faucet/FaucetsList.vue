@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 
 import Carousel from '@/components/ui/Carousel.vue'
 import FaucetCard from '@/components/faucet/FaucetCard.vue'
@@ -21,12 +22,11 @@ import FaucetCard from '@/components/faucet/FaucetCard.vue'
 import { useMouseDelegation } from '@/composables/useMouseDelegation'
 import { useFaucetDetail } from '@/stores/faucetDetail'
 
-import { useWindowSize } from '@vueuse/core'
-
 import { Faucet } from '@/types'
 
-// TODO: Top replace with real data
-import { faucets } from '@/data/faucets.json'
+import { faucets as faucetJson } from '@/data/faucets.json'
+
+const faucets = ref(faucetJson as Faucet[])
 
 // slider & cards
 const projectCarouselEL = ref<HTMLElement | null>(null)
@@ -37,7 +37,7 @@ let isLoading = false
 
 const { width } = useWindowSize()
 
-const { motions } = useMouseDelegation(projectCarouselEL, faucets, 'ref')
+const { motions } = useMouseDelegation(projectCarouselEL, faucets.value, 'ref')
 
 const store = useFaucetDetail()
 
@@ -48,7 +48,6 @@ const openFaucet = (faucet: Faucet) => {
 
 onMounted(() => {
   window.addEventListener('load', () => {
-    // TODO: To custom with async data
     if (cards.value && cards.value?.length > 0) {
       store.DOM.cards = cards.value
       store.cardDisplay()

@@ -5,7 +5,7 @@
     ref="DOMpopup"
     class="popup fixed flex flex-col items-center rounded w-[90vw] max-w-[36rem] bg-grey-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
   >
-    <div ref="DOMFaucetRequest" class="p-12">
+    <div ref="DOMFaucetRequest" class="py-12 px-20 w-full">
       <FaucetContentForm :name="store.selectedFaucet.name ?? 'Faucet'" :options="store.faucetAmount" v-show="store.contentStep === 0" class="js-faucetform opacity-100" :error="error" @requestFaucet="requestFaucet" />
       <div>
         <div ref="gnoRequestLogo" v-show="store.contentStep >= 1" class="opacity-0">
@@ -30,9 +30,6 @@ import GnoJSON from '@/assets/lottie/logo.json'
 
 import { useFaucetDetail } from '@/stores/faucetDetail'
 
-import { req } from '@/data/mockedRequest'
-import { Status } from '@/types'
-
 const txLink = ref('')
 
 const store = useFaucetDetail()
@@ -43,7 +40,7 @@ const DOMFaucetRequest = ref<HTMLElement | null>(null)
 const gnoRequestLogo = ref<HTMLElement | null>(null)
 
 const popupHeight = reactive({ from: 0, to: 0 })
-const error = ref<Status | null>(null)
+const error = ref<string | null>(null)
 
 const requestFaucet = async (address: string, amount: number, secret: string) => {
   popupHeight.from = DOMpopup.value?.getBoundingClientRect().height ?? 0
@@ -59,19 +56,44 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
   })
   gsap.to(gnoRequestLogo.value, { autoAlpha: 1, delay: 0.5 })
 
-  //TODO: Request - replace fake request
-  console.log(address)
-  console.log(amount)
+  // min default loading timer
+  const minTimer = new Promise((resolve) => setTimeout(resolve, 2000))
   console.log(secret)
 
-  const res = await req('success')
-  store.status = res.code
-
-  if (store.status === 'error') {
-    error.value = res.status
+  const displayError = (e: string) => {
+    store.status = 'error'
+    error.value = e
     store.contentStep = 0
-  } else {
-    txLink.value = res.txLink ?? ''
+    console.error(e)
+  }
+  try {
+    const response = await fetch(store.selectedFaucet.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: address,
+        amount: amount * 1000000 + 'ugnot',
+        captcha: secret,
+      }),
+    })
+
+    await minTimer
+    const faucetResponse = await response.json()
+
+    store.status = !faucetResponse.result ? 'error' : 'success'
+
+    // Check the faucet response
+    if (!response.ok || store.status === 'error') {
+      displayError(faucetResponse.error.message)
+    } else {
+      store.status = 'success'
+      txLink.value = faucetResponse.result ?? '' //TODO: get tx link
+    }
+  } catch (e) {
+    await minTimer
+    displayError(e as string)
   }
 }
 

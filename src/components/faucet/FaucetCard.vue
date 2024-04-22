@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import Card from '@/components/ui/Card.vue'
 import FaucetAvailability from './FaucetAvailability.vue'
@@ -25,6 +25,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+//TODO: request to get availibility (or from props - parent req)
+const availability = ref(true)
 
 const tracker = computed(() => {
   return {

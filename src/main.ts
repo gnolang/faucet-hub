@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { VueRecaptcha } from 'vue-recaptcha'
+
 import './style.css'
 import App from './App.vue'
 

@@ -21,7 +21,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
   getters: {
     faucetAmount: (state) =>
       state.selectedFaucet.amounts?.map((amount: number) => ({
-        content: `${amount} ${state.selectedFaucet.token ?? ''}`,
+        content: `${amount} ${state.selectedFaucet?.token ?? '$GNOT'}`,
         value: amount,
       })) ?? [{ content: '', value: 0 }],
   },
@@ -30,9 +30,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       gsap.to(this.DOM.cards, {
         x: 0,
         autoAlpha: 1,
-        stagger: {
-          amount: 1,
-        },
+        stagger: 0.1,
         ease: CustomEase.create('custom', 'M0,0 C0.331,1.606 0.516,0.948 1,1 '),
         duration: 0.8,
       })
@@ -62,9 +60,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       })
 
       gsap.to('.js-card', {
-        'clip-path': this.isOpen
-          ? 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
-          : 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        'clip-path': this.isOpen ? 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' : 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
         duration: 0.6,
         stagger: {
           amount: 0.3,
@@ -75,9 +71,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       gsap.to(this.DOM.popup, {
         top: this.isOpen ? '55%' : '50%',
         autoAlpha: this.isOpen ? 1 : 0,
-        'clip-path': this.isOpen
-          ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
-          : 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
+        'clip-path': this.isOpen ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' : 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
         duration: 0.6,
         delay: this.isOpen ? 0.4 : 0,
         onComplete: () => {
