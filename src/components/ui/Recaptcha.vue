@@ -1,11 +1,14 @@
 <template>
-  <vue-recaptcha theme="dark" :sitekey="siteKey" @verify="handleSuccess" @error="handleError"></vue-recaptcha>
+  <vue-recaptcha theme="dark" :sitekey="captchakey" @verify="handleSuccess" @error="handleError"></vue-recaptcha>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted } from 'vue'
 
-const siteKey = ref(import.meta.env.VITE_reCAPTCHA_SITE_KEY ?? '')
+type Props = {
+  captchakey: string
+}
+defineProps<Props>()
 
 const emit = defineEmits(['validation'])
 
