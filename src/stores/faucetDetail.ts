@@ -71,7 +71,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
 
       gsap.to(this.DOM.bg, { autoAlpha: this.isOpen ? 1 : 0, duration: 1, delay: this.isOpen ? 0 : 0.4 })
       gsap.to(this.DOM.popup, {
-        top: this.isOpen ? '55%' : '50%',
+        top: this.isOpen ? '50%' : '45%',
         autoAlpha: this.isOpen ? 1 : 0,
         'clip-path': this.isOpen ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' : 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
         duration: 0.6,
