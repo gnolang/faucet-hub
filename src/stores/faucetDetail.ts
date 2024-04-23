@@ -14,6 +14,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       title: null as HTMLElement | null,
     },
     isOpen: false,
+    isVisible: false,
     contentStep: 0,
     status: 'null' as RequestStatus,
     selectedFaucet: {} as Faucet,
@@ -50,6 +51,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
 
     popupToggle() {
       this.isOpen = !this.isOpen
+      if (this.isOpen) this.isVisible = true
 
       this.titleToggle()
 
@@ -75,7 +77,10 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         duration: 0.6,
         delay: this.isOpen ? 0.4 : 0,
         onComplete: () => {
-          if (!this.isOpen) this.contentStep = 0
+          if (!this.isOpen) {
+            this.contentStep = 0
+            this.isVisible = false
+          }
           this.status = 'null'
         },
       })

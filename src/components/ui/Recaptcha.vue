@@ -8,10 +8,8 @@ import { onMounted } from 'vue'
 type Props = {
   captchakey: string
 }
-const props = defineProps<Props>()
+defineProps<Props>()
 
-console.log(props.captchakey)
-onMounted(() => console.log(props.captchakey))
 const emit = defineEmits(['validation'])
 
 const handleError = (res: string) => {

@@ -5,7 +5,7 @@
     ref="DOMpopup"
     class="popup fixed flex flex-col items-center rounded w-[90vw] max-w-[36rem] bg-grey-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
   >
-    <div ref="DOMFaucetRequest" class="py-12 px-20 w-full" v-if="store.isOpen">
+    <div ref="DOMFaucetRequest" class="py-12 px-20 w-full" v-if="store.isVisible">
       <FaucetContentForm :name="store.selectedFaucet.name ?? 'Faucet'" :options="store.faucetAmount" v-show="store.contentStep === 0" class="js-faucetform opacity-100" :error="error" @requestFaucet="requestFaucet" />
       <div>
         <div ref="gnoRequestLogo" v-show="store.contentStep >= 1" class="opacity-0">
