@@ -1,5 +1,5 @@
 <template>
-  <vue-recaptcha theme="dark" :sitekey="captchakey ?? 'a'" @verify="handleSuccess" @error="handleError"></vue-recaptcha>
+  <vue-recaptcha theme="dark" :sitekey="captchakey" @verify="handleSuccess" @error="handleError"></vue-recaptcha>
 </template>
 
 <script setup lang="ts">
