@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h2 class="text-600 mb-12">{{ name }}</h2>
-    <form class="w-full space-y-12" @submit.prevent="requestFaucet">
+    <h2 class="text-500 md:text-600 mb-8 md:mb-12">{{ name }}</h2>
+    <form class="w-full space-y-7 md:space-y-12" @submit.prevent="requestFaucet">
       <Input :label="'Enter your wallet address'" :placeholder="'e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl'" v-model="bindAddress" required />
       <Select v-if="store.selectedFaucet.amounts" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
       <Recaptcha @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
       <div>
-        <div class="flex gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
           <Button text="Cancel" variant="outline" @click.prevent="() => closePopup()" class="w-full" />
           <Button text="Request drip" class="w-full" type="submit" :disabled="captchaValid === false || bindAddress === ''" />
         </div>
