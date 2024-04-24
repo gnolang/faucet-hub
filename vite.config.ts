@@ -7,11 +7,9 @@ import Markdown from 'unplugin-vue-markdown/vite'
 export default defineConfig({
   plugins: [
     Vue({
-      include: [/\.vue$/, /\.md$/], // <-- allows Vue to compile Markdown files
+      include: [/\.vue$/, /\.md$/],
     }),
-    Markdown({
-      /* options */
-    }),
+    Markdown({}),
   ],
   resolve: {
     alias: {
