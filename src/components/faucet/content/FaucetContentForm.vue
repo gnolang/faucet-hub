@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="text-500 md:text-600 mb-8 md:mb-12">{{ name }}</h2>
-    <form class="w-full space-y-7 md:space-y-12" @submit.prevent="requestFaucet">
+    <form class="w-full space-y-7 md:space-y-12" @submit.prevent="isAddressValid && captchaValid && requestFaucet()">
       <Input :label="'Enter your wallet address'" :placeholder="'e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl'" v-model="bindAddress" required />
       <Select v-if="store.selectedFaucet.amounts" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
       <Recaptcha @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
