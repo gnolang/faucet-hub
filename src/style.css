@@ -97,6 +97,39 @@ html {
   opacity: 0;
 }
 
+.content {
+  @apply text-left;
+}
+.content h1,
+.content h2,
+.content h3 {
+  @apply text-light font-termina;
+}
+.content h1 {
+  @apply text-500 md:text-600 mt-3 md:mt-4 mb-6 md:mb-10;
+}
+.content h2 {
+  @apply text-300 md:text-400 mt-6 md:mt-8 mb-3 md:mb-4;
+}
+.content h3 {
+  @apply text-200 md:text-300 mt-4 md:mt-6 mb-3 md:mb-4;
+}
+.content p,
+.content li {
+  @apply my-3 md:my-4 text-100 md:text-200;
+}
+
+.content ul,
+.content ol {
+  @apply my-4 md:my-6 list-inside;
+}
+.content ul {
+  @apply list-disc;
+}
+.content ol {
+  @apply list-decimal;
+}
+
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
