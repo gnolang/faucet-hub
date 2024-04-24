@@ -13,7 +13,7 @@ To set up a TM2 Faucet, check out the setup guide in the
 
 ### Setting up reCaptcha
 To prevent spam and abuse of the faucets, and subsequently the Hub itself, 
-each faucet on the Hub is required to come with a
+each faucet on the Hub is strongly advised to come with a
 [reCaptcha v2](https://developers.google.com/recaptcha/docs/display) set up. 
 
 To set up a reCaptcha keypair for your faucet, check out the [reCaptcha Developer 
