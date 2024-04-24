@@ -17,12 +17,11 @@ To prevent spam and abuse of the service, each faucet on the Hub is required to
 come with a reCaptcha set up. 
 
 To set up a reCaptcha keypair for your faucet, check out the [reCaptcha Developer 
-guide](https://developers.google.com/recaptcha). After obtaining a reCaptcha 
-keypair, you will be able to use the public key to add your faucet in the 
+guide](https://developers.google.com/recaptcha). You will be able to use the public key to add your faucet in the 
 Hub configuration.
 
 ### Adding your faucet to the Hub
-After setting up your faucet along with a correct reCaptcha, adding your faucet 
+After setting up your faucet and obtaining a reCaptcha keypair, adding your faucet 
 to the Hub is as simple as providing a PR with a JSON config to this repo.
 
 To add your faucet to the Hub, you need to provide your faucet configuration
