@@ -19,6 +19,6 @@
       "@assets/*": ["./src/shared/assets/*"]
     }
   },
-  "include": ["env.d.ts", "src/**/*.ts", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*.ts", "src/**/*.vue", "src/**/*.md"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

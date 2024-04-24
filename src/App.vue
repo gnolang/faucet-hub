@@ -7,7 +7,7 @@ import Footer from '@/components/layout/Footer.vue'
 import FaucetsList from '@/components/faucet/FaucetsList.vue'
 import FaucetDetail from '@/components/faucet/FaucetDetail.vue'
 
-import { useCharming } from './composables/useCharming'
+import { useCharming } from '@/composables/useCharming'
 import { useFaucetDetail } from '@/stores/faucetDetail'
 
 const store = useFaucetDetail()

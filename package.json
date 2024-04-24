@@ -12,9 +12,9 @@
     "@vueuse/core": "^10.7.2",
     "gsap": "^3.12.5",
     "pinia": "^2.1.7",
+    "unplugin-vue-markdown": "^0.26.2",
     "vue": "^3.4.15",
     "vue-recaptcha": "2.0.3",
-    "vue-router": "^4.2.5",
     "vue3-lottie": "^3.2.0"
   },
   "devDependencies": {
