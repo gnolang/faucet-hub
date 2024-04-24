@@ -1,9 +1,5 @@
 # Gno Faucet Hub
-
 The Gno Faucet Hub is a place where all Gno faucets come together.
-
-The Hub is live on <URL>.
-
 
 ## Adding your faucet to the Hub
 
