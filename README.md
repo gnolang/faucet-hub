@@ -27,7 +27,7 @@ to the Hub is as simple as providing a PR with a JSON config to this repo.
 To add your faucet to the Hub, you need to provide your faucet configuration
 information in `src/data/faucets.json`. This includes the name of the network
 the faucet is serving on, the network chain ID, drip options for the faucet (in
-GNOT), the faucet URL, and the recaptcha public key. 
+GNOT), the faucet URL, and the recaptcha site key. 
 
 ```json
 {
