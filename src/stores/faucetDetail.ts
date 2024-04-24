@@ -15,6 +15,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     },
     isOpen: false,
     isVisible: false,
+    animationPending: false,
     contentStep: 0,
     status: 'null' as RequestStatus,
     selectedFaucet: {} as Faucet,
@@ -50,6 +51,8 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     },
 
     popupToggle() {
+      if (this.animationPending || this.status === 'pending') return
+      this.animationPending = true
       this.isOpen = !this.isOpen
       if (this.isOpen) this.isVisible = true
 
@@ -69,19 +72,24 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         },
       })
 
-      gsap.to(this.DOM.bg, { autoAlpha: this.isOpen ? 1 : 0, duration: 1, delay: this.isOpen ? 0 : 0.4 })
       gsap.to(this.DOM.popup, {
         top: this.isOpen ? '50%' : '45%',
         autoAlpha: this.isOpen ? 1 : 0,
         'clip-path': this.isOpen ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' : 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
         duration: 0.6,
         delay: this.isOpen ? 0.4 : 0,
+      })
+      gsap.to(this.DOM.bg, {
+        autoAlpha: this.isOpen ? 1 : 0,
+        duration: 1,
+        delay: this.isOpen ? 0 : 0.4,
         onComplete: () => {
           if (!this.isOpen) {
             this.contentStep = 0
             this.isVisible = false
           }
           this.status = 'null'
+          this.animationPending = false
         },
       })
     },
