@@ -1,35 +1,43 @@
-# Vue 3 + TypeScript + Vite
+# Gno Faucet Hub
 
-## ⚙️ Development
+The Gno Faucet Hub is a place where all Gno faucets come together.
 
-Install latest version `pnpm` and restart your terminal if necessary.
+The Hub is live on <URL>.
 
-### Install
 
-Install all packages in the repository.
+## Adding your faucet to the Hub
 
+### Running a faucet
+The Faucet Hub works with TM2 Faucets, or faucets using TM2 Faucets as a base.
+To set up a TM2 Faucet, check out the setup guide in the 
+[TM2 Faucet repo](https://github.com/gnolang/faucet).
+
+### Setting up reCaptcha
+To prevent spam and abuse of the service, each faucet on the Hub is required to 
+come with a reCaptcha setup. 
+
+To set up a reCaptcha keypair for your faucet, check out the [reCaptcha Developer 
+guide](https://developers.google.com/recaptcha). After obtaining a reCaptcha 
+keypair, you will be able to use the public key to add your faucet in the 
+Hub configuration.
+
+### Adding your faucet to the Hub
+After setting up your faucet along with a correct reCaptcha, adding your faucet 
+to the Hub is as simple as providing a PR with a JSON config to this repo.
+
+To add your faucet to the Hub, you need to provide your faucet configuration
+information in `src/data/faucets.json`. This includes the name of the network
+the faucet is serving on, the network chain ID, drip options for the faucet (in
+GNOT), the faucet URL, and the recaptcha public key. 
+
+```json
+{
+  "name": "Gno Portal Loop",
+  "chain_id": "portal-loop",
+  "amounts": [1, 5, 10],
+  "url": "https://faucet-api.portal.gnoteam.com",
+  "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
+}
 ```
-pnpm i
-```
 
-### Dev
-
-```
-pnpm dev
-```
-
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support For `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+You can find an example PR here.
