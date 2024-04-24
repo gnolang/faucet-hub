@@ -6,7 +6,7 @@
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.portal.gnoteam.com",
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
-    }
+    },
     {
       "name": "Example Gno ",
       "chain_id": "example-id",
