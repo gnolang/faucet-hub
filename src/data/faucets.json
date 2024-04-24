@@ -8,11 +8,11 @@
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     },
     {
-      "name": "Example Gno ",
-      "chain_id": "example-id",
+      "name": "Example Network",
+      "chain_id": "example-chain-id",
       "amounts": [1, 5, 10, <example-drip-amount>],
-      "url": "<faucet-url>",
-      "recaptcha": "<captcha-public-key>"
+      "url": "<example-network-faucet-url>",
+      "recaptcha": "<example-captcha-public-key>"
     }
   ]
 }
