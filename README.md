@@ -16,9 +16,9 @@ To prevent spam and abuse of the faucets, and subsequently the Hub itself,
 each faucet on the Hub is strongly advised to come with a
 [reCaptcha v2](https://developers.google.com/recaptcha/docs/display) set up. 
 
-To set up a reCaptcha keypair for your faucet, check out the [reCaptcha Developer 
+To set up a reCaptcha for your faucet, check out the [reCaptcha Developer 
 guide](https://developers.google.com/recaptcha). Once the reCaptcha is set up for your faucet domain, you will be
-able to use the public key to add your faucet in the Hub configuration.
+able to use the site key to add your faucet in the Hub configuration.
 
 ### Adding your faucet to the Hub
 After setting up your faucet and obtaining a reCaptcha keypair, adding your faucet 
