@@ -27,7 +27,7 @@ const socials = [
   },
   {
     icon: IconGitHub,
-    link: 'https://github.com/gnolang/gno',
+    link: 'https://github.com/gnolang/faucet-hub',
   },
   {
     icon: IconTwitter,
