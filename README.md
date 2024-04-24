@@ -13,12 +13,12 @@ To set up a TM2 Faucet, check out the setup guide in the
 [TM2 Faucet repo](https://github.com/gnolang/faucet).
 
 ### Setting up reCaptcha
-To prevent spam and abuse of the service, each faucet on the Hub is required to 
-come with a reCaptcha set up. 
+To prevent spam and abuse of the faucets, and subsequently the Hub itself, 
+each faucet on the Hub is required to come with a reCaptcha set up. 
 
 To set up a reCaptcha keypair for your faucet, check out the [reCaptcha Developer 
-guide](https://developers.google.com/recaptcha). You will be able to use the public key to add your faucet in the 
-Hub configuration.
+guide](https://developers.google.com/recaptcha). Once the reCaptcha is set up for your faucet domain, you will be
+able to use the public key to add your faucet in the Hub configuration.
 
 ### Adding your faucet to the Hub
 After setting up your faucet and obtaining a reCaptcha keypair, adding your faucet 
