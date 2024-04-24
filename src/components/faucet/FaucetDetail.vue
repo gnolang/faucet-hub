@@ -1,9 +1,9 @@
 <template>
-  <div ref="DOMbackground" class="fixed w-screen h-screen top-0 left-0 z-30 bg-darkblur backdrop-blur-sm invisible opacity-0"></div>
+  <div ref="DOMbackground" class="fixed w-screen h-screen top-0 left-0 z-30 bg-darkblur backdrop-blur-sm invisible opacity-0" @click="closePopup()"></div>
 
   <section
     ref="DOMpopup"
-    class="popup fixed flex flex-col items-center rounded w-[90vw] max-w-[36rem] max-h-[90vh] justify-start bg-grey-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] md:justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
+    class="popup fixed flex flex-col items-center rounded w-[90vw] max-w-[36rem] max-h-[90vh] justify-start bg-grey-300 top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] md:justify-center text-grey-50 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded before:bg-500 before:z-min after:absolute after:top-px after:left-px after:bottom-px after:right-px after:bg-grey-500 after:rounded after:z-min"
   >
     <div ref="DOMFaucetRequest" class="py-8 md:py-12 px-8 md:px-20 w-full overflow-scroll no-scrollbar" v-if="store.isVisible">
       <FaucetContentForm :name="store.selectedFaucet.name ?? 'Faucet'" :options="store.faucetAmount" v-show="store.contentStep === 0" class="js-faucetform opacity-100" :error="error" @requestFaucet="requestFaucet" />
@@ -42,6 +42,8 @@ const gnoRequestLogo = ref<HTMLElement | null>(null)
 const popupHeight = reactive({ from: 0, to: 0 })
 const error = ref<string | null>(null)
 
+const closePopup = () => store.popupToggle()
+
 const requestFaucet = async (address: string, amount: number, secret: string) => {
   popupHeight.from = DOMpopup.value?.getBoundingClientRect().height ?? 0
   gsap.set(DOMpopup.value, { height: popupHeight.from + 'px' })
@@ -58,7 +60,6 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
 
   // min default loading timer
   const minTimer = new Promise((resolve) => setTimeout(resolve, 2000))
-  console.log(secret)
 
   const displayError = (e: string) => {
     store.status = 'error'

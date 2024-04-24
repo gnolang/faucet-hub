@@ -8,7 +8,7 @@
       <div>
         <div class="flex flex-col md:flex-row gap-4">
           <Button text="Cancel" variant="outline" @click.prevent="() => closePopup()" class="w-full" />
-          <Button text="Request drip" class="w-full" type="submit" :disabled="captchaValid === false || bindAddress === ''" />
+          <Button text="Request drip" class="w-full" type="submit" :disabled="captchaValid === false || !isAddressValid" />
         </div>
         <div v-if="error" class="text-center text-red-200 mt-6">{{ error }}</div>
       </div>
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 import Input from '@/components/ui/Input.vue'
 import Select from '@/components/ui/Select.vue'
@@ -46,6 +46,8 @@ const captchaValidation = ({ code = 'error', secret = '' }) => {
   captchaValid.value = code === 'success'
   captchaSecret.value = secret
 }
+
+const isAddressValid = computed(() => new RegExp(/^[a-z0-9]{40}$/).test(bindAddress.value))
 
 const SelectAmount = (option: SelectOption) => {
   amount.value = option
