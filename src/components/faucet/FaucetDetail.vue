@@ -62,9 +62,9 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
   const minTimer = new Promise((resolve) => setTimeout(resolve, 2000))
 
   const displayError = (e: string) => {
-    store.status = 'error'
     error.value = e
-    store.contentStep = 0
+    store.status = 'error'
+
     console.error(e)
   }
   try {
@@ -75,7 +75,7 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
       },
       body: JSON.stringify({
         to: address,
-        amount: amount * 1000000 + 'ugnot',
+        amount: amount * 1000000 + 'ugnot', //TODO: need to be dynamyc if different token
         captcha: secret,
       }),
     })
@@ -83,14 +83,14 @@ const requestFaucet = async (address: string, amount: number, secret: string) =>
     await minTimer
     const faucetResponse = await response.json()
 
-    store.status = !faucetResponse.result ? 'error' : 'success'
+    store.status = response.status !== 200 || faucetResponse.error ? 'error' : 'success'
 
     // Check the faucet response
-    if (!response.ok || store.status === 'error') {
-      displayError(faucetResponse.error.message)
-    } else {
+    if (response.status === 200 && store.status === 'success') {
       store.status = 'success'
       txLink.value = faucetResponse.result ?? '' //TODO: get tx link
+    } else {
+      displayError(faucetResponse.error)
     }
   } catch (e) {
     await minTimer
@@ -143,9 +143,20 @@ watch(
           toggleLoader(false)
           setPopupHeight()
 
-          gsap.to('.js-faucetform', {
-            autoAlpha: 1,
-            duration: 0.5,
+          gsap.to('.js-faucetpending', {
+            autoAlpha: 0,
+            duration: 0.6,
+            onComplete: () => {
+              store.contentStep = 0
+              popupHeight.from = popupHeight.to
+              gsap.set(DOMpopup.value, { height: 'auto' })
+
+              gsap.to('.js-faucetform', {
+                autoAlpha: 1,
+                duration: 0.5,
+              })
+              gsap.set('.js-faucetpending', { autoAlpha: 1 })
+            },
           })
           break
 

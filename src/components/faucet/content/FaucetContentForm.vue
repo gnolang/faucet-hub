@@ -4,7 +4,7 @@
     <form class="w-full space-y-7 md:space-y-12" @submit.prevent="isAddressValid && captchaValid && requestFaucet()">
       <Input :label="'Enter your wallet address'" :placeholder="'e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl'" v-model="bindAddress" required />
       <Select v-if="store.selectedFaucet.amounts" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
-      <Recaptcha @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
+      <Recaptcha :key="store.status" @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
       <div>
         <div class="flex flex-col md:flex-row gap-4">
           <Button text="Cancel" variant="outline" @click.prevent="() => closePopup()" class="w-full" />
