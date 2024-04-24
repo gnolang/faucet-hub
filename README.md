@@ -3,9 +3,9 @@ Welcome to the Gno Faucet Hub, the platform where all Gno blockchain
 faucets come together.
 
 The Faucet Hub serves as a collective access point where developers can obtain
-Gno tokens to test and develop applications on a variety of Gno testnets.
+testnet coins to test and develop applications on a variety of Gno testnets.
 
-The Faucet Hub is live on [faucet.gnoteam.com](https://faucet.gnoteam.com).
+Visit the Faucet Hub on [faucet.gnoteam.com](https://faucet.gnoteam.com).
 
 ## Adding your faucet to the Hub
 
