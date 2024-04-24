@@ -1,5 +1,7 @@
 # NewTendermint™ <br> Terms of Service
 
+**Version Date: 04/25/2024.**
+
 Gno Faucet Hub, hosted by NewTendermint, LLC (“NewTendermint”, “we”, “us,” or “our”), provides support to various testnets working on the Gno blockchain. As part of Gno Faucet Hub, users are provided tokens for use on a testnet upon request. The intent is to spread these tokens evenly across the user base during development.
 
 BY USING NEWTENDERMINT, USERS ARE AGREEING TO THESE TERMS OF SERVICE. THESE TERMS OF SERVICE ARE A LEGALLY BINDING AGREEMENT BETWEEN EACH USER AND NEWTENDERMINT. ADDITIONALLY, BY USING NEWTENDERMINT, USERS ARE AGREEING TO THE NEWTENDERMINT PRIVACY POLICY AVAILABLE HERE. IF YOU DO NOT AGREE TO THESE TERMS OF SERVICE, YOU SHOULD NOT USE NEWTENDERMINT.
