@@ -17,10 +17,9 @@ it is strongly advised for each faucet on the Hub to come with a
 [reCaptcha v2](https://developers.google.com/recaptcha/docs/display) set up. 
 
 To set up a reCaptcha for your faucet, check out the [reCaptcha Developer 
-guide](https://developers.google.com/recaptcha). Once you set up reCaptcha for your faucet, you should also
-enable the Faucet Hub domain (https://faucet.gnoteam.com) in the reCaptcha 
-dashboard. With this you will be able to use the site key to add your faucet in
-the Hub configuration.
+guide](https://developers.google.com/recaptcha). Once you have completed setting it up, you should also enable the
+Faucet Hub domain (https://faucet.gnoteam.com) in the reCaptcha dashboard. With
+this you will be able to use the site key to add your faucet in the Hub configuration.
 
 ### Adding your faucet to the Hub
 After setting up your faucet and obtaining a reCaptcha keypair, adding your faucet 
