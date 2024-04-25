@@ -2,7 +2,7 @@
 The Gno Faucet Hub serves as a collective access point where developers can obtain
 testnet coins to test and develop applications on a variety of Gno testnets.
 
-The Gno Faucet Hub deployment can be found [here](https://faucet.gnoteam.com).
+The Gno Faucet Hub deployment can be found [here](https://faucet.gno.land).
 
 ## Adding your faucet to the Hub
 
