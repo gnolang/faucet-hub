@@ -12,7 +12,7 @@
       "name": "Gno Staging",
       "chain_id": "test3",
       "amounts": [1, 5, 10],
-      "description": "A staging testnet reset every 60 minutes.",
+      "description": "A staging testnet which is reset regularly, used for testing automation, single-use code, and demoing.",
       "url": "https://faucet-api.staging.gnoteam.com",
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     }
