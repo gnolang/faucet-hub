@@ -68,7 +68,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         'clip-path': this.isOpen ? 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' : 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
         duration: 0.6,
         stagger: {
-          amount: 0.3,
+          amount: 0.15,
         },
       })
 

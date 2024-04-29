@@ -5,12 +5,14 @@
       "chain_id": "portal-loop",
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.gno.land",
+      "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, Gno.land, and TM2.",
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     },
     {
       "name": "Gno Staging",
       "chain_id": "test3",
       "amounts": [1, 5, 10],
+      "description": "A staging testnet which is reset regularly, used for testing automation, single-use code, and demoing.",
       "url": "https://faucet-api.staging.gnoteam.com",
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     }
