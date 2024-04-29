@@ -1,7 +1,7 @@
 <template>
-  <article ref="DOMcard" v-bind="$attrs" class="card-container flex h-full flex-col cursor-pointer before:block before:absolute before:top-0 before:left-0 before:h-full before:w-full before:rounded before:blur-xl before:will-change-transform">
+  <article ref="DOMcard" v-bind="$attrs" class="card-container group flex h-full flex-col cursor-pointer before:block before:absolute before:pointer-events-none before:top-0 before:left-0 before:h-full before:w-full before:rounded before:blur-xl before:will-change-transform">
     <div
-      class="card-inner group relative h-full shadow-card will-change-transform after:block after:absolute after:rounded after:top-px after:left-px after:h-[calc(100%-2px)] after:w-[calc(100%-2px)] after:z-99 after:mix-blend-overlay after:brightness-90 after:contrast-75 after:transition-opacity after:duration-500 before:absolute before:w-[calc(100%+2px)] before:h-[calc(100%+2px)] before:-top-px before:-left-px before:rounded ease-in-out after:z-20"
+      class="card-inner relative h-full shadow-card will-change-transform after:block after:absolute after:rounded after:pointer-events-none after:top-px after:left-px after:h-[calc(100%-2px)] after:w-[calc(100%-2px)] after:z-99 after:mix-blend-overlay after:brightness-90 after:contrast-75 after:transition-opacity after:duration-500 before:absolute before:w-[calc(100%+2px)] before:h-[calc(100%+2px)] before:-top-px before:-left-px before:rounded ease-in-out after:z-20"
     >
       <div class="card relative flex flex-col bg-grey-500 rounded px-6 py-8 p-2 h-full">
         <slot></slot>
