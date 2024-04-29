@@ -2,7 +2,7 @@
 The Gno Faucet Hub serves as a collective access point where developers can obtain
 testnet coins to test and develop applications on a variety of Gno testnets.
 
-The Gno Faucet Hub deployment can be found [here](https://faucet.gnoteam.com).
+The Gno Faucet Hub deployment can be found [here](https://faucet.gno.land).
 
 ## Adding your faucet to the Hub
 
@@ -26,9 +26,9 @@ After setting up your faucet and obtaining a reCaptcha keypair, adding your fauc
 to the Hub is as simple as providing a PR with a JSON config to this repo.
 
 To add your faucet to the Hub, you need to provide your faucet configuration
-information in `src/data/faucets.json`. This includes the name of the network
-the faucet is serving on, the network chain ID, drip options for the faucet (in
-GNOT), the faucet URL, and the recaptcha site key. 
+information in [`src/data/faucets.json`](./src/data/faucets.json). This includes 
+the name of the network the faucet is serving on, the network chain ID, drip 
+options for the faucet (in GNOT), the faucet URL, and the recaptcha site key. 
 
 ```json
 {
