@@ -1,10 +1,7 @@
 <template>
-  <article
-    ref="DOMcard"
-    class="card-container flex h-full flex-col cursor-pointer before:block before:absolute before:top-0 before:left-0 before:h-full before:w-full before:rounded before:blur-xl before:will-change-transform"
-  >
+  <article ref="DOMcard" v-bind="$attrs" class="card-container flex h-full flex-col cursor-pointer before:block before:absolute before:top-0 before:left-0 before:h-full before:w-full before:rounded before:blur-xl before:will-change-transform">
     <div
-      class="card-inner relative h-full shadow-card will-change-transform after:block after:absolute after:rounded after:top-px after:left-px after:h-[calc(100%-2px)] after:w-[calc(100%-2px)] after:z-99 after:mix-blend-overlay after:brightness-90 after:contrast-75 after:transition-opacity after:duration-500 before:absolute before:w-[calc(100%+2px)] before:h-[calc(100%+2px)] before:-top-px before:-left-px before:rounded ease-in-out after:z-20"
+      class="card-inner group relative h-full shadow-card will-change-transform after:block after:absolute after:rounded after:top-px after:left-px after:h-[calc(100%-2px)] after:w-[calc(100%-2px)] after:z-99 after:mix-blend-overlay after:brightness-90 after:contrast-75 after:transition-opacity after:duration-500 before:absolute before:w-[calc(100%+2px)] before:h-[calc(100%+2px)] before:-top-px before:-left-px before:rounded ease-in-out after:z-20"
     >
       <div class="card relative flex flex-col bg-grey-500 rounded px-6 py-8 p-2 h-full">
         <slot></slot>
@@ -74,10 +71,7 @@ const animationRAF = function () {
   const posX = store.isOpen === true ? 0 : pointerEventX.value
   const posY = store.isOpen === true ? 0 : pointerEventY.value
 
-  if (
-    Math.round(motion.cursor.currentPosX) !== Math.round(posX) ||
-    Math.round(motion.cursor.currentPosY) !== Math.round(posY)
-  ) {
+  if (Math.round(motion.cursor.currentPosX) !== Math.round(posX) || Math.round(motion.cursor.currentPosY) !== Math.round(posY)) {
     motion.cursor.newPosX = motion.cursor.currentPosX + (posX - motion.cursor.currentPosX) * motion.cursor.speed
     motion.cursor.newPosY = motion.cursor.currentPosY + (posY - motion.cursor.currentPosY) * motion.cursor.speed
 
@@ -88,17 +82,8 @@ const animationRAF = function () {
       DOMcard.value.style.setProperty('--ty', (+motion.cursor.newPosY / 50).toFixed(2) + 'px')
       DOMcard.value.style.setProperty('--vd', store.isOpen === true ? 'hidden' : 'visible')
       DOMcard.value.style.setProperty('--vo', props.tracker?.isHovered ? '1' : '0')
-      DOMcard.value.style.setProperty(
-        '--mx',
-        ((1 - ((+motion.cursor.newPosX + cardPos.rect.width / 2) * 100) / cardPos.rect.width / 100) * 100).toFixed(2) +
-          '%',
-      )
-      DOMcard.value.style.setProperty(
-        '--my',
-        ((1 - ((+motion.cursor.newPosY + cardPos.rect.height / 2) * 100) / cardPos.rect.height / 100) * 100).toFixed(
-          2,
-        ) + '%',
-      )
+      DOMcard.value.style.setProperty('--mx', ((1 - ((+motion.cursor.newPosX + cardPos.rect.width / 2) * 100) / cardPos.rect.width / 100) * 100).toFixed(2) + '%')
+      DOMcard.value.style.setProperty('--my', ((1 - ((+motion.cursor.newPosY + cardPos.rect.height / 2) * 100) / cardPos.rect.height / 100) * 100).toFixed(2) + '%')
     }
 
     motion.cursor.currentPosX = motion.cursor.newPosX
@@ -106,8 +91,7 @@ const animationRAF = function () {
   } else if (motion.isrAF == true) {
     motion.isrAF = false
     cancelAnimationFrame(motion.rAF)
-    DOMcard.value &&
-      DOMcard.value.style.setProperty('--vd', props.tracker?.isHovered && store.isOpen === false ? 'visible' : 'hidden')
+    DOMcard.value && DOMcard.value.style.setProperty('--vd', props.tracker?.isHovered && store.isOpen === false ? 'visible' : 'hidden')
   }
 }
 
@@ -173,20 +157,10 @@ onBeforeUnmount(() => {
   opacity: var(--vo, 0);
   visibility: var(--vd, hidden);
   pointer-events: none;
-  background: radial-gradient(
-    farthest-corner circle at var(--mx, 50%) var(--my, 50%),
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.45) 20%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  background: radial-gradient(farthest-corner circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.45) 20%, rgba(0, 0, 0, 0.5) 100%);
 }
 .card-inner::before {
-  background: radial-gradient(
-    farthest-corner circle at var(--mx, 50%) var(--my, 50%),
-    rgba(255, 255, 255, 0.272) 0%,
-    rgba(255, 255, 255, 0.23) 20%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  background: radial-gradient(farthest-corner circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.272) 0%, rgba(255, 255, 255, 0.23) 20%, rgba(0, 0, 0, 0.5) 100%);
 }
 
 .card-container::before {

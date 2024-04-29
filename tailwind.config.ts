@@ -1,5 +1,4 @@
 import { Config } from 'tailwindcss'
-import plugin from 'tailwindcss/plugin'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
 const pxToRem = (dest: number) => 1 / (16 / dest)
@@ -75,4 +74,5 @@ export default <Config>{
       900: `${pxToRem(96)}rem`,
     },
   },
+  plugins: [require('@tailwindcss/line-clamp')],
 }

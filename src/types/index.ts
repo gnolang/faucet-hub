@@ -5,6 +5,7 @@ export interface Faucet {
   chain_id: string // name of the testnet
   amounts: number[] // faucet serve amounts (UI)
   url: string // the faucet URL
+  description: string // faucet description
   recaptcha: string // the recaptcha site key, if any
   token?: string // token name: default $GNOT
 }
