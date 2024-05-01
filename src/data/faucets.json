@@ -10,7 +10,7 @@
     },
     {
       "name": "Gno Staging",
-      "chain_id": "test3",
+      "chain_id": "staging",
       "amounts": [1, 5, 10],
       "description": "A staging testnet which is reset regularly, used for testing automation, single-use code, and demoing.",
       "url": "https://faucet-api.staging.gnoteam.com",
