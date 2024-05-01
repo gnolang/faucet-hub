@@ -40,4 +40,3 @@ const socials = [
   },
 ]
 </script>
-
