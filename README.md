@@ -38,7 +38,7 @@ options for the faucet (in GNOT), the faucet URL, and the recaptcha site key.
     "url": "https://faucet-api.gno.land",
     "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, Gno.land, and TM2.",
     "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
-  }
+}
 ```
 
 You can find an example PR [here](https://github.com/gnolang/faucet-hub/pull/16).
