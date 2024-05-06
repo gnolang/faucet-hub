@@ -12,6 +12,7 @@
       "chain_id": "example-chain-id",
       "amounts": [1, 5, 10, <example-drip-amount>],
       "url": "<example-network-faucet-url>",
+      "description": "An example network used for an example use case.",
       "recaptcha": "<example-captcha-public-key>"
     }
   ]
