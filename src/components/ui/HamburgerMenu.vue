@@ -6,7 +6,7 @@
             </svg>
         </button>
         <div :class="['flex flex-col items-start bg-[#252424] absolute left-0 w-full py-2 z-1', isOpen ? 'top-[80px]' : 'top-[-200px] opacity-0', 'transition-all']">
-            <a class="cursor-pointer w-full hover:bg-grey-400 py-2 px-5" v-for="item, i in navItems" :key="i" href="item.link" target="_blank">
+            <a class="cursor-pointer w-full hover:bg-grey-400 py-2 px-5" v-for="item, i in navItems" :key="i" :href="item.link" target="_blank">
                 <span class="px-1">{{item.title}}</span>
             </a>
             <a class="cursor-pointer w-full hover:bg-grey-400 py-2 px-5">
