@@ -141,3 +141,16 @@ html {
     scrollbar-width: none; /* Firefox */
   }
 }
+
+.link-with-animation::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.2s ease-in-out;
+}
+
+.link-with-animation:hover::after {
+  width: 100%;
+}
