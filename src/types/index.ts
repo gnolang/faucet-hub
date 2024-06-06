@@ -9,8 +9,3 @@ export interface Faucet {
   recaptcha: string // the recaptcha site key, if any
   token?: string // token name: default $GNOT
 }
-
-export interface NavItem {
-  title: string
-  link: string
-}

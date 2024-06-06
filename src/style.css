@@ -130,6 +130,14 @@ html {
   @apply list-decimal;
 }
 
+@layer components {
+  .text-link {
+    @apply inline-block no-underline focus:outline-0 
+    after:block after:w-full after:bg-current after:h-px after:duration-200 after:transition-transform after:scale-x-0 after:origin-right 
+    hover:after:origin-left hover:after:scale-x-100 focus:after:origin-left focus:after:scale-x-100;
+  }
+}
+
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -140,17 +148,4 @@ html {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-}
-
-.link-with-animation::after {
-  content: '';
-  display: block;
-  width: 0;
-  height: 2px;
-  background-color: currentColor;
-  transition: width 0.2s ease-in-out;
-}
-
-.link-with-animation:hover::after {
-  width: 100%;
 }
