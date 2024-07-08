@@ -5,7 +5,7 @@
       "chain_id": "test4",
       "amounts": [5, 10, 15],
       "url": "TODO ADD URL!",
-      "description": "The latest gno.land multinode testnet, running the latest stable versions of Gno, Gno.land, and TM2.",
+      "description": "The latest gno.land multinode testnet, running the latest stable versions of Gno, gno.land, and TM2.",
       "recaptcha": "6LeXKwsqAAAAAPMtBHM7bupGDRmwoyPlgIRHBIVY"
     },
     {
