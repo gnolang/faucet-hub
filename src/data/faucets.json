@@ -1,6 +1,14 @@
 {
   "faucets": [
     {
+      "name": "Gno test4 Testnet",
+      "chain_id": "test4",
+      "amounts": [5, 10, 15],
+      "url": "TODO ADD URL!",
+      "description": "The latest gno.land multinode testnet, running the latest stable versions of Gno, Gno.land, and TM2.",
+      "recaptcha": "6LeXKwsqAAAAAPMtBHM7bupGDRmwoyPlgIRHBIVY"
+    },
+    {
       "name": "Gno Portal Loop",
       "chain_id": "portal-loop",
       "amounts": [1, 5, 10],
