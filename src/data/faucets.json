@@ -6,7 +6,7 @@
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test5.gno.land",
       "description": "The latest gno.land testnet, running the latest stable versions of Gno, gno.land, and TM2.",
-      "recaptcha": "6Lfm2XgqAAAAAPfC1VmfOR8eQNHw0bPUKzx9wJno"
+      "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
     },
     {
       "name": "Gno test4 Testnet",
