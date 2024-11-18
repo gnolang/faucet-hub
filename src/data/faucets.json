@@ -1,11 +1,19 @@
 {
   "faucets": [
     {
+      "name": "Gno test5 Testnet",
+      "chain_id": "test5",
+      "amounts": [5, 10, 15],
+      "url": "https://faucet-api.test5.gno.land",
+      "description": "The latest gno.land testnet, running the latest stable versions of Gno, gno.land, and TM2.",
+      "recaptcha": "6Lfm2XgqAAAAAPfC1VmfOR8eQNHw0bPUKzx9wJno"
+    },
+    {
       "name": "Gno test4 Testnet",
       "chain_id": "test4",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test4.gno.land",
-      "description": "The latest gno.land multinode testnet, running the latest stable versions of Gno, gno.land, and TM2.",
+      "description": "v4 of the gno testnet. Running the first multinode versions of Gno, gno.land, and TM2.",
       "recaptcha": "6LeXKwsqAAAAAPMtBHM7bupGDRmwoyPlgIRHBIVY"
     },
     {
