@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header.vue'
 import Footer from '@/components/layout/Footer.vue'
 import FaucetsList from '@/components/faucet/FaucetsList.vue'
 import FaucetDetail from '@/components/faucet/FaucetDetail.vue'
+import FaucetCaptcha from '@/components/faucet/FaucetCaptcha.vue'
 
 import { useCharming } from '@/composables/useCharming'
 import { useFaucetDetail } from '@/stores/faucetDetail'
@@ -52,4 +53,5 @@ onMounted(() => {
     <Footer />
   </main>
   <FaucetDetail />
+  <FaucetCaptcha />
 </template>
