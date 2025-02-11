@@ -1,7 +1,7 @@
 {
   "faucets": [
     {
-      "name": "Test5",
+      "name": "Test5 network",
       "chain_id": "test5",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test5.gno.land",
@@ -9,7 +9,7 @@
       "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
     },
     {
-      "name": "Test4",
+      "name": "Test4 network",
       "chain_id": "test4",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test4.gno.land",
@@ -17,7 +17,7 @@
       "recaptcha": "6LeXKwsqAAAAAPMtBHM7bupGDRmwoyPlgIRHBIVY"
     },
     {
-      "name": "Portal Loop",
+      "name": "Portal Loop network",
       "chain_id": "portal-loop",
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.gno.land",
@@ -25,7 +25,7 @@
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     },
     {
-      "name": "Staging",
+      "name": "Staging network",
       "chain_id": "staging",
       "amounts": [1, 5, 10],
       "description": "A staging testnet which is reset regularly, used for testing automation, single-use code, and demoing.",
