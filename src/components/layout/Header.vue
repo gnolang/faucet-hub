@@ -34,7 +34,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    title: 'Gno.land',
+    title: 'gno.land',
     link: 'https://gno.land/',
   },
   {

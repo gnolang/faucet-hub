@@ -1,7 +1,7 @@
 {
   "faucets": [
     {
-      "name": "Gno test5 Testnet",
+      "name": "Test5",
       "chain_id": "test5",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test5.gno.land",
@@ -9,7 +9,7 @@
       "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
     },
     {
-      "name": "Gno test4 Testnet",
+      "name": "Test4",
       "chain_id": "test4",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test4.gno.land",
@@ -17,15 +17,15 @@
       "recaptcha": "6LeXKwsqAAAAAPMtBHM7bupGDRmwoyPlgIRHBIVY"
     },
     {
-      "name": "Gno Portal Loop",
+      "name": "Portal Loop",
       "chain_id": "portal-loop",
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.gno.land",
-      "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, Gno.land, and TM2.",
+      "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2.",
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     },
     {
-      "name": "Gno Staging",
+      "name": "Staging",
       "chain_id": "staging",
       "amounts": [1, 5, 10],
       "description": "A staging testnet which is reset regularly, used for testing automation, single-use code, and demoing.",
@@ -37,7 +37,7 @@
       "chain_id": "dev",
       "amounts": [1, 5, 10],
       "url": "https://faucet.gno.berty.io",
-      "description": "The dSocial faucet is here to provide you with a smooth experience when onboarding a new user to the dSocial app. The dApp uses the faucet behind the scenes to provide initial funds for the user to interact with the Gno.land dSocial realm.",
+      "description": "The dSocial faucet is here to provide you with a smooth experience when onboarding a new user to the dSocial app. The dApp uses the faucet behind the scenes to provide initial funds for the user to interact with the gno.land dSocial realm.",
       "recaptcha": "6LcQz9IpAAAAAIRM9gJkdtANwRM0gaQVBPJq0Mr9"
     }
   ]
