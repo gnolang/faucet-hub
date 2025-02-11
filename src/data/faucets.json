@@ -13,11 +13,11 @@
       "chain_id": "test4",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test4.gno.land",
-      "description": "v4 of the gno testnet. Running the first multinode versions of Gno, gno.land, and TM2.",
+      "description": "v4 of the gno.land network. Running the first multinode versions of Gno, gno.land, and TM2.",
       "recaptcha": "6LeXKwsqAAAAAPMtBHM7bupGDRmwoyPlgIRHBIVY"
     },
     {
-      "name": "Portal Loop network",
+      "name": "Portal Loop",
       "chain_id": "portal-loop",
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.gno.land",
@@ -25,7 +25,7 @@
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     },
     {
-      "name": "Staging network",
+      "name": "Staging",
       "chain_id": "staging",
       "amounts": [1, 5, 10],
       "description": "A staging testnet which is reset regularly, used for testing automation, single-use code, and demoing.",
