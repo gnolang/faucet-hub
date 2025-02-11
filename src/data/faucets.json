@@ -13,7 +13,7 @@
       "chain_id": "test4",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test4.gno.land",
-      "description": "v4 of the gno.land network. Running the first multinode versions of Gno, gno.land, and TM2.",
+      "description": "v4 of the gno.land network. Running the first multinode version of Gno, gno.land, and TM2.",
       "recaptcha": "6LeXKwsqAAAAAPMtBHM7bupGDRmwoyPlgIRHBIVY"
     },
     {
