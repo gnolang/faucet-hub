@@ -1,6 +1,6 @@
 <template>
   <footer class="px-4 md:px-14 lg:px-20 mb-12 w-full max-w-[110rem] mx-auto flex flex-col md:flex-row text-grey-100 text-100 text-center md:text-left justify-between items-center">
-    <div class="mb-10 md:mb-0">Faucet Hub is a community project.<br />Check out <a href="https://github.com/gnolang/faucet-hub" class="hover:text-grey-50 transition-colors ease-in-out underline">Github Repo</a> - <Terms class="hover:text-grey-50 transition-colors ease-in-out underline">Terms & Conditions</Terms>.</div>
+    <div class="mb-10 md:mb-0">Faucet Hub is a community project.<br />Check out <a href="https://github.com/gnolang/faucet-hub" class="hover:text-grey-50 transition-colors ease-in-out underline">GitHub Repo</a> - <Terms class="hover:text-grey-50 transition-colors ease-in-out underline">Terms & Conditions</Terms>.</div>
     <div class="flex flex-col md:flex-row items-center">
       <div class="mr-6 mb-6 md:mb-0">Learn more about gno.land <br />and be part of the conversation:</div>
       <ul class="flex space-x-4">
