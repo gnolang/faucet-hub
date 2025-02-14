@@ -32,11 +32,11 @@ options for the faucet (in GNOT), the faucet URL, and the recaptcha site key.
 
 ```json
 {
-    "name": "Gno Portal Loop",
+    "name": "Portal Loop",
     "chain_id": "portal-loop",
     "amounts": [1, 5, 10],
     "url": "https://faucet-api.gno.land",
-    "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, Gno.land, and TM2.",
+    "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2.",
     "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
 }
 ```
