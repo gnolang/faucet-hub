@@ -45,7 +45,7 @@
       "chain_id": "devx",
       "amounts": [1, 5, 10],
       "url": "https://faucet.dev.gnodevx.network",
-      "description": "A development testnet used for deploy",
+      "description": "A development testnet faucet used for Gno DevX",
       "recaptcha": "6LeuHdoqAAAAAAPd4iDTKRAsywQXnPEgy0ZWVgTJ"
     }
   ]
