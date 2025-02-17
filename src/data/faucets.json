@@ -39,6 +39,14 @@
       "url": "https://faucet.gno.berty.io",
       "description": "The dSocial faucet is here to provide you with a smooth experience when onboarding a new user to the dSocial app. The dApp uses the faucet behind the scenes to provide initial funds for the user to interact with the gno.land dSocial realm.",
       "recaptcha": "6LcQz9IpAAAAAIRM9gJkdtANwRM0gaQVBPJq0Mr9"
-    }
+    },
+    {
+      "name": "DevX Faucet",
+      "chain_id": "devx",
+      "amounts": [1, 5, 10],
+      "url": "https://faucet.dev.gnodevx.network",
+      "description": "A development testnet used for deploy",
+      "recaptcha": "6LeuHdoqAAAAAAPd4iDTKRAsywQXnPEgy0ZWVgTJ"
+    },
   ]
 }
