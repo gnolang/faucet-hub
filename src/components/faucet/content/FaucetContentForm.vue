@@ -4,11 +4,12 @@
     <form class="w-full space-y-7 md:space-y-12" @submit.prevent="isAddressValid && captchaValid && requestFaucet()">
       <Input :label="'Enter your wallet address'" :placeholder="'e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl'" v-model="bindAddress" required />
       <Select v-if="store.selectedFaucet.amounts" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
-      <Recaptcha :key="store.status" @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
+      <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id" :key="store.status" @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
       <div>
         <div class="flex flex-col md:flex-row gap-4">
           <Button text="Cancel" variant="outline" @click.prevent="() => closePopup()" class="w-full" />
-          <Button text="Request drip" class="w-full" type="submit" :disabled="captchaValid === false || !isAddressValid" />
+          <Button v-if="!store.selectedFaucet.github_oauth_client_id" text="Request drip" class="w-full" type="submit" :disabled="captchaValid === false || !isAddressValid" />
+          <Button v-else text="Request drip" class="w-full" @click.prevent="() => connectOauthGithub()" :disabled="!isAddressValid" />
         </div>
         <div v-if="error" class="text-center text-red-200 mt-6">{{ error }}</div>
       </div>
@@ -45,6 +46,15 @@ const captchaSecret = ref('')
 const captchaValidation = ({ code = 'error', secret = '' }) => {
   captchaValid.value = code === 'success'
   captchaSecret.value = secret
+}
+
+const connectOauthGithub = () => {
+  if (amount.value){
+    localStorage.setItem('faucet-value', amount.value.value.toString())
+  }
+  localStorage.setItem('address', bindAddress.value)
+  localStorage.setItem('faucet-url', store.selectedFaucet.url)
+  window.location.href = `https://github.com/login/oauth/authorize?client_id=${store.selectedFaucet.github_oauth_client_id}&redirect_uri=http://localhost:5173&scope=user:read`
 }
 
 const isAddressValid = computed(() => new RegExp(/^[a-z0-9]{40}$/).test(bindAddress.value))

@@ -37,7 +37,48 @@ onMounted(() => {
     gsap.to(DOMSiteloader.value, { autoAlpha: 0, duration: 0.4 })
     store.titleToggle()
   })
+
+  verifyCode()
 })
+
+async function verifyCode() {
+  const params = new URLSearchParams(window.location.search)
+  const address = localStorage.getItem('address')
+  const code = params.get('code')
+  const value = localStorage.getItem('faucet-value')
+  const url = localStorage.getItem('faucet-url')
+  const lastUsedCode = localStorage.getItem('last-code')
+  if (!address || !code || !value || !url) return
+  if (lastUsedCode === code) return
+  localStorage.setItem('last-code', code)
+  try {
+    const response = await fetch(`${url}?code=${code}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: address,
+        amount: parseInt(value!, 10) * 1000000 + 'ugnot', //TODO: need to be dynamyc if different token
+      }),
+    })
+
+    if (response.status === 200 && store.status === 'success') {
+      alert("Faucet successful")
+    } else {
+      alert(await response.text())
+    }
+
+    // Check the faucet response
+  } catch (e) {
+    alert(e)
+  }
+
+}
+  
+
+
+
 </script>
 
 <template>
