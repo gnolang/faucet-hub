@@ -47,6 +47,15 @@
       "url": "https://faucet.dev.gnodevx.network",
       "description": "A development testnet faucet used for Gno DevX",
       "recaptcha": "6LeuHdoqAAAAAAPd4iDTKRAsywQXnPEgy0ZWVgTJ"
+    },
+    {
+      "name": "Teritori Faucet",
+      "chain_id": "test5",
+      "amounts": [1, 5, 10],
+      "url": "http://localhost:5050",
+      "description": "A development testnet faucet used for Gno Teritori",
+      "recaptcha": "",
+      "github_oauth_client_id": "Ov23limbJ7InJel7HiFH"
     }
   ]
 }
