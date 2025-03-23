@@ -189,6 +189,12 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       this.status = 'success'
       this.contentStep = 2
       gsap.to('.js-faucetsuccess', { autoAlpha: 1 })
+
+      // Cleanup sensitive data
+      localStorage.removeItem('address')
+      localStorage.removeItem('faucet-value')
+      localStorage.removeItem('faucet-url')
+      localStorage.removeItem('last-code')
     },
 
     async handleRequestError(errorMessage: string) {
@@ -249,8 +255,6 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     },
 
     async verifyGithubCode() {
-      // Temporary flag for local development - to be removed later
-
       const storage = {
         address: localStorage.getItem('address'),
         value: localStorage.getItem('faucet-value'),
