@@ -12,9 +12,5 @@
 <script setup lang="ts">
 import Button from '@/components/ui/Button.vue'
 
-interface Props {
-  txLink?: string // TODO: add link
-}
-
-defineProps<Props>()
+defineEmits(['doneFaucet'])
 </script>
