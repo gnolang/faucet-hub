@@ -105,11 +105,6 @@ export const useFaucetDetail = defineStore('faucetDetail', {
             this.contentStep = 0
             this.isVisible = false
             this.cleanupPendingAnimation()
-
-            // Reset form visibility
-            gsap.set('.js-faucetform', { autoAlpha: 1 })
-            gsap.set('.js-faucetpending', { autoAlpha: 0 })
-            gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
           }
           this.status = 'null'
           this.animationPending = false
@@ -118,7 +113,6 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     },
 
     initializeFromGithub() {
-      // Set initial state
       this.isVisible = true
       this.isOpen = true
       this.status = 'pending'
@@ -133,18 +127,15 @@ export const useFaucetDetail = defineStore('faucetDetail', {
           'clip-path': 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
         })
 
-        // Fond flouté
         gsap.set(this.DOM.bg, {
           autoAlpha: 1,
           visibility: 'visible',
         })
         gsap.set('.js-main', { scale: 0.9 })
 
-        // Masquer le formulaire et afficher le conteneur pending
         gsap.set('.js-faucetform', { autoAlpha: 0 })
         gsap.set('.js-faucetpending', { autoAlpha: 1 })
 
-        // Animer le logo comme dans handleRequestAnimation
         if (this.DOM.gnoRequestLogo) {
           gsap.to(this.DOM.gnoRequestLogo, { autoAlpha: 1, delay: 0.5 })
         }
@@ -160,11 +151,13 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       }
     },
 
-    handleRequestAnimation() {
-      // If we're already in pending state (like when returning from GitHub), skip the animation
-      if (this.status === 'pending' && this.contentStep === 1) {
+    async handleRequestAnimation() {
+      // Prevent multiple animations from running simultaneously
+      if (this.status === 'pending' || this.animationPending) {
         return
       }
+
+      this.animationPending = true
 
       // Save current height for smooth animation
       if (this.DOM.popup && this.DOM.faucetRequest) {
@@ -173,22 +166,23 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       }
 
       // Fade out form and show loading animation
-      gsap.to('.js-faucetform', {
+      await gsap.to('.js-faucetform', {
         autoAlpha: 0,
         duration: 0.5,
-        onComplete: () => {
-          this.status = 'pending'
-          this.contentStep = 1
-        },
       })
 
+      this.status = 'pending'
+      this.contentStep = 1
+
       if (this.DOM.gnoRequestLogo) {
-        gsap.to(this.DOM.gnoRequestLogo, { autoAlpha: 1, delay: 0.5 })
+        gsap.to(this.DOM.gnoRequestLogo, { autoAlpha: 1, delay: 0.2 })
       }
 
       // Setup the pending animation
       this.setupPendingAnimation()
       this.toggleLoader(true)
+
+      this.animationPending = false
     },
 
     async handleRequestSuccess() {
@@ -198,8 +192,8 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     },
 
     async handleRequestError(errorMessage: string) {
-      this.error = errorMessage
       this.status = 'error'
+      this.error = errorMessage
       console.error(errorMessage)
     },
 
@@ -232,7 +226,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         }
       } catch (e) {
         await minTimer // Ensure minimum loading time even on error
-        await this.handleRequestError(e as string)
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }
     },
 
@@ -256,7 +250,6 @@ export const useFaucetDetail = defineStore('faucetDetail', {
 
     async verifyGithubCode() {
       // Temporary flag for local development - to be removed later
-      const LOCAL_DEV_SUCCESS = true // Set to false to simulate error
 
       const storage = {
         address: localStorage.getItem('address'),
@@ -292,13 +285,6 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
 
       try {
-        // Simulate API call for local development
-        if (LOCAL_DEV_SUCCESS) {
-          await minTimer
-          await this.handleRequestSuccess()
-          return
-        }
-
         // If not in local dev mode, proceed with actual API call
         const fetchPromise = fetch(`${storage.url}?code=${code}`, {
           method: 'POST',
@@ -327,7 +313,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         }
       } catch (e) {
         await minTimer // Ensure minimum loading time even on error
-        await this.handleRequestError(e instanceof Error ? e.message : 'Network error')
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }
     },
 
@@ -369,6 +355,16 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     },
 
     handleStatusChange(value: RequestStatus) {
+      if (value === 'null') {
+        gsap.set('.js-faucetform', { autoAlpha: 1 })
+        gsap.set('.js-faucetpending', { autoAlpha: 1 })
+        gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
+        gsap.set('.js-faucetsuccessdetail', { height: 0 })
+        gsap.set(this.DOM.popup, { height: 'auto' })
+
+        this.error = null
+        return
+      }
       nextTick(() => {
         switch (value) {
           case 'pending':
@@ -418,20 +414,12 @@ export const useFaucetDetail = defineStore('faucetDetail', {
 
                 gsap.to('.js-faucetsuccessdetail', {
                   height: 'auto',
+                  autoAlpha: 1,
                   duration: 0.6,
+                  ease: 'power2.inOut',
                 })
               },
             })
-            break
-
-          case 'null':
-            gsap.set('.js-faucetform', { autoAlpha: 1 })
-            gsap.set('.js-faucetpending', { autoAlpha: 1 })
-            gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
-            gsap.set('.js-faucetsuccessdetail', { height: 0 })
-            gsap.set(this.DOM.popup, { height: 'auto', delay: 0.4 })
-
-            this.error = null
             break
         }
       })
