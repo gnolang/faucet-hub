@@ -55,7 +55,6 @@ onMounted(() => {
   })
 })
 
-// Mettre à jour les refs quand le composant est rendu
 onUpdated(() => {
   store.DOM.bg = DOMbackground.value
   store.DOM.popup = DOMpopup.value
