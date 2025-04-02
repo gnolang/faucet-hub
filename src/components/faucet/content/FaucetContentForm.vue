@@ -7,8 +7,8 @@
       <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id" :key="store.status" @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
       <div>
         <div class="flex flex-col md:flex-row gap-4">
-          <Button text="Cancel" variant="outline" @click.prevent="() => closePopup()" class="w-full" />
-          <Button text="Request drip" class="w-full" type="submit" :disabled="!isFormValid" />
+          <Button text="Cancel" variant="outline" @click.prevent="() => closePopup()" class="md:w-1/3" />
+          <Button :text="buttonText" class="w-full" type="submit" :disabled="!isFormValid" />
         </div>
         <div v-if="error" class="text-center text-red-200 mt-6">{{ error }}</div>
       </div>
@@ -54,6 +54,8 @@ const isFormValid = computed(() => {
   }
   return isAddressValid.value && captchaValid.value
 })
+
+const buttonText = computed(() => (store.selectedFaucet.github_oauth_client_id ? 'Connect GitHub & Get Drip' : 'Request drip'))
 
 const SelectAmount = (option: SelectOption) => {
   amount.value = option
