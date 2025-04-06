@@ -36,7 +36,7 @@
       "name": "Teritori Faucet",
       "chain_id": "test5",
       "amounts": [1, 5, 10],
-      "url": "http://localhost:5050",
+      "url": "https://faucet.testnet.teritori.com",
       "description": "A development testnet faucet used for Gno Teritori",
       "recaptcha": "",
       "github_oauth_client_id": "Ov23limbJ7InJel7HiFH"
