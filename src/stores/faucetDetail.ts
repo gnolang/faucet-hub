@@ -1,9 +1,15 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs, PiniaPluginContext } from 'pinia'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import { RequestStatus, Faucet } from '@/types'
+import { watch, nextTick } from 'vue'
 
-gsap.registerPlugin(CustomEase)
+// Register GSAP plugins
+gsap.registerPlugin(CustomEase, CSSPlugin)
+
+const STORAGE_KEY = 'last-selected-faucet'
+const MIN_LOADING_TIME = 2000 // 2 seconds minimum loading time
 
 export const useFaucetDetail = defineStore('faucetDetail', {
   state: () => ({
@@ -12,13 +18,21 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       popup: null as HTMLElement | null,
       cards: [] as HTMLElement[],
       title: null as HTMLElement | null,
+      gnoRequestLogo: null as HTMLElement | null,
+      faucetRequest: null as HTMLElement | null,
     },
     isOpen: false,
     isVisible: false,
     animationPending: false,
     contentStep: 0,
     status: 'null' as RequestStatus,
-    selectedFaucet: {} as Faucet,
+    selectedFaucet: JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') as Faucet,
+    error: null as string | null,
+    popupHeight: {
+      from: 0,
+      to: 0,
+    },
+    TLPending: null as gsap.core.Timeline | null,
   }),
   getters: {
     faucetAmount: (state) =>
@@ -54,7 +68,10 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       if (this.animationPending || this.status === 'pending') return
       this.animationPending = true
       this.isOpen = !this.isOpen
-      if (this.isOpen) this.isVisible = true
+      if (this.isOpen) {
+        this.isVisible = true
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.selectedFaucet))
+      }
 
       this.titleToggle()
 
@@ -87,11 +104,349 @@ export const useFaucetDetail = defineStore('faucetDetail', {
           if (!this.isOpen) {
             this.contentStep = 0
             this.isVisible = false
+            this.cleanupPendingAnimation()
           }
           this.status = 'null'
           this.animationPending = false
         },
       })
     },
+
+    initializeFromGithub() {
+      this.isVisible = true
+      this.isOpen = true
+      this.status = 'pending'
+      this.contentStep = 1
+
+      // Apply initial styles without animation
+      if (this.DOM.popup && this.DOM.bg) {
+        // Initial popup setup
+        gsap.set('.popup', {
+          autoAlpha: 1,
+          top: '50%',
+          'clip-path': 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        })
+
+        gsap.set(this.DOM.bg, {
+          autoAlpha: 1,
+          visibility: 'visible',
+        })
+        gsap.set('.js-main', { scale: 0.9 })
+
+        gsap.set('.js-faucetform', { autoAlpha: 0 })
+        gsap.set('.js-faucetpending', { autoAlpha: 1 })
+
+        if (this.DOM.gnoRequestLogo) {
+          gsap.to(this.DOM.gnoRequestLogo, { autoAlpha: 1, delay: 0.5 })
+        }
+
+        // Setup the pending animation
+        this.setupPendingAnimation()
+        this.toggleLoader(true)
+
+        // Verify GitHub code after initialization
+        nextTick(() => {
+          this.verifyGithubCode()
+        })
+      }
+    },
+
+    async handleRequestAnimation() {
+      // Prevent multiple animations from running simultaneously
+      if (this.status === 'pending' || this.animationPending) {
+        return
+      }
+
+      this.animationPending = true
+
+      // Save current height for smooth animation
+      if (this.DOM.popup && this.DOM.faucetRequest) {
+        this.popupHeight.from = this.DOM.popup.getBoundingClientRect().height
+        gsap.set(this.DOM.popup, { height: this.popupHeight.from + 'px' })
+      }
+
+      // Fade out form and show loading animation
+      await gsap.to('.js-faucetform', {
+        autoAlpha: 0,
+        duration: 0.5,
+      })
+
+      this.status = 'pending'
+      this.contentStep = 1
+
+      if (this.DOM.gnoRequestLogo) {
+        gsap.to(this.DOM.gnoRequestLogo, { autoAlpha: 1, delay: 0.2 })
+      }
+
+      // Setup the pending animation
+      this.setupPendingAnimation()
+      this.toggleLoader(true)
+
+      this.animationPending = false
+    },
+
+    async handleRequestSuccess() {
+      this.status = 'success'
+      this.contentStep = 2
+      gsap.to('.js-faucetsuccess', { autoAlpha: 1 })
+
+      // Cleanup sensitive data
+      localStorage.removeItem('address')
+      localStorage.removeItem('faucet-value')
+      localStorage.removeItem('faucet-url')
+      localStorage.removeItem('last-code')
+    },
+
+    async handleRequestError(errorMessage: string) {
+      this.status = 'error'
+      this.error = errorMessage
+      console.error(errorMessage)
+    },
+
+    async requestWithCaptcha(address: string, amount?: number, captchaSecret?: string) {
+      await this.handleRequestAnimation()
+
+      // min default loading timer
+      const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
+
+      try {
+        const response = await fetch(this.selectedFaucet.url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: address,
+            amount: amount ? amount * 1000000 + 'ugnot' : undefined,
+            captcha: captchaSecret,
+          }),
+        })
+
+        await minTimer // Ensure minimum loading time
+        const faucetResponse = await response.json()
+
+        if (response.status === 200 && !faucetResponse.error) {
+          await this.handleRequestSuccess()
+        } else {
+          await this.handleRequestError(faucetResponse.error)
+        }
+      } catch (e) {
+        await minTimer // Ensure minimum loading time even on error
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
+      }
+    },
+
+    async requestWithGithub(address: string, amount?: number) {
+      await this.handleRequestAnimation()
+
+      // Save data for when we return from GitHub
+      localStorage.setItem('address', address)
+      localStorage.setItem('faucet-value', amount?.toString() ?? '')
+      localStorage.setItem('faucet-url', this.selectedFaucet.url)
+
+      // Redirect to GitHub OAuth
+      const params = new URLSearchParams({
+        client_id: this.selectedFaucet.github_oauth_client_id!,
+        redirect_uri: window.location.origin,
+        scope: 'read:user',
+      })
+
+      window.location.href = `https://github.com/login/oauth/authorize?${params}`
+    },
+
+    async verifyGithubCode() {
+      const storage = {
+        address: localStorage.getItem('address'),
+        value: localStorage.getItem('faucet-value'),
+        url: localStorage.getItem('faucet-url'),
+        lastUsedCode: localStorage.getItem('last-code'),
+      }
+
+      const params = new URLSearchParams(window.location.search)
+      const code = params.get('code')
+
+      // Clean up URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname)
+
+      // Validation checks
+      const validations: Record<string, [boolean, string]> = {
+        address: [!!storage.address, 'Missing address in storage'],
+        code: [!!code, 'No GitHub code provided'],
+        value: [!!storage.value, 'Missing amount value in storage'],
+        url: [!!storage.url, 'Missing API URL in storage'],
+        uniqueCode: [storage.lastUsedCode !== code, 'This GitHub code has already been used'],
+      }
+
+      const failedCheck = Object.entries(validations).find(([_, [isValid]]) => !isValid)
+      if (failedCheck) {
+        await this.handleRequestError(failedCheck[1][1])
+        return
+      }
+
+      localStorage.setItem('last-code', code!)
+
+      // min default loading timer
+      const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
+
+      try {
+        // If not in local dev mode, proceed with actual API call
+        const fetchPromise = fetch(`${storage.url}?code=${code}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: storage.address,
+            amount: parseInt(storage.value!, 10) * 1000000 + 'ugnot', //TODO: need to be dynamic if different token
+          }),
+        })
+
+        const response = (await Promise.race([
+          fetchPromise,
+          // Timeout after 10s
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), 10000)),
+        ])) as Response
+
+        await minTimer // Ensure minimum loading time
+        const faucetResponse = await response.json()
+
+        if (response.status === 200 && !faucetResponse.error) {
+          await this.handleRequestSuccess()
+        } else {
+          await this.handleRequestError(faucetResponse.error || 'Request failed')
+        }
+      } catch (e) {
+        await minTimer // Ensure minimum loading time even on error
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
+      }
+    },
+
+    setupPendingAnimation() {
+      // Kill any existing timeline first
+      if (this.TLPending) {
+        this.TLPending.kill()
+        this.TLPending = null
+      }
+
+      this.TLPending = gsap
+        .timeline({ repeat: -1, paused: true })
+        .fromTo('.popup', { '--mx': '0%' }, { '--mx': '100%', duration: 0.8, ease: 'none' })
+        .fromTo('.popup', { '--my': '100%' }, { '--my': '0%', duration: 0.8, ease: 'none' })
+        .fromTo('.popup', { '--mx': '100%' }, { '--mx': '0%', duration: 0.8, ease: 'none' })
+        .to('.popup', { '--my': '100%', duration: 0.8, ease: 'none' })
+    },
+
+    cleanupPendingAnimation() {
+      if (this.TLPending) {
+        this.TLPending.kill()
+        this.TLPending = null
+      }
+    },
+
+    toggleLoader(state: boolean) {
+      gsap.to('.popup', {
+        '--op': state ? 1 : 0,
+        onComplete: () => {
+          !state && this.TLPending && this.TLPending.pause()
+        },
+      })
+      state && this.TLPending && this.TLPending.play()
+    },
+
+    setPopupHeight() {
+      this.popupHeight.to = this.DOM.faucetRequest?.getBoundingClientRect().height ?? 0
+      gsap.to(this.DOM.popup, { height: this.popupHeight.to + 'px', duration: 0.4 })
+    },
+
+    handleStatusChange(value: RequestStatus) {
+      if (value === 'null') {
+        gsap.set('.js-faucetform', { autoAlpha: 1 })
+        gsap.set('.js-faucetpending', { autoAlpha: 1 })
+        gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
+        gsap.set('.js-faucetsuccessdetail', { height: 0 })
+        gsap.set(this.DOM.popup, { height: 'auto' })
+
+        this.error = null
+        return
+      }
+      nextTick(() => {
+        switch (value) {
+          case 'pending':
+            this.setupPendingAnimation()
+            this.toggleLoader(true)
+            this.setPopupHeight()
+            break
+
+          case 'error':
+            this.toggleLoader(false)
+            this.setPopupHeight()
+            this.cleanupPendingAnimation()
+
+            gsap.to('.js-faucetpending', {
+              autoAlpha: 0,
+              duration: 0.6,
+              onComplete: () => {
+                this.contentStep = 0
+                this.popupHeight.from = this.popupHeight.to
+                gsap.set(this.DOM.popup, { height: 'auto' })
+
+                gsap.to('.js-faucetform', {
+                  autoAlpha: 1,
+                  duration: 0.5,
+                })
+                gsap.set('.js-faucetpending', { autoAlpha: 1 })
+              },
+            })
+            break
+
+          case 'success':
+            this.toggleLoader(false)
+            this.cleanupPendingAnimation()
+
+            gsap.to('.js-faucetpending', {
+              autoAlpha: 0,
+              duration: 0.6,
+              onComplete: () => {
+                this.contentStep = 2
+                this.popupHeight.from = this.popupHeight.to
+                gsap.set(this.DOM.popup, { height: 'auto' })
+
+                gsap.to('.js-faucetsuccess', {
+                  autoAlpha: 1,
+                  duration: 0.6,
+                })
+
+                gsap.to('.js-faucetsuccessdetail', {
+                  height: 'auto',
+                  autoAlpha: 1,
+                  duration: 0.6,
+                  ease: 'power2.inOut',
+                })
+              },
+            })
+            break
+        }
+      })
+    },
+
+    handleGithubReturn() {
+      const hasGithubCode = new URLSearchParams(window.location.search).has('code')
+      if (hasGithubCode && Object.keys(this.selectedFaucet).length > 0) {
+        nextTick(() => {
+          this.initializeFromGithub()
+        })
+      }
+    },
   },
 })
+
+// Plugin to setup watchers
+export function faucetDetailPlugin({ store }: PiniaPluginContext) {
+  if (store.$id === 'faucetDetail') {
+    const { status } = storeToRefs(store)
+    watch(
+      () => status.value,
+      (value) => store.handleStatusChange(value),
+    )
+  }
+}

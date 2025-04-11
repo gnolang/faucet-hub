@@ -8,4 +8,5 @@ export interface Faucet {
   description: string // faucet description - max 100chars
   recaptcha: string // the recaptcha site key, if any
   token?: string // token name: default $GNOT
+  github_oauth_client_id?: string // github oauth client id
 }

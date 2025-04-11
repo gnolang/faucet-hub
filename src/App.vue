@@ -36,6 +36,9 @@ onMounted(() => {
   window.addEventListener('load', () => {
     gsap.to(DOMSiteloader.value, { autoAlpha: 0, duration: 0.4 })
     store.titleToggle()
+
+    // Handle GitHub OAuth return if needed
+    store.handleGithubReturn()
   })
 })
 </script>
