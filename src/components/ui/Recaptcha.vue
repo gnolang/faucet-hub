@@ -1,16 +1,17 @@
 <template>
-  <vue-recaptcha theme="dark" :size="screenWidth < 768 ? 'compact' : 'normal'" :sitekey="captchakey" @verify="handleSuccess" @error="handleError" v-if="captchakey"></vue-recaptcha>
+  <vue-recaptcha theme="dark" :size="screenWidth < 768 ? 'compact' : 'normal'" :sitekey="captchakey" @verify="handleSuccess" @error="handleError" v-if="captchakey && store.isVisible"></vue-recaptcha>
 </template>
 
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
-
+import { useFaucetDetail } from '@/stores/faucetDetail'
 type Props = {
   captchakey: string | undefined
 }
 defineProps<Props>()
 
 const emit = defineEmits(['validation'])
+const store = useFaucetDetail()
 
 const { width: screenWidth } = useWindowSize()
 
