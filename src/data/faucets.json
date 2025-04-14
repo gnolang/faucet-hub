@@ -17,8 +17,8 @@
       "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
     },
     {
-      "name": "Portal Loop",
-      "chain_id": "portal-loop",
+      "name": "Staging",
+      "chain_id": "staging",
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.gno.land",
       "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2.",
