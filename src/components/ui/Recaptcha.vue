@@ -1,13 +1,12 @@
 <template>
-  <vue-recaptcha theme="dark" :size="screenWidth < 768 ? 'compact' : 'normal'" :sitekey="captchakey" @verify="handleSuccess" @error="handleError"></vue-recaptcha>
+  <vue-recaptcha theme="dark" :size="screenWidth < 768 ? 'compact' : 'normal'" :sitekey="captchakey" @verify="handleSuccess" @error="handleError" v-if="captchakey"></vue-recaptcha>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
 type Props = {
-  captchakey: string
+  captchakey: string | undefined
 }
 defineProps<Props>()
 
