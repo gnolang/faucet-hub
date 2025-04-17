@@ -9,15 +9,7 @@
       "recaptcha": "6LfTghgrAAAAAFHO8IsgWMpDI1692Q-9cZdikI5F"
     },
     {
-      "name": "Test5 network",
-      "chain_id": "test5",
-      "amounts": [5, 10, 15],
-      "url": "https://faucet-api.test5.gno.land",
-      "description": "The fifth gno.land testnet",
-      "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
-    },
-    {
-      "name": "Portal Loop",
+      "name": "Staging",
       "chain_id": "portal-loop",
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.gno.land",
@@ -39,6 +31,14 @@
       "url": "https://faucet.gno.berty.io",
       "description": "The dSocial faucet is here to provide you with a smooth experience when onboarding a new user to the dSocial app. The dApp uses the faucet behind the scenes to provide initial funds for the user to interact with the gno.land dSocial realm.",
       "recaptcha": "6LcQz9IpAAAAAIRM9gJkdtANwRM0gaQVBPJq0Mr9"
+    },
+    {
+      "name": "Test5 network",
+      "chain_id": "test5",
+      "amounts": [5, 10, 15],
+      "url": "https://faucet-api.test5.gno.land",
+      "description": "The fifth gno.land testnet",
+      "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
     }
   ]
 }
