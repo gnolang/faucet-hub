@@ -48,7 +48,7 @@ onMounted(() => {
   <main class="js-main flex flex-col justify-between min-h-screen">
     <Header />
     <section class="px-4 md:px-14 lg:px-20 mx-auto max-w-[110rem] w-full grid grid-cols-12">
-      <h1 class="col-span-12 lg:col-span-5 font-termina text-600 md:text-700 text-center md:text-left" ref="DOMTitle">Welcome to the Faucet Hub</h1>
+      <h1 class="col-span-12 lg:col-span-5 font-proxima text-700 md:text-800 text-center md:text-left leading-none" ref="DOMTitle">Welcome to the Faucet Hub</h1>
       <FaucetsList />
     </section>
 
