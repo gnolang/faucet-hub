@@ -6,11 +6,11 @@
       <button
         @click="scroll('left')"
         :disabled="!canScrollLeft"
-        class="absolute left-8 lg:left-0 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full hover:opacity-60"
-        :class="{ 'hidden': !canScrollLeft }"
+        class="hidden md:block absolute left-8 lg:left-0 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full hover:opacity-60"
+        :class="{ 'md:hidden': !canScrollLeft }"
         aria-label="Previous slide"
       >
-        <svg xmlns="hidden md:block http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="m15 18-6-6 6-6"/>
         </svg>
       </button>
@@ -27,8 +27,8 @@
         @click="scroll('right')"
         :disabled="!canScrollRight"
         class="hidden md:block absolute -right-14 lg:-right-20 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full hover:opacity-60"
-        :class="{ 'hidden': !canScrollRight }"
-        aria-label="Next slide"
+        :class="{ 'md:hidden': !canScrollRight }"
+        aria-la1bel="Next slide"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="m9 18 6-6-6-6"/>
