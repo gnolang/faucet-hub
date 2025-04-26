@@ -58,7 +58,7 @@ export default <Config>{
     fontFamily: {
       interVar: ['"Inter var"', defaultTheme.fontFamily.sans],
       interNormal: ['Inter', defaultTheme.fontFamily.sans],
-      termina: ['Termina', defaultTheme.fontFamily.sans],
+      proxima: ['Proxima Nova', defaultTheme.fontFamily.sans],
     },
     fontSize: {
       0: '0',
