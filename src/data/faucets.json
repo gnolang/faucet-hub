@@ -40,14 +40,6 @@
       "description": "The fifth gno.land testnet",
       "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
     },
-        {
-      "name": "Test6 network",
-      "chain_id": "test6",
-      "amounts": [5, 10, 15],
-      "url": "https://faucet-api.test6.testnets.gno.land",
-      "description": "The latest gno.land testnet, running the latest stable versions of Gno, gno.land, and TM2.",
-      "recaptcha": "6LfTghgrAAAAAFHO8IsgWMpDI1692Q-9cZdikI5F"
-    },
     {
       "name": "[DEBUG] Test6 Github Faucet",
       "chain_id": "test6",
