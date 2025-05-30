@@ -46,6 +46,7 @@
       "amounts": [10, 20, 30],
       "url": "http://faucet-github.test6.testnets.gno.land",
       "description": "Debuggable Test6 Github Faucet Drip",
+      "github_oauth_client_id": "Ov23ligBo4yDWMcoZaKF"
       "debug": true
     }
     
