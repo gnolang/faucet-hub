@@ -39,6 +39,15 @@
       "url": "https://faucet-api.test5.gno.land",
       "description": "The fifth gno.land testnet",
       "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
+    },
+    {
+      "name": "[DEBUG] Local Test",
+      "chain_id": "local-test",
+      "amounts": [100, 200, 500],
+      "url": "http://localhost:8545",
+      "description": "Local test network for debugging",
+      "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2",
+      "debug": true
     }
   ]
 }
