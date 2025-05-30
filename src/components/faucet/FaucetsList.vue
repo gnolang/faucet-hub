@@ -1,7 +1,7 @@
 <template>
   <div ref="projectCarouselEL" class="col-span-12 my-20">
     <Carousel name="Carousel">
-      <li v-for="(faucet, idx) in faucets" :key="idx" class="js-card p-4 flex-none w-full" role="group"
+      <li v-for="(faucet, idx) in visibleFaucets" :key="idx" class="js-card p-4 flex-none w-full" role="group"
           aria-roledescription="slide">
         <div ref="cards" class="translate-x-12 opacity-0 h-full" @click.prevent="openFaucet(faucet)">
           <FaucetCard :data-ref="motions[idx].value.id" :motion="width >= 768 ? motions[idx] : undefined"
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
 import Carousel from '@/components/ui/Carousel.vue'
@@ -21,6 +21,7 @@ import FaucetCard from '@/components/faucet/FaucetCard.vue'
 
 import { useMouseDelegation } from '@/composables/useMouseDelegation'
 import { useFaucetDetail } from '@/stores/faucetDetail'
+import { useDebugMode } from '@/composables/useDebugMode'
 
 import { Faucet } from '@/types'
 
@@ -40,6 +41,15 @@ const { width } = useWindowSize()
 const { motions } = useMouseDelegation(projectCarouselEL, faucets.value, 'ref')
 
 const store = useFaucetDetail()
+const { isDebugMode } = useDebugMode()
+
+// Filter faucets based on debug mode
+const visibleFaucets = computed(() => {
+  return faucets.value.filter((faucet: Faucet) => {
+    if (!faucet.debug) return true
+    return isDebugMode.value
+  })
+})
 
 const openFaucet = (faucet: Faucet) => {
   store.selectedFaucet = faucet

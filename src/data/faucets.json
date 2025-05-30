@@ -39,6 +39,15 @@
       "url": "https://faucet-api.test5.gno.land",
       "description": "The fifth gno.land testnet",
       "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
+    },
+    {
+      "name": "[DEBUG] Test6 Github Faucet",
+      "chain_id": "test6",
+      "amounts": [10, 20, 30],
+      "url": "http://faucet-github.test6.testnets.gno.land",
+      "description": "Debuggable Test6 Github Faucet Drip",
+      "debug": true
     }
+    
   ]
 }

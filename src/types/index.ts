@@ -9,4 +9,5 @@ export interface Faucet {
   recaptcha: string // the recaptcha site key, if any
   token?: string // token name: default $GNOT
   github_oauth_client_id?: string // github oauth client id
+  debug?: boolean // whether this is a debug faucet (advanced users only)
 }
