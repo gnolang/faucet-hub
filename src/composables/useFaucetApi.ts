@@ -12,14 +12,12 @@ interface JSONRPCResponse {
 
 interface FaucetRequestOptions {
   address: string
-  amount?: string  // Changed to string to accept ugnot directly
+  amount?: string
   captchaSecret?: string
   githubCode?: string
 }
 
 export function useFaucetApi() {
-  const MIN_LOADING_TIME = 2000 // 2 seconds minimum loading time for UI
-
   const createJSONRPCRequest = (options: FaucetRequestOptions) => {
     const { address, amount, captchaSecret } = options
     const request = {
@@ -28,7 +26,7 @@ export function useFaucetApi() {
       method: 'drip',
       params: [
         address,
-        amount, 
+        amount,
       ],
       meta: captchaSecret ? { captcha: captchaSecret } : undefined,
     }
@@ -38,13 +36,13 @@ export function useFaucetApi() {
   const handleResponse = async (response: Response): Promise<string> => {
     const contentType = response.headers.get('content-type')
 
+    // Handle text response (HTTP error)
     if (contentType?.includes('text/')) {
-      // Handle text response (HTTP error)
       const text = await response.text()
-      console.log('Received text error:', text)
       throw new Error(text)
     }
 
+    // Handle JSON-RPC response
     if (!contentType?.includes('application/json')) {
       throw new Error('Unexpected response content type')
     }
@@ -52,11 +50,12 @@ export function useFaucetApi() {
     // Handle JSON-RPC response
     const jsonResponse = await response.json() as JSONRPCResponse
 
+    // Handle JSON-RPC error
     if (jsonResponse.error) {
-      console.log('JSON-RPC error:', jsonResponse.error)
       throw new Error(jsonResponse.error.message || 'Unknown JSON-RPC error')
     }
 
+    // Handle missing result
     if (!jsonResponse.result) {
       throw new Error('Invalid JSON-RPC response: missing result')
     }
@@ -65,13 +64,11 @@ export function useFaucetApi() {
   }
 
   const requestFaucet = async (faucet: Faucet, options: FaucetRequestOptions): Promise<string> => {
-    const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
-
     try {
       const url = options.githubCode 
         ? `${faucet.url}?code=${options.githubCode}`
         : faucet.url
-      
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -80,12 +77,13 @@ export function useFaucetApi() {
         body: JSON.stringify(createJSONRPCRequest(options)),
       })
 
-      const result = await handleResponse(response)
-      await minTimer // Ensure minimum loading time for UI
-      return result
+      return handleResponse(response)
     } catch (e) {
-      await minTimer // Ensure minimum loading time for UI
-      throw e
+      // Ensure API errors are properly formatted
+      if (e instanceof Error) {
+        throw e
+      }
+      throw new Error('Unknown API error')
     }
   }
 

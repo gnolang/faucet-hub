@@ -11,7 +11,7 @@ import { convertToUgnot } from '@/utils/amount'
 gsap.registerPlugin(CustomEase, CSSPlugin)
 
 const STORAGE_KEY = 'last-selected-faucet'
-const MIN_LOADING_TIME = 2000 // 2 seconds minimum loading time
+const MIN_LOADING_TIME = 2000 // 2 seconds minimum loading time for UI animations
 
 export const useFaucetDetail = defineStore('faucetDetail', {
   state: () => ({
@@ -205,16 +205,30 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       console.error(errorMessage)
     },
 
+    async ensureMinLoadingTime<T>(promise: Promise<T>): Promise<T> {
+      const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
+      try {
+        const result = await promise
+        await minTimer // Ensure minimum loading time for UI
+        return result
+      } catch (e) {
+        await minTimer // Ensure minimum loading time for UI
+        throw e
+      }
+    },
+
     async requestWithCaptcha(address: string, amount?: number, captchaSecret?: string) {
       await this.handleRequestAnimation()
 
       try {
         const { requestFaucet } = useFaucetApi()
-        await requestFaucet(this.selectedFaucet, {
-          address,
-          amount: amount ? convertToUgnot(amount) : undefined,
-          captchaSecret,
-        })
+        await this.ensureMinLoadingTime(
+          requestFaucet(this.selectedFaucet, {
+            address,
+            amount: amount ? convertToUgnot(amount) : undefined,
+            captchaSecret,
+          })
+        )
         await this.handleRequestSuccess()
       } catch (e) {
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
@@ -272,11 +286,13 @@ export const useFaucetDetail = defineStore('faucetDetail', {
 
       try {
         const { requestFaucet } = useFaucetApi()
-        await requestFaucet(this.selectedFaucet, {
-          address: storage.address!,
-          amount: convertToUgnot(parseInt(storage.value!, 10)),
-          githubCode: code!,
-        })
+        await this.ensureMinLoadingTime(
+          requestFaucet(this.selectedFaucet, {
+            address: storage.address!,
+            amount: convertToUgnot(parseInt(storage.value!, 10)),
+            githubCode: code!,
+          })
+        )
         await this.handleRequestSuccess()
       } catch (e) {
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
