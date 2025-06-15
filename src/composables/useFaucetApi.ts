@@ -36,35 +36,31 @@ export function useFaucetApi() {
   const handleResponse = async (response: Response): Promise<string> => {
     const contentType = response.headers.get('content-type')
 
-    // Handle HTTP errors (text responses - Error messages)
-    if (contentType?.includes('text/')) {
-      const text = await response.text()
-      throw new Error(text)
-    }
-
-    // Handle unexpected response content type
+    // Handle non-JSON responses
     if (!contentType?.includes('application/json')) {
-      throw new Error('Unexpected response content type')
+      const text = await response.text()
+      throw new Error(text || 'Unexpected response content type')
     }
 
-    // Handle JSON-RPC responses
+    // Handle JSON-RPC response
     const jsonResponse = await response.json() as JSONRPCResponse
+    switch (true) {
+      // Validate JSON-RPC 2.0 format
+      case jsonResponse.jsonrpc !== '2.0' || typeof jsonResponse.id !== 'number':
+        throw new Error('Invalid JSON-RPC 2.0 response format')
 
-    // Validate JSON-RPC 2.0
-    if (jsonResponse.jsonrpc !== '2.0' || typeof jsonResponse.id !== 'number') {
-      throw new Error('Invalid JSON-RPC 2.0 response format')
+      // Handle JSON-RPC error
+      case !!jsonResponse.error:
+        throw new Error(jsonResponse.error.message || 'Unknown JSON-RPC error')
+
+      // Handle missing or invalid result
+      case !jsonResponse.result || typeof jsonResponse.result !== 'string':
+        throw new Error('Invalid JSON-RPC response: missing or invalid result')
+
+      // Return valid result
+      default:
+        return jsonResponse.result
     }
-
-    // Handle JSON-RPC errors
-    if (jsonResponse.error) {
-      throw new Error(jsonResponse.error.message || 'Unknown JSON-RPC error')
-    }
-
-    if (!jsonResponse.result || typeof jsonResponse.result !== 'string') {
-      throw new Error('Invalid JSON-RPC response: missing or invalid result')
-    }
-
-    return jsonResponse.result
   }
 
   const requestFaucet = async (faucet: Faucet, options: FaucetRequestOptions): Promise<string> => {
