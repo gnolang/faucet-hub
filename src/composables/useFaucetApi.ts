@@ -36,28 +36,32 @@ export function useFaucetApi() {
   const handleResponse = async (response: Response): Promise<string> => {
     const contentType = response.headers.get('content-type')
 
-    // Handle text response (HTTP error)
+    // Handle HTTP errors (text responses - Error messages)
     if (contentType?.includes('text/')) {
       const text = await response.text()
       throw new Error(text)
     }
 
-    // Handle JSON-RPC response
+    // Handle unexpected response content type
     if (!contentType?.includes('application/json')) {
       throw new Error('Unexpected response content type')
     }
 
-    // Handle JSON-RPC response
+    // Handle JSON-RPC responses
     const jsonResponse = await response.json() as JSONRPCResponse
 
-    // Handle JSON-RPC error
+    // Validate JSON-RPC 2.0
+    if (jsonResponse.jsonrpc !== '2.0' || typeof jsonResponse.id !== 'number') {
+      throw new Error('Invalid JSON-RPC 2.0 response format')
+    }
+
+    // Handle JSON-RPC errors
     if (jsonResponse.error) {
       throw new Error(jsonResponse.error.message || 'Unknown JSON-RPC error')
     }
 
-    // Handle missing result
-    if (!jsonResponse.result) {
-      throw new Error('Invalid JSON-RPC response: missing result')
+    if (!jsonResponse.result || typeof jsonResponse.result !== 'string') {
+      throw new Error('Invalid JSON-RPC response: missing or invalid result')
     }
 
     return jsonResponse.result
