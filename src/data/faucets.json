@@ -33,14 +33,6 @@
       "recaptcha": "6LcQz9IpAAAAAIRM9gJkdtANwRM0gaQVBPJq0Mr9"
     },
     {
-      "name": "Test5 network",
-      "chain_id": "test5",
-      "amounts": [5, 10, 15],
-      "url": "https://faucet-api.test5.gno.land",
-      "description": "The fifth gno.land testnet",
-      "recaptcha": "6LfHmYIqAAAAAEktVwxuLoagtBfSsp8kA_zx0vA2"
-    },
-    {
       "name": "[DEBUG] Test6 Github Faucet",
       "chain_id": "test6",
       "amounts": [10, 20, 30],
