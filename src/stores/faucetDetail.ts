@@ -4,12 +4,14 @@ import { CustomEase } from 'gsap/CustomEase'
 import { CSSPlugin } from 'gsap/CSSPlugin'
 import { RequestStatus, Faucet } from '@/types'
 import { watch, nextTick } from 'vue'
+import { useFaucetApi } from '@/composables/useFaucetApi'
+import { convertToUgnot } from '@/utils/amount'
 
 // Register GSAP plugins
 gsap.registerPlugin(CustomEase, CSSPlugin)
 
 const STORAGE_KEY = 'last-selected-faucet'
-const MIN_LOADING_TIME = 2000 // 2 seconds minimum loading time
+const MIN_LOADING_TIME = 2000 // 2 seconds minimum loading time for UI animations
 
 export const useFaucetDetail = defineStore('faucetDetail', {
   state: () => ({
@@ -203,35 +205,32 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       console.error(errorMessage)
     },
 
+    async ensureMinLoadingTime<T>(promise: Promise<T>): Promise<T> {
+      const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
+      try {
+        const result = await promise
+        await minTimer // Ensure minimum loading time for UI
+        return result
+      } catch (e) {
+        await minTimer // Ensure minimum loading time for UI
+        throw e
+      }
+    },
+
     async requestWithCaptcha(address: string, amount?: number, captchaSecret?: string) {
       await this.handleRequestAnimation()
 
-      // min default loading timer
-      const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
-
       try {
-        const response = await fetch(this.selectedFaucet.url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            to: address,
-            amount: amount ? amount * 1000000 + 'ugnot' : undefined,
-            captcha: captchaSecret,
-          }),
-        })
-
-        await minTimer // Ensure minimum loading time
-        const faucetResponse = await response.json()
-
-        if (response.status === 200 && !faucetResponse.error) {
-          await this.handleRequestSuccess()
-        } else {
-          await this.handleRequestError(faucetResponse.error)
-        }
+        const { requestFaucet } = useFaucetApi()
+        await this.ensureMinLoadingTime(
+          requestFaucet(this.selectedFaucet, {
+            address,
+            amount: amount ? convertToUgnot(amount) : undefined,
+            captchaSecret,
+          })
+        )
+        await this.handleRequestSuccess()
       } catch (e) {
-        await minTimer // Ensure minimum loading time even on error
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }
     },
@@ -285,38 +284,17 @@ export const useFaucetDetail = defineStore('faucetDetail', {
 
       localStorage.setItem('last-code', code!)
 
-      // min default loading timer
-      const minTimer = new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME))
-
       try {
-        // If not in local dev mode, proceed with actual API call
-        const fetchPromise = fetch(`${storage.url}?code=${code}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            to: storage.address,
-            amount: parseInt(storage.value!, 10) * 1000000 + 'ugnot', //TODO: need to be dynamic if different token
-          }),
-        })
-
-        const response = (await Promise.race([
-          fetchPromise,
-          // Timeout after 10s
-          new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), 10000)),
-        ])) as Response
-
-        await minTimer // Ensure minimum loading time
-        const faucetResponse = await response.json()
-
-        if (response.status === 200 && !faucetResponse.error) {
-          await this.handleRequestSuccess()
-        } else {
-          await this.handleRequestError(faucetResponse.error || 'Request failed')
-        }
+        const { requestFaucet } = useFaucetApi()
+        await this.ensureMinLoadingTime(
+          requestFaucet(this.selectedFaucet, {
+            address: storage.address!,
+            amount: convertToUgnot(parseInt(storage.value!, 10)),
+            githubCode: code!,
+          })
+        )
+        await this.handleRequestSuccess()
       } catch (e) {
-        await minTimer // Ensure minimum loading time even on error
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }
     },
