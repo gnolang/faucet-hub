@@ -37,7 +37,7 @@
       "chain_id": "labsnet1",
       "amounts": [10],
       "url": "https://faucet-api.aiblabs.net",
-      "description": "A faucet for aiblabs.net",
+      "description": "A faucet for the All in Bits Labs ephemeral-state testnet known as aiblabs.net (or labsnet). This testnet is used for testing new features and configurations before they are deployed to more stable testnets.",
       "recaptcha": "6Ldl2YorAAAAAGsrCyajYgWmQ_LlWW_HNjWfIujL"
     },
     {
