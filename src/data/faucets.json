@@ -46,17 +46,8 @@
       "amounts": [10, 20, 30],
       "url": "https://faucet-github.test7.testnets.gno.land",
       "description": "Debuggable Test6 Github Faucet Drip",
-      "github_oauth_client_id": "Ov23ligBo4yDWMcoZaKF",
+      "github_oauth_client_id": "Iv23liouslDM8nHS7rMq",
       "debug": true
     },
-    {
-      "name": "[DEBUG] LOCAL Test7 Github Faucet",
-      "chain_id": "test7.2",
-      "amounts": [10, 20, 30],
-      "url": "https://faucet-github.test7.testnets.gno.land",
-      "description": "Debuggable Test6 Github Faucet Drip",
-      "github_oauth_client_id": "Ov23lifzypoP8xbVbj6v",
-      "debug": true
-    }
   ]
 }
