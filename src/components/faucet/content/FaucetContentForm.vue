@@ -3,7 +3,7 @@
     <h2 class="text-500 md:text-600 mb-8 md:mb-12">{{ name }}</h2>
     <form class="w-full space-y-7 md:space-y-12" @submit.prevent="handleSubmit">
       <Input :label="'Enter your wallet address'" :placeholder="'e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl'" v-model="bindAddress" required />
-      <Select v-if="store.selectedFaucet.amounts" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
+      <Select v-if="store.selectedFaucet.amounts && store.selectedFaucet.amounts.length > 1" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
       <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id" :key="store.status" @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
       <div>
         <div class="flex flex-col md:flex-row gap-4">
@@ -68,7 +68,7 @@ const handleSubmit = async () => {
 
   const requestData = {
     address: bindAddress.value,
-    amount: Number(amount.value?.value || 0),
+    amount: Number(amount.value?.value || store.selectedFaucet.amounts[0] || 0),
   }
 
   if (store.selectedFaucet.github_oauth_client_id) {
