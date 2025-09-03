@@ -35,6 +35,9 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       to: 0,
     },
     TLPending: null as gsap.core.Timeline | null,
+    availableRewards: 0,
+    prefilledAddress: '',
+    prefilledAmount: 0,
   }),
   getters: {
     faucetAmount: (state) =>
@@ -73,6 +76,12 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       if (this.isOpen) {
         this.isVisible = true
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this.selectedFaucet))
+      } else {
+        this.availableRewards = 0
+        this.prefilledAddress = ''
+        this.prefilledAmount = 0
+        this.status = 'null'
+        this.error = null
       }
 
       this.titleToggle()
@@ -285,16 +294,52 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       localStorage.setItem('last-code', code!)
 
       try {
-        const { requestFaucet } = useFaucetApi()
-        await this.ensureMinLoadingTime(
-          requestFaucet(this.selectedFaucet, {
-            address: storage.address!,
-            amount: convertToUgnot(parseInt(storage.value!, 10)),
-            githubCode: code!,
-          })
-        )
-        await this.handleRequestSuccess()
+        const { requestFaucet, checkClaim } = useFaucetApi()
+    
+        const claimResult = await checkClaim(this.selectedFaucet, {
+          address: storage.address!,
+          githubCode: code!,
+        })
+        
+        const availableRewards = claimResult || 0
+        
+        if (availableRewards > 0) {
+          console.log("Available rewards found, returning to form")
+          this.availableRewards = availableRewards
+          this.status = 'null'
+          this.contentStep = 0
+          this.isOpen = true
+          this.isVisible = true
+          
+
+          this.toggleLoader(false)
+          this.cleanupPendingAnimation()
+          
+
+          gsap.set('.js-faucetform', { autoAlpha: 1 })
+          gsap.set('.js-faucetpending', { autoAlpha: 0 })
+          gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
+          
+
+          this.prefilledAddress = storage.address!
+          this.prefilledAmount = parseInt(storage.value!, 10)
+          
+        } else {
+          console.log("No rewards available, continuing with automatic drip")
+          console.log(storage.address!)
+          console.log(storage.value!)
+          console.log('Code from URL:', code!)
+          await this.ensureMinLoadingTime(
+            requestFaucet(this.selectedFaucet, {
+              address: storage.address!,
+              amount: convertToUgnot(parseInt(storage.value!, 10)),
+              githubCode: code!,
+            })
+          )
+          await this.handleRequestSuccess()
+         }
       } catch (e) {
+        console.log("Error caught in verifyGithubCode:", e)
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }
     },
@@ -413,6 +458,52 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         nextTick(() => {
           this.initializeFromGithub()
         })
+      }
+    },
+
+    isGithubConnected(): boolean {
+      const hasGithubCode = !!localStorage.getItem('last-code')
+      const usesGithubOAuth = !!this.selectedFaucet.github_oauth_client_id
+      
+      return hasGithubCode  && usesGithubOAuth
+    },
+
+    async claimRewards() {
+      await this.handleRequestAnimation()
+
+      try {
+        const { claim } = useFaucetApi()
+        const githubCode = localStorage.getItem('last-code')
+        
+        await this.ensureMinLoadingTime(
+          claim(this.selectedFaucet, {
+            address: this.prefilledAddress,
+            githubCode: githubCode || undefined,
+          })
+        )
+        await this.handleRequestSuccess()
+      } catch (e) {
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
+      }
+    },
+
+    async requestDripWithGithub() {
+      await this.handleRequestAnimation()
+
+      try {
+        const { requestFaucet } = useFaucetApi()
+        const githubCode = localStorage.getItem('last-code')
+        
+        await this.ensureMinLoadingTime(
+          requestFaucet(this.selectedFaucet, {
+            address: this.prefilledAddress,
+            amount: convertToUgnot(this.prefilledAmount),
+            githubCode: githubCode || undefined,
+          })
+        )
+        await this.handleRequestSuccess()
+      } catch (e) {
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }
     },
   },
