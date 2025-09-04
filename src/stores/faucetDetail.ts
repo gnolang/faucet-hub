@@ -244,7 +244,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       }
     },
 
-    async requestWithGithub(address: string, amount?: number) {
+    async requestDripWithGithub(address: string, amount?: number) {
       await this.handleRequestAnimation()
 
       // Save data for when we return from GitHub
@@ -295,8 +295,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
 
       try {
         const { requestFaucet, checkClaim } = useFaucetApi()
-    
-        const claimResult = await checkClaim(this.selectedFaucet, {
+          const claimResult = await checkClaim(this.selectedFaucet, {
           address: storage.address!,
           githubCode: code!,
         })
@@ -304,7 +303,6 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         const availableRewards = claimResult || 0
         
         if (availableRewards > 0) {
-          console.log("Available rewards found, returning to form")
           this.availableRewards = availableRewards
           this.status = 'null'
           this.contentStep = 0
@@ -325,10 +323,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
           this.prefilledAmount = parseInt(storage.value!, 10)
           
         } else {
-          console.log("No rewards available, continuing with automatic drip")
-          console.log(storage.address!)
-          console.log(storage.value!)
-          console.log('Code from URL:', code!)
+          this.prefilledAddress = storage.address!
           await this.ensureMinLoadingTime(
             requestFaucet(this.selectedFaucet, {
               address: storage.address!,
@@ -339,7 +334,6 @@ export const useFaucetDetail = defineStore('faucetDetail', {
           await this.handleRequestSuccess()
          }
       } catch (e) {
-        console.log("Error caught in verifyGithubCode:", e)
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }
     },
@@ -487,7 +481,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       }
     },
 
-    async requestDripWithGithub() {
+    async requestDripWithGithubConnected() {
       await this.handleRequestAnimation()
 
       try {

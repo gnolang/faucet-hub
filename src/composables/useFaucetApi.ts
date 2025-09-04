@@ -90,14 +90,20 @@ export function useFaucetApi() {
         ? `${faucet.url}?code=${options.githubCode}`
         : faucet.url
 
-      const response = await fetch(url, {
+      const fetchOptions: RequestInit = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify(createJSONRPCRequest(options)),
-      })
+      }
+
+      // Only include credentials if the faucet uses GitHub OAuth
+      if (faucet.github_oauth_client_id) {
+        fetchOptions.credentials = 'include'
+      }
+
+      const response = await fetch(url, fetchOptions)
 
       return String(await handleResponse(response))
     } catch (e) {
@@ -116,14 +122,20 @@ export function useFaucetApi() {
         ? `${faucet.url}?code=${options.githubCode}`
         : faucet.url
 
-      const response = await fetch(url, {
+      const fetchOptions: RequestInit = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify(createClaimJSONRPCRequest('checkClaim', options)),
-      })
+      }
+
+      // Only include credentials if the faucet uses GitHub OAuth
+      if (faucet.github_oauth_client_id) {
+        fetchOptions.credentials = 'include'
+      }
+
+      const response = await fetch(url, fetchOptions)
 
       // check
       return parseFloat(String(await handleResponse(response)))
@@ -138,16 +150,24 @@ export function useFaucetApi() {
     // TODO: merge with requestFaucet
   const claim = async (faucet: Faucet, options: ClaimRequestOptions): Promise<number> => {
     try {
-      const url = faucet.url
+      const url = options.githubCode 
+        ? `${faucet.url}?code=${options.githubCode}`
+        : faucet.url
 
-      const response = await fetch(url, {
+      const fetchOptions: RequestInit = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify(createClaimJSONRPCRequest('claim', options)),
-      })
+      }
+
+      // Only include credentials if the faucet uses GitHub OAuth
+      if (faucet.github_oauth_client_id) {
+        fetchOptions.credentials = 'include'
+      }
+
+      const response = await fetch(url, fetchOptions)
 
       return parseFloat(String(await handleResponse(response)))
     } catch (e) {
