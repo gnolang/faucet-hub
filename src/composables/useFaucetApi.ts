@@ -15,6 +15,7 @@ interface ClaimRequestOptions {
 }
 
 // ===== RETURN TYPES =====
+
 interface JSONRPCResponse {
   jsonrpc: '2.0'
   id: number
@@ -24,6 +25,9 @@ interface JSONRPCResponse {
     message: string
   }
 }
+
+
+// ===== API FUNCTIONS =====
 
 export function useFaucetApi() {
   // Create JSON-RPC request for drip method
@@ -84,98 +88,69 @@ export function useFaucetApi() {
     }
   }
 
+  // Generic API request function
+  const makeApiRequest = async <T>(
+    faucet: Faucet, 
+    options: FaucetRequestOptions | ClaimRequestOptions, 
+    bodyCreator: (options: FaucetRequestOptions | ClaimRequestOptions) => any,
+    responseParser: (response: string | number) => T
+  ): Promise<T> => {
+    try {
+      const url = options.githubCode 
+        ? `${faucet.url}?code=${options.githubCode}`
+        : faucet.url
+
+      const fetchOptions: RequestInit = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bodyCreator(options)),
+      }
+
+      // Only include credentials if the faucet uses GitHub OAuth
+      if (faucet.github_oauth_client_id) {
+        fetchOptions.credentials = 'include'
+      }
+
+      const response = await fetch(url, fetchOptions)
+      const result = await handleResponse(response)
+      
+      return responseParser(result)
+    } catch (e) {
+      if (e instanceof Error) {
+        throw e
+      }
+      throw new Error('Unknown API error')
+    }
+  }
+
+  // Specific API functions using the generic one
   const requestFaucet = async (faucet: Faucet, options: FaucetRequestOptions): Promise<string> => {
-    try {
-      const url = options.githubCode 
-        ? `${faucet.url}?code=${options.githubCode}`
-        : faucet.url
-
-      const fetchOptions: RequestInit = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(createJSONRPCRequest(options)),
-      }
-
-      // Only include credentials if the faucet uses GitHub OAuth
-      if (faucet.github_oauth_client_id) {
-        fetchOptions.credentials = 'include'
-      }
-
-      const response = await fetch(url, fetchOptions)
-
-      return String(await handleResponse(response))
-    } catch (e) {
-      // Ensure API errors are properly formatted
-      if (e instanceof Error) {
-        throw e
-      }
-      throw new Error('Unknown API error')
-    }
+    return makeApiRequest(
+      faucet, 
+      options, 
+      (opts) => createJSONRPCRequest(opts as FaucetRequestOptions),
+      (result) => String(result)
+    )
   }
 
-  // TODO: merge with requestFaucet
   const checkClaim = async (faucet: Faucet, options: ClaimRequestOptions): Promise<number> => {
-    try {
-      const url = options.githubCode 
-        ? `${faucet.url}?code=${options.githubCode}`
-        : faucet.url
-
-      const fetchOptions: RequestInit = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(createClaimJSONRPCRequest('checkClaim', options)),
-      }
-
-      // Only include credentials if the faucet uses GitHub OAuth
-      if (faucet.github_oauth_client_id) {
-        fetchOptions.credentials = 'include'
-      }
-
-      const response = await fetch(url, fetchOptions)
-
-      // check
-      return parseFloat(String(await handleResponse(response)))
-    } catch (e) {
-      if (e instanceof Error) {
-        throw e
-      }
-      throw new Error('Unknown API error')
-    }
+    return makeApiRequest(
+      faucet, 
+      options, 
+      (opts) => createClaimJSONRPCRequest('checkClaim', opts as ClaimRequestOptions),
+      (result) => parseFloat(String(result))
+    )
   }
 
-    // TODO: merge with requestFaucet
   const claim = async (faucet: Faucet, options: ClaimRequestOptions): Promise<number> => {
-    try {
-      const url = options.githubCode 
-        ? `${faucet.url}?code=${options.githubCode}`
-        : faucet.url
-
-      const fetchOptions: RequestInit = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(createClaimJSONRPCRequest('claim', options)),
-      }
-
-      // Only include credentials if the faucet uses GitHub OAuth
-      if (faucet.github_oauth_client_id) {
-        fetchOptions.credentials = 'include'
-      }
-
-      const response = await fetch(url, fetchOptions)
-
-      return parseFloat(String(await handleResponse(response)))
-    } catch (e) {
-      if (e instanceof Error) {
-        throw e
-      }
-      throw new Error('Unknown API error')
-    }
+    return makeApiRequest(
+      faucet, 
+      options, 
+      (opts) => createClaimJSONRPCRequest('claim', opts as ClaimRequestOptions),
+      (result) => parseFloat(String(result))
+    )
   }
 
   return {
