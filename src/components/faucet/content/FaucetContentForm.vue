@@ -11,10 +11,10 @@
         <div class="flex flex-col gap-3">
           <div v-if="store.availableRewards > 0" class="relative flex">
             <div class="flex-1 absolute right-2 top-1/2 rounded text-50 font-medium flex items-center bg-green-900 text-green-200 px-4 py-2 -translate-y-1/2 ">{{ convertFromUgnot(store.availableRewards.toString()) }}GNOT</div>
-            <Button text="Claim Reward" class="w-full" type="button" @click="store.claimRewards" />
+            <Button text="Claim Reward" class="w-full" type="button" @click="handleClaimRewards" />
           </div>
           
-          <Button :text="dripButtonText" class="w-full" type="submit" :disabled="!isFormValid" @click="handleDrip" />
+          <Button :text="dripButtonText" class="w-full" type="submit" :disabled="!isFormValid" @click="handleDripFaucet" />
         </div>
         <div v-if="error" class="text-center text-red-200 mt-6">{{ error }}</div>
       </div>
@@ -50,10 +50,14 @@ const captchaValid = ref(false)
 const captchaSecret = ref('')
 
 // Reset amount when faucet changes
-watch(() => store.selectedFaucet.name, () => {
-  amount.value = null
-}, { immediate: true })
-
+watch(
+  () => store.selectedFaucet.name,
+  (newName, oldName) => {
+    if (newName !== oldName) {
+      amount.value = null
+    }
+  }
+)
 
 const captchaValidation = ({ code = 'error', secret = '' }) => {
   captchaValid.value = code === 'success'
@@ -88,11 +92,11 @@ const closePopup = () => store.popupToggle()
 
 const handleClaimRewards = async () => {
   if (!isFormValid.value) return
-  
+
   await store.claimRewards()
 }
 
-const handleDrip = async () => {
+const handleDripFaucet = async () => {
   if (!isFormValid.value) return
 
   const requestData = {
