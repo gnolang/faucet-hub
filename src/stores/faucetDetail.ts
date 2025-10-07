@@ -35,7 +35,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       to: 0,
     },
     TLPending: null as gsap.core.Timeline | null,
-    availableRewards: 0,
+    availableRewards: -1,
     prefilledAddress: '',
     prefilledAmount: 0,
   }),
@@ -77,7 +77,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         this.isVisible = true
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this.selectedFaucet))
       } else {
-        this.availableRewards = 0
+        this.availableRewards = -1
         this.prefilledAddress = ''
         this.prefilledAmount = 0
         this.status = 'null'
@@ -302,37 +302,25 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         
         const availableRewards = claimResult || 0
         
-        if (availableRewards > 0) {
-          this.availableRewards = availableRewards
-          this.status = 'null'
-          this.contentStep = 0
-          this.isOpen = true
-          this.isVisible = true
+        this.availableRewards = availableRewards
+        this.status = 'null'
+        this.contentStep = 0
+        this.isOpen = true
+        this.isVisible = true
           
 
-          this.toggleLoader(false)
-          this.cleanupPendingAnimation()
+        this.toggleLoader(false)
+        this.cleanupPendingAnimation()
           
 
-          gsap.set('.js-faucetform', { autoAlpha: 1 })
-          gsap.set('.js-faucetpending', { autoAlpha: 0 })
-          gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
+        gsap.set('.js-faucetform', { autoAlpha: 1 })
+        gsap.set('.js-faucetpending', { autoAlpha: 0 })
+        gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
           
 
-          this.prefilledAddress = storage.address!
-          this.prefilledAmount = parseInt(storage.value!, 10)
+        this.prefilledAddress = storage.address!
+        this.prefilledAmount = parseInt(storage.value!, 10)
           
-        } else {
-          this.prefilledAddress = storage.address!
-          await this.ensureMinLoadingTime(
-            requestFaucet(this.selectedFaucet, {
-              address: storage.address!,
-              amount: convertToUgnot(parseInt(storage.value!, 10)),
-              githubCode: code!,
-            })
-          )
-          await this.handleRequestSuccess()
-         }
       } catch (e) {
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
       }

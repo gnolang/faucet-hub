@@ -9,9 +9,9 @@
       <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id" :key="store.status" @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
       <div>
         <div class="flex flex-col gap-3">
-          <div v-if="store.availableRewards > 0" class="relative flex">
-            <div class="flex-1 absolute right-2 top-1/2 rounded text-50 font-medium flex items-center bg-green-900 text-green-200 px-4 py-2 -translate-y-1/2 ">{{ convertFromUgnot(store.availableRewards.toString()) }}GNOT</div>
-            <Button text="Claim Reward" class="w-full" type="button" @click="handleClaimRewards" />
+          <div v-if="store.availableRewards >= 0" class="relative flex">
+            <div class="flex-1 absolute -right-2 md:right-2 md:top-1/2 rounded text-50 font-medium flex items-center bg-green-900 text-green-200 px-2.5 py-2 -translate-y-1/2 ">{{ convertFromUgnot(store.availableRewards.toString()) }}GNOT</div>
+            <Button text="Claim Reward" class="w-full" type="button" @click="handleClaimRewards" :disabled="!isFormValid || store.availableRewards <= 0" />
           </div>
           
           <Button :text="dripButtonText" class="w-full" type="submit" :disabled="!isFormValid" @click="handleDripFaucet" />
@@ -77,7 +77,7 @@ const dripButtonText = computed(() => {
     return 'Request drip'
   }
   
-  if (store.availableRewards > 0) {
+  if (store.availableRewards >= 0) {
     return 'Request Drip'
   } else {
     return 'Connect GitHub & Get Rewards'
@@ -91,7 +91,7 @@ const SelectAmount = (option: SelectOption) => {
 const closePopup = () => store.popupToggle()
 
 const handleClaimRewards = async () => {
-  if (!isFormValid.value) return
+  if (!isFormValid.value || store.availableRewards <= 0) return
 
   await store.claimRewards()
 }
@@ -106,7 +106,7 @@ const handleDripFaucet = async () => {
 
   if (store.selectedFaucet.github_oauth_client_id) {
     // case: drip with GH (connected drip)
-    if (store.availableRewards > 0) {
+    if (store.availableRewards >= 0) {
       // case: drip after GH is connected (btn only available if rewards are available otherwise btn is not visible)
       await store.requestDripWithGithubConnected()
     } else {
