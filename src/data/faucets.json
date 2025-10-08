@@ -43,7 +43,7 @@
     {
       "name": "[DEBUG] Test8 Github Faucet",
       "chain_id": "test8",
-      "amounts": [10, 20, 30],
+      "amounts": [10],
       "url": "https://faucet-github.test8.testnets.gno.land",
       "description": "Debuggable Test8 Github Faucet Drip",
       "github_oauth_client_id": "Iv23liouslDM8nHS7rMq",

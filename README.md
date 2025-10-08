@@ -4,6 +4,17 @@ testnet coins to test and develop applications on a variety of Gno testnets.
 
 The Gno Faucet Hub deployment can be found [here](https://faucet.gno.land).
 
+## Development
+
+This project uses `vite-plugin-mkcert` to enable HTTPS in local development, which requires installing the `mkcert` software on your operating system. Please refer to the [mkcert documentation](https://github.com/FiloSottile/mkcert) for installation instructions.
+
+- macOS : `brew install mkcert nss`
+- Linux : `sudo apt install libnss3-tools` + mkcert binary
+- Windows : `choco install mkcert` or `scoop install mkcert`
+
+### TODO:
+A secure cookie is set by the faucet when requesting a GitHub connection. In local development, this requires the server to send a cookie as secure but without proper security settings such as `gh-username=USERNAME; Max-Age=3600; HttpOnly; Secure; SameSite=None`. **This is not secure for a production environment**, so we might consider configuring a dedicated server-side API for development in a secure way. 
+
 ## Adding your faucet to the Hub
 
 ### Running a faucet
