@@ -1,10 +1,10 @@
 {
   "faucets": [
     {
-      "name": "Test8 network",
-      "chain_id": "test8",
+      "name": "Test9 network",
+      "chain_id": "test9",
       "amounts": [5, 10, 15],
-      "url": "https://faucet-api.test8.testnets.gno.land",
+      "url": "https://faucet-api.test9.testnets.gno.land",
       "description": "The latest gno.land testnet, running the latest stable versions of Gno, gno.land, and TM2.",
       "recaptcha": "6LfTghgrAAAAAFHO8IsgWMpDI1692Q-9cZdikI5F"
     },
@@ -41,11 +41,11 @@
       "recaptcha": "6Ldl2YorAAAAAGsrCyajYgWmQ_LlWW_HNjWfIujL"
     },
     {
-      "name": "[DEBUG] Test8 Github Faucet",
-      "chain_id": "test8",
+      "name": "[DEBUG] Test9 Github Faucet",
+      "chain_id": "test9",
       "amounts": [10],
-      "url": "https://faucet-github.test8.testnets.gno.land",
-      "description": "Debuggable Test8 Github Faucet Drip",
+      "url": "https://faucet-github.test9.testnets.gno.land",
+      "description": "Github Faucet Drip for test9",
       "github_oauth_client_id": "Iv23liouslDM8nHS7rMq",
       "debug": true
     }
