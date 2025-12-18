@@ -1,10 +1,10 @@
 {
   "faucets": [
     {
-      "name": "Test9 network",
-      "chain_id": "test9.1",
+      "name": "Test10 network",
+      "chain_id": "test10",
       "amounts": [5, 10, 15],
-      "url": "https://faucet-api.test9.testnets.gno.land",
+      "url": "https://faucet-api.test10.testnets.gno.land",
       "description": "The latest gno.land testnet, running the latest stable versions of Gno, gno.land, and TM2.",
       "recaptcha": "6LfTghgrAAAAAFHO8IsgWMpDI1692Q-9cZdikI5F"
     },
