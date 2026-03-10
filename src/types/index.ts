@@ -6,7 +6,8 @@ export interface Faucet {
   amounts: number[] // faucet serve amounts (UI) - multiple figures create a select
   url: string // the faucet URL
   description: string // faucet description - max 100chars
-  recaptcha: string // the recaptcha site key, if any
+  recaptcha?: string // the reCaptcha v2 site key, if any (legacy)
+  hcaptcha?: string // the hCaptcha site key, if any
   token?: string // token name: default $GNOT
   github_oauth_client_id?: string // github oauth client id
   debug?: boolean // whether this is a debug faucet (advanced users only)

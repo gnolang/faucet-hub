@@ -15,6 +15,22 @@ This project uses `vite-plugin-mkcert` to enable HTTPS in local development, whi
 ### TODO:
 A secure cookie is set by the faucet when requesting a GitHub connection. In local development, this requires the server to send a cookie as secure but without proper security settings such as `gh-username=USERNAME; Max-Age=3600; HttpOnly; Secure; SameSite=None`. **This is not secure for a production environment**, so we might consider configuring a dedicated server-side API for development in a secure way. 
 
+## Debug mode
+
+Faucets marked with `"debug": true` in `faucets.json` are hidden by default and only
+visible when debug mode is enabled. This is intended for local or experimental faucets
+not meant for general use.
+
+To toggle debug mode, open the browser console on the Faucet Hub and run:
+
+```js
+window.setDebug(true)  // enable
+window.setDebug(false) // disable
+```
+
+The setting is persisted in `localStorage` and the page reloads automatically. When
+active, a red pulsing "Debug Mode" badge appears at the top of the page.
+
 ## Adding your faucet to the Hub
 
 ### Running a faucet
@@ -22,24 +38,28 @@ The Faucet Hub works with TM2 Faucets, or faucets using TM2 Faucets as a base.
 To set up a TM2 Faucet, check out the setup guide in the 
 [TM2 Faucet repo](https://github.com/gnolang/faucet).
 
-### Setting up reCaptcha
-To prevent spam and abuse of the faucets, and subsequently the Hub itself, 
-it is strongly advised for each faucet on the Hub to come with a
-[reCaptcha v2](https://developers.google.com/recaptcha/docs/display) set up. 
+### Setting up a captcha
+To prevent spam and abuse of the faucets, and subsequently the Hub itself,
+it is strongly advised for each faucet on the Hub to come with a captcha set up.
+The Hub supports both **hCaptcha** (preferred) and **reCaptcha v2** (legacy).
 
-To set up a reCaptcha for your faucet, check out the [reCaptcha Developer 
-guide](https://developers.google.com/recaptcha). Once you have completed setting it up, you should also enable the
-Faucet Hub domain (https://faucet.gno.land) in the reCaptcha dashboard. With
-this you will be able to use the site key to add your faucet in the Hub configuration.
+**hCaptcha (preferred):** Sign up at [hCaptcha](https://www.hcaptcha.com), create a
+new site, and add the Faucet Hub domain (https://faucet.gno.land) to the allowed
+domains. Use the `hcaptcha` field with your site key.
+
+**reCaptcha v2 (legacy):** Check out the [reCaptcha Developer guide](https://developers.google.com/recaptcha).
+Add the Faucet Hub domain to your reCaptcha dashboard and use the `recaptcha` field.
+
+If both keys are provided for a faucet, hCaptcha takes precedence.
 
 ### Adding your faucet to the Hub
-After setting up your faucet and obtaining a reCaptcha keypair, adding your faucet 
+After setting up your faucet and obtaining a captcha site key, adding your faucet
 to the Hub is as simple as providing a PR with a JSON config to this repo.
 
 To add your faucet to the Hub, you need to provide your faucet configuration
-information in [`src/data/faucets.json`](./src/data/faucets.json). This includes 
-the name of the network the faucet is serving on, the network chain ID, drip 
-options for the faucet (in GNOT), the faucet URL, and the recaptcha site key. 
+information in [`src/data/faucets.json`](./src/data/faucets.json). This includes
+the name of the network the faucet is serving on, the network chain ID, drip
+options for the faucet (in GNOT), the faucet URL, and the captcha site key.
 
 ```json
 {
@@ -48,7 +68,7 @@ options for the faucet (in GNOT), the faucet URL, and the recaptcha site key.
     "amounts": [1, 5, 10],
     "url": "https://faucet-api.gno.land",
     "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2.",
-    "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
+    "hcaptcha": "<your-hcaptcha-site-key>"
 }
 ```
 

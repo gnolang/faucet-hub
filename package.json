@@ -16,6 +16,7 @@
     "unplugin-vue-markdown": "^0.26.2",
     "vite-plugin-mkcert": "^1.17.8",
     "vue": "^3.4.15",
+    "@hcaptcha/vue3-hcaptcha": "^1.0.0",
     "vue-recaptcha": "2.0.3",
     "vue3-lottie": "^3.2.0"
   },

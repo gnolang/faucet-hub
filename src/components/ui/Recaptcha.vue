@@ -1,12 +1,32 @@
 <template>
-  <vue-recaptcha theme="dark" :size="screenWidth < 768 ? 'compact' : 'normal'" :sitekey="captchakey" @verify="handleSuccess" @error="handleError" v-if="captchakey && store.isVisible"></vue-recaptcha>
+  <vue-hcaptcha
+    v-if="hcaptchakey && store.isVisible"
+    theme="dark"
+    :size="screenWidth < 768 ? 'compact' : 'normal'"
+    :sitekey="hcaptchakey"
+    :recaptchaCompat="false"
+    @verify="handleSuccess"
+    @error="handleError"
+  />
+  <vue-recaptcha
+    v-else-if="recaptchakey && store.isVisible"
+    theme="dark"
+    :size="screenWidth < 768 ? 'compact' : 'normal'"
+    :sitekey="recaptchakey"
+    @verify="handleSuccess"
+    @error="handleError"
+  />
 </template>
 
 <script setup lang="ts">
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha'
+import { VueRecaptcha } from 'vue-recaptcha'
 import { useWindowSize } from '@vueuse/core'
 import { useFaucetDetail } from '@/stores/faucetDetail'
+
 type Props = {
-  captchakey: string | undefined
+  recaptchakey: string | undefined
+  hcaptchakey: string | undefined
 }
 defineProps<Props>()
 
@@ -15,11 +35,11 @@ const store = useFaucetDetail()
 
 const { width: screenWidth } = useWindowSize()
 
-const handleError = (res: string) => {
-  emit('validation', { code: 'error', secret: res ?? 'error' })
+const handleError = (err: string) => {
+  emit('validation', { code: 'error', secret: err ?? 'error' })
 }
 
-const handleSuccess = (res: string) => {
-  emit('validation', { code: 'success', secret: res })
+const handleSuccess = (token: string) => {
+  emit('validation', { code: 'success', secret: token })
 }
 </script>

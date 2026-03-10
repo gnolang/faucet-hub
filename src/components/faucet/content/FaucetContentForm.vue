@@ -6,7 +6,7 @@
     <div class="w-full space-y-7 md:space-y-12">
       <Input :label="'Enter your wallet address'" :placeholder="'e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl'" v-model="store.prefilledAddress" required />
       <Select v-if="store.selectedFaucet.amounts && store.selectedFaucet.amounts.length > 1" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
-      <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id" :key="store.status" @validation="captchaValidation" :captchakey="store.selectedFaucet.recaptcha" />
+      <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id && (store.selectedFaucet.recaptcha || store.selectedFaucet.hcaptcha)" :key="store.status" @validation="captchaValidation" :recaptchakey="store.selectedFaucet.recaptcha" :hcaptchakey="store.selectedFaucet.hcaptcha" />
       <div>
         <div class="flex flex-col gap-3">
           <div v-if="store.availableRewards >= 0" class="relative flex">
@@ -69,7 +69,8 @@ const isFormValid = computed(() => {
   if (store.selectedFaucet.github_oauth_client_id) {
     return isAddressValid.value
   }
-  return isAddressValid.value && captchaValid.value
+  const hasCaptcha = store.selectedFaucet.recaptcha || store.selectedFaucet.hcaptcha
+  return isAddressValid.value && (!hasCaptcha || captchaValid.value)
 })
 
 const dripButtonText = computed(() => {
