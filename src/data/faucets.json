@@ -16,6 +16,7 @@
       "url": "https://faucet-api.betanet.testnets.gno.land",
       "description": "The Beta gno.land chain.",
       "hcaptcha": "3102fdde-a122-4df4-815c-b934700c0f2c"
+      "debug": true
     },
     {
       "name": "Test11 network",
