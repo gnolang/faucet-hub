@@ -10,13 +10,12 @@
       "debug": true
     },
     {
-      "name": "Betanet",
-      "chain_id": "betanet",
+      "name": "Beta Gno.land",
+      "chain_id": "gnoland1",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.betanet.testnets.gno.land",
       "description": "The Beta gno.land chain.",
       "hcaptcha": "6a84f72c-d920-4dce-8d98-4ea68a367122",
-      "debug": true
     },
     {
       "name": "Test11 network",
