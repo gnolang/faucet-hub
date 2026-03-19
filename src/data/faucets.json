@@ -17,6 +17,14 @@
       "description": "The Beta gno.land chain.",
       "hcaptcha": "6a84f72c-d920-4dce-8d98-4ea68a367122"
     },
+        {
+      "name": "Test12 network",
+      "chain_id": "test12",
+      "amounts": [5, 10, 15],
+      "url": "https://faucet-api.test12.testnets.gno.land",
+      "description": "The latest gno.land testnet, running the latest stable versions of Gno, gno.land, and TM2.",
+      "recaptcha": "6a84f72c-d920-4dce-8d98-4ea68a367122"
+    },
     {
       "name": "Test11 network",
       "chain_id": "test11",
