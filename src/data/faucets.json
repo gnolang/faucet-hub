@@ -1,28 +1,28 @@
 {
   "faucets": [
     {
-      "name": "Github Faucet",
-      "chain_id": "betanet",
+      "name": "Beta Github Faucet",
+      "chain_id": "gnoland1",
       "amounts": [10],
       "url": "https://faucet-github.betanet.testnets.gno.land",
-      "description": "Github Faucet Drip for test9",
+      "description": "Authenticate with GitHub to receive test tokens on the Beta Mainnet",
       "github_oauth_client_id": "Iv23liouslDM8nHS7rMq",
       "debug": true
     },
     {
-      "name": "Beta Gno.land",
+      "name": "Beta Quick Faucet",
       "chain_id": "gnoland1",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.betanet.testnets.gno.land",
-      "description": "The Beta gno.land chain.",
+      "description": "Drip faucet for the Beta Mainnet, no authentication required",
       "hcaptcha": "6a84f72c-d920-4dce-8d98-4ea68a367122"
     },
     {
-      "name": "Test11 network",
+      "name": "Testnet Faucet",
       "chain_id": "test11",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test11.testnets.gno.land",
-      "description": "The latest gno.land testnet, running the latest stable versions of Gno, gno.land, and TM2.",
+      "description": "The latest gno.land testnet running the latest stable versions of Gno, Gno.land and TM2",
       "recaptcha": "6Le1EGksAAAAADDzbW2r0cqesvO0706CzQwnp_vZ"
     },
     {
@@ -30,7 +30,7 @@
       "chain_id": "staging",
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.staging.gno.land",
-      "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2.",
+      "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2",
       "recaptcha": "6Ldp0pgpAAAAANZxTw4oy4XkOKhhkmpDl8Yoq6uw"
     },
     {
