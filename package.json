@@ -18,9 +18,12 @@
     "vue": "^3.4.15",
     "@hcaptcha/vue3-hcaptcha": "^1.0.0",
     "vue-recaptcha": "2.0.3",
-    "vue3-lottie": "^3.2.0"
+    "vue3-lottie": "^3.2.0",
+    "googleapis": "^140.0.1"
   },
   "devDependencies": {
+    "@netlify/functions": "^2.8.2",
+    "@types/node": "^20.11.0",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
     "@vitejs/plugin-vue": "^5.0.3",

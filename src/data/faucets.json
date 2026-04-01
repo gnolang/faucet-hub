@@ -14,8 +14,9 @@
       "chain_id": "gnoland1",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.betanet.testnets.gno.land",
-      "description": "The Beta gno.land chain.",
-      "hcaptcha": "6a84f72c-d920-4dce-8d98-4ea68a367122"
+      "description": "Apply for access to the Beta gno.land chain. Applications are reviewed manually.",
+      "form_type": "interest",
+      "github_oauth_client_id": "Ov23liPRw4eULzImCFjR"
     },
     {
       "name": "Test11 network",
