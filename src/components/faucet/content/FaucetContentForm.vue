@@ -3,7 +3,7 @@
     <h2 class="text-500 md:text-600 mb-8 md:mb-12">{{ name }}</h2>
     <button @click="() => closePopup()" class="absolute right-4 top-4"><IconClose class="block w-6 h-6" /></button>
 
-    <div class="w-full space-y-7 md:space-y-12">
+    <div class="w-full space-y-7 md:space-y-12 text-200">
       <Input :label="'Enter your wallet address'" :placeholder="'e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl'" v-model="store.prefilledAddress" required />
       <Select v-if="store.selectedFaucet.amounts && store.selectedFaucet.amounts.length > 1" :label="'Select faucet amount'" :options="options" @update="(option) => SelectAmount(option)" />
       <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id && (store.selectedFaucet.recaptcha || store.selectedFaucet.hcaptcha)" :key="store.status" @validation="captchaValidation" :recaptchakey="store.selectedFaucet.recaptcha" :hcaptchakey="store.selectedFaucet.hcaptcha" />

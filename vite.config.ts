@@ -11,7 +11,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/],
     }),
     Markdown({}),
-    mkcert(), 
+    ...process.env.NETLIFY_DEV ? [] : [mkcert()],
   ],
   resolve: {
     alias: {

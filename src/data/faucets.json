@@ -9,7 +9,16 @@
       "github_oauth_client_id": "Iv23liouslDM8nHS7rMq"
     },
     {
-      "name": "Testnet Faucet",
+      "name": "Beta Gno.land",
+      "chain_id": "gnoland1",
+      "amounts": [5, 10, 15],
+      "url": "https://faucet-api.betanet.testnets.gno.land",
+      "description": "Apply for access to the Beta gno.land chain. Applications are reviewed manually.",
+      "form_type": "interest",
+      "github_oauth_client_id": "Ov23liPRw4eULzImCFjR"
+    },
+    {
+      "name": "Test11 network",
       "chain_id": "test11",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test11.testnets.gno.land",
