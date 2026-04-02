@@ -23,7 +23,7 @@
       <Textarea label="What are you building or interested in building on Gno.land? *" placeholder="Describe your project or interest..." v-model="form.building_interest" :rows="3" />
 
       <div class="flex flex-col items-start">
-        <label class="mb-2">How did you learn about gno.land? *</label>
+        <label class="mb-2">How did you learn about Gno.land? *</label>
         <Select :options="howLearnedOptions" @update="(option) => (form.how_learned = String(option.value))" />
       </div>
 
