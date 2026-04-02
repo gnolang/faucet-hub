@@ -24,4 +24,5 @@ export interface InterestFormData {
   gno_address: string
   cosmos_address: string
   country: string
+  requested_gnot_amount: string
 }

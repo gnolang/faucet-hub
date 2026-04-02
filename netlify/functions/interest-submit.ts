@@ -1,7 +1,7 @@
 import type { Handler, HandlerEvent } from '@netlify/functions'
 import { google } from 'googleapis'
 
-const REQUIRED_FIELDS = ['github_username', 'email', 'gno_address', 'building_interest', 'how_learned', 'country'] as const
+const REQUIRED_FIELDS = ['github_username', 'email', 'gno_address', 'building_interest', 'how_learned', 'country', 'requested_gnot_amount'] as const
 
 const handler: Handler = async (event: HandlerEvent) => {
   const headers = {
@@ -66,6 +66,7 @@ const handler: Handler = async (event: HandlerEvent) => {
       body.gno_address,
       body.cosmos_address || '',
       body.country,
+      body.requested_gnot_amount,
       ip,
       userAgent,
       rawHeaders,
@@ -73,7 +74,7 @@ const handler: Handler = async (event: HandlerEvent) => {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: 'Sheet1!A:M',
+      range: 'Sheet1!A:N',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [row],
