@@ -13,7 +13,7 @@
       "chain_id": "gnoland1",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.betanet.testnets.gno.land",
-      "description": "Apply for access to the Beta gno.land chain. Applications are reviewed manually.",
+      "description": "Request a large amount of Beta Gno.land funds. Requests are reviewed manually.",
       "form_type": "interest",
       "github_oauth_client_id": "Ov23liPRw4eULzImCFjR"
     },
