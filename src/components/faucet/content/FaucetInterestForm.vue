@@ -20,7 +20,7 @@
 
       <Input label="GNO address *" placeholder="e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl" v-model="form.gno_address" />
 
-      <Textarea label="What are you building or interested in building on gno.land? *" placeholder="Describe your project or interest..." v-model="form.building_interest" :rows="3" />
+      <Textarea label="What are you building or interested in building on Gno.land? *" placeholder="Describe your project or interest..." v-model="form.building_interest" :rows="3" />
 
       <div class="flex flex-col items-start">
         <label class="mb-2">How did you learn about gno.land? *</label>
