@@ -20,6 +20,8 @@
 
       <Input label="GNO address *" placeholder="e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl" v-model="form.gno_address" />
 
+      <Input label="Requested GNOT amount *" placeholder="e.g. 1000" type="number" v-model="form.requested_gnot_amount" />
+
       <Textarea label="What are you building or interested in building on Gno.land? *" placeholder="Describe your project or interest..." v-model="form.building_interest" :rows="3" />
 
       <div class="flex flex-col items-start">
@@ -82,6 +84,7 @@ const form = reactive({
   gno_address: '',
   cosmos_address: '',
   country: '',
+  requested_gnot_amount: '',
 })
 
 const howLearnedOptions = [
@@ -304,7 +307,8 @@ const isFormValid = computed(() => {
     form.gno_address.trim() !== '' &&
     form.building_interest.trim() !== '' &&
     form.how_learned !== '' &&
-    form.country !== ''
+    form.country !== '' &&
+    form.requested_gnot_amount.trim() !== ''
   )
 })
 
@@ -333,6 +337,7 @@ const handleSubmit = async () => {
     gno_address: form.gno_address,
     cosmos_address: form.cosmos_address,
     country: form.country,
+    requested_gnot_amount: form.requested_gnot_amount,
   })
 }
 </script>
