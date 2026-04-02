@@ -20,12 +20,12 @@
         v-for="(option, idx) in filtered"
         :key="idx"
         @mousedown.prevent="select(option)"
-        class="p-3 cursor-pointer hover:bg-grey-200 text-200"
+        class="p-3 cursor-pointer hover:bg-grey-200"
         :class="selected?.value === option.value && 'bg-grey-200'"
       >
         {{ option.content }}
       </li>
-      <li v-if="filtered.length === 0" class="p-3 text-grey-200 text-200">No results</li>
+      <li v-if="filtered.length === 0" class="p-3 text-grey-200">No results</li>
     </ul>
   </div>
 </template>
