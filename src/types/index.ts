@@ -15,7 +15,7 @@ export interface Faucet {
 }
 
 export interface InterestFormData {
-  github_username: string
+  github_token: string
   email: string
   building_interest: string
   company: string

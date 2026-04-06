@@ -103,7 +103,7 @@ const isAddressValid = (address: string) => {
  if (!address.startsWith('g1')) {
   return false
  } else {
-  return new RegExp(/^[ac-hj-np-z02-9]{40}$/).test(address.slice(2).toLowerCase())
+  return new RegExp(/^[ac-hj-np-z02-9]{23,38}$/).test(address.slice(2).toLowerCase())
  }
 }
 const isFormValid = computed(() => {
@@ -134,7 +134,7 @@ const handleSubmit = async () => {
   ].filter(Boolean).join('; ')
 
   await store.submitInterestForm({
-    github_username: store.interestFormGithubUsername,
+    github_token: store.interestFormGithubToken,
     email: form.email,
     building_interest: form.building_interest,
     company: form.company,

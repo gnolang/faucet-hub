@@ -73,7 +73,7 @@ const handler: Handler = async (event: HandlerEvent) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ username: userData.login }),
+      body: JSON.stringify({ username: userData.login, access_token: tokenData.access_token }),
     }
   } catch (error) {
     return {
