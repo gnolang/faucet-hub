@@ -37,7 +37,7 @@
         <Input label="Other" placeholder="e.g. https://yoursite.com" v-model="form.social_other" />
       
 
-        <Input label="Atom / Cosmos address" placeholder="e.g. cosmos1..." v-model="form.cosmos_address"/>
+        <Input label="Cosmos / Atone address" placeholder="e.g. cosmos1... or atone1..." v-model="form.cosmos_address"/>
 
         <div class="flex flex-col items-start">
           <label class="mb-2">Country *</label>
@@ -99,18 +99,26 @@ const howLearnedOptions = [
   { content: 'Other', value: 'other' },
 ]
 
-const isAddressValid = (address: string) => {
- if (!address.startsWith('g1')) {
-  return false
- } else {
-  return new RegExp(/^[ac-hj-np-z02-9]{23,38}$/).test(address.slice(2).toLowerCase())
- }
+const isBech32Valid = (address: string, prefix: string) => {
+  if (!address.startsWith(prefix + '1')) return false
+  return /^[ac-hj-np-z02-9]{23,38}$/.test(address.slice(prefix.length + 1).toLowerCase())
 }
+
+const isGnoAddressValid = (address: string) => {
+ return isBech32Valid(address, 'g')
+}
+
+const isCosmosAddressValid = (address: string) => {
+  if (!address) return true // optional field
+  return isBech32Valid(address, 'cosmos') || isBech32Valid(address, 'atone')
+}
+
 const isFormValid = computed(() => {
   return (
     store.interestFormGithubUsername &&
     form.email.trim() !== '' &&
-    isAddressValid(form.gno_address.trim()) &&
+    isGnoAddressValid(form.gno_address.trim()) &&
+    isCosmosAddressValid(form.cosmos_address.trim()) &&
     form.building_interest.trim() !== '' &&
     form.how_learned !== '' &&
     form.country !== '' &&

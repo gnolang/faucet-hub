@@ -41,6 +41,10 @@ async function getAccessToken(credentials: { client_email: string; private_key: 
   return data.access_token
 }
 
+const isBech32Valid = (address: string, prefix: string) => {
+  if (!address.startsWith(prefix + '1')) return false
+  return /^[ac-hj-np-z02-9]{23,38}$/.test(address.slice(prefix.length + 1).toLowerCase())
+}
 const handler: Handler = async (event: HandlerEvent) => {
   const headers = {
     'Content-Type': 'application/json',
@@ -64,6 +68,42 @@ const handler: Handler = async (event: HandlerEvent) => {
       statusCode: 400,
       headers,
       body: JSON.stringify({ error: `Missing required fields: ${missingFields.join(', ')}` }),
+    }
+  }
+
+  // Field-level validation
+  const errors: string[] = []
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) {
+    errors.push('Invalid email address')
+  }
+
+  if (!/^\d+$/.test(body.requested_gnot_amount)) {
+    errors.push('Requested GNOT amount must be a whole number')
+  }
+
+  const VALID_HOW_LEARNED = ['twitter', 'github', 'discord', 'blog', 'conference', 'referral', 'other']
+  if (!VALID_HOW_LEARNED.includes(body.how_learned)) {
+    errors.push('Invalid value for how_learned')
+  }
+
+  if (!/^[A-Z]{2}$/.test(body.country)) {
+    errors.push('Invalid country code')
+  }
+
+  if (!body.gno_address || !isBech32Valid(body.gno_address, 'g')) {
+    errors.push('Invalid GNO address')
+  }
+
+  if (body.cosmos_address && !isBech32Valid(body.cosmos_address, 'cosmos') && !isBech32Valid(body.cosmos_address, 'atone')) {
+    errors.push('Invalid Cosmos/Atone address')
+  }
+
+  if (errors.length > 0) {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ error: errors.join('; ') }),
     }
   }
 
