@@ -6,12 +6,6 @@ const REQUIRED_FIELDS = ['github_token', 'email', 'gno_address', 'building_inter
 const handler: Handler = async (event: HandlerEvent) => {
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  }
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers, body: '' }
   }
 
   if (event.httpMethod !== 'POST') {
