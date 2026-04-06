@@ -147,32 +147,3 @@ const handleSubmit = async () => {
   })
 }
 </script>
-
-<style scoped>
-/* Custom scrollbar for form area */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-}
-
-/* Compact inputs/selects within interest form */
-.interest-form :deep(input),
-.interest-form :deep(textarea) {
-  padding: 0.5rem 0.75rem;
-}
-.interest-form :deep(label) {
-  margin-bottom: 0.375rem;
-}
-.interest-form :deep([role="combobox"]) {
-  padding: 0.5rem 0.75rem 0.25rem;
-}
-.interest-form :deep([role="listbox"] li) {
-  padding: 0.5rem 0.75rem;
-}
-</style>
