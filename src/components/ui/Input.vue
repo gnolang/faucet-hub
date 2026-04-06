@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-start">
+  <div class="flex flex-col items-start text-200">
     <label class="mb-3">{{ label }}</label>
     <input
       type="text"
