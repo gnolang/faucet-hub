@@ -10,42 +10,44 @@
     </div>
 
     <!-- Phase 2: Full form -->
-    <div v-else class="interest-form w-full space-y-4 max-h-[55vh] overflow-y-auto pr-4 text-100">
-      <div class="flex items-center gap-2">
-        <span class="bg-grey-400 border border-grey-300 rounded px-3 py-1.5 text-light font-medium">@{{ store.interestFormGithubUsername }}</span>
-        <span class="text-grey-100">connected via GitHub</span>
-      </div>
+    <div v-else class="interest-form">
+      <div class="w-full space-y-7 md:space-y-12 text-200">
+        <div class="flex items-center">
+          <span class="bg-grey-400 border border-grey-300 rounded px-3 py-1.5 text-light font-medium">@{{ store.interestFormGithubUsername }}</span>
+          <span class="text-grey-100">connected via GitHub</span>
+        </div>
 
-      <Input label="Email *" placeholder="you@example.com" v-model="form.email" />
+        <Input label="Email *" placeholder="you@example.com" v-model="form.email" />
 
-      <Input label="GNO address *" placeholder="e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl" v-model="form.gno_address" />
+        <Input label="GNO address *" placeholder="e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl" v-model="form.gno_address" />
 
-      <Input label="Requested GNOT amount *" placeholder="e.g. 1000" type="number" v-model="form.requested_gnot_amount" />
+        <Input label="Requested GNOT amount *" placeholder="e.g. 1000" type="number" v-model="form.requested_gnot_amount" />
 
-      <Textarea label="What are you building or interested in building on Gno.land? *" placeholder="Describe your project or interest..." v-model="form.building_interest" :rows="3" />
+        <Textarea label="What are you building or interested in building on Gno.land? *" placeholder="Describe your project or interest..." v-model="form.building_interest" :rows="3" />
 
-      <div class="flex flex-col items-start">        
-        <Select label="How did you learn about Gno.land? *" :options="howLearnedOptions" @update="(option) => (form.how_learned = String(option.value))" />
-      </div>
+        <div class="flex flex-col items-start">        
+          <Select label="How did you learn about Gno.land? *" :options="howLearnedOptions" @update="(option) => (form.how_learned = String(option.value))" />
+        </div>
 
-      <Input label="Company / Organization" placeholder="e.g. Acme Corp" v-model="form.company" />
+        <Input label="Company / Organization" placeholder="e.g. Acme Corp" v-model="form.company" />
 
-      <div class="flex flex-col items-start gap-2">
+        <!-- Socials--> 
         <Input label="X" placeholder="e.g. @yourhandle" v-model="form.social_x" />
         <Input label="Telegram" placeholder="e.g. @yourhandle" v-model="form.social_telegram" />
         <Input label="Other" placeholder="e.g. https://yoursite.com" v-model="form.social_other" />
-      </div>
+      
 
-      <Input label="Atom / Cosmos address" placeholder="e.g. cosmos1..." v-model="form.cosmos_address" class="text-100"/>
+        <Input label="Atom / Cosmos address" placeholder="e.g. cosmos1..." v-model="form.cosmos_address"/>
 
-      <div class="flex flex-col items-start">
-        <label class="mb-2">Country *</label>
-        <SearchableSelect :options="countryOptions" placeholder="Type to search..." v-model="form.country" />
-      </div>
+        <div class="flex flex-col items-start">
+          <label class="mb-2">Country *</label>
+          <SearchableSelect :options="countryOptions" placeholder="Type to search..." v-model="form.country" />
+        </div>
 
-      <div>
-        <Button text="Submit Application" class="w-full" type="submit" :disabled="!isFormValid" @click="handleSubmit" />
-        <div v-if="error" class="text-center text-red-200 mt-6">{{ error }}</div>
+        <div>
+          <Button text="Submit Application" class="w-full" type="submit" :disabled="!isFormValid" @click="handleSubmit" />
+          <div v-if="error" class="text-center text-red-200 mt-6">{{ error }}</div>
+        </div>
       </div>
     </div>
   </div>
