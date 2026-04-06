@@ -39,7 +39,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     prefilledAddress: '',
     prefilledAmount: 0,
     interestFormGithubUsername: '',
-    interestFormGithubCode: '',
+    interestFormGithubToken: '',
   }),
   getters: {
     faucetAmount: (state) =>
@@ -83,7 +83,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         this.prefilledAddress = ''
         this.prefilledAmount = 0
         this.interestFormGithubUsername = ''
-        this.interestFormGithubCode = ''
+        this.interestFormGithubToken = ''
         this.status = 'null'
         this.error = null
       }
@@ -557,7 +557,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         }
 
         this.interestFormGithubUsername = data.username
-        this.interestFormGithubCode = code
+        this.interestFormGithubToken = data.access_token
 
         this.status = 'null'
         this.contentStep = 0

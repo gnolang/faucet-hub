@@ -1,7 +1,7 @@
 import type { Handler, HandlerEvent } from '@netlify/functions'
 import { google } from 'googleapis'
 
-const REQUIRED_FIELDS = ['github_username', 'email', 'gno_address', 'building_interest', 'how_learned', 'country', 'requested_gnot_amount'] as const
+const REQUIRED_FIELDS = ['github_token', 'email', 'gno_address', 'building_interest', 'how_learned', 'country', 'requested_gnot_amount'] as const
 
 const handler: Handler = async (event: HandlerEvent) => {
   const headers = {
@@ -42,6 +42,26 @@ const handler: Handler = async (event: HandlerEvent) => {
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server configuration error' }) }
   }
 
+  // Verify GitHub token and resolve username server-side
+  let githubUsername: string
+  try {
+    const ghResponse = await fetch('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${body.github_token}`,
+        Accept: 'application/vnd.github.v3+json',
+      },
+    })
+
+    if (!ghResponse.ok) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Invalid GitHub token' }) }
+    }
+
+    const ghUser = await ghResponse.json()
+    githubUsername = ghUser.login
+  } catch {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Failed to verify GitHub identity' }) }
+  }
+
   try {
     const credentials = JSON.parse(credentialsJson)
     const auth = new google.auth.GoogleAuth({
@@ -57,7 +77,7 @@ const handler: Handler = async (event: HandlerEvent) => {
 
     const row = [
       new Date().toISOString(),
-      body.github_username,
+      githubUsername,
       body.email,
       body.building_interest,
       body.company || '',
