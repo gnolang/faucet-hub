@@ -27,6 +27,7 @@ import Recaptcha from '@/components/ui/Recaptcha.vue'
 import IconClose from '@/components/icons/IconClose.vue'
 
 import { useFaucetDetail } from '@/stores/faucetDetail'
+import { isGnoAddressValid } from '@/utils/validation'
 import { convertFromUgnot } from '@/utils/amount'
 
 import { SelectOption } from '@/components/ui/Select.vue'
@@ -59,7 +60,7 @@ const captchaValidation = ({ code = 'error', secret = '' }) => {
   captchaSecret.value = secret
 }
 
-const isAddressValid = computed(() => new RegExp(/^[a-z0-9]{40}$/).test(store.prefilledAddress || ''))
+const isAddressValid = computed(() => isGnoAddressValid(store.prefilledAddress || ''))
 const isFormValid = computed(() => {
   if (store.selectedFaucet.github_oauth_client_id) {
     return isAddressValid.value

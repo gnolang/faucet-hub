@@ -1,5 +1,5 @@
 <template>
-  <div class="group flex flex-col items-start text-200">
+  <div class="group flex flex-col items-start text-200 w-full">
     <label class="mb-3" v-if="label">{{ label }}</label>
     <div
       @click="openClose()"
