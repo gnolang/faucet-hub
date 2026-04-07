@@ -12,29 +12,31 @@
     <!-- Phase 2: Full form -->
     <div v-else class="interest-form">
       <div class="w-full space-y-7 md:space-y-12 text-200">
-        <div class="flex items-center">
+        <div class="flex items-center gap-2">
           <span class="bg-grey-400 border border-grey-300 rounded px-3 py-1.5 text-light font-medium">@{{ store.interestFormGithubUsername }}</span>
           <span class="text-grey-100">connected via GitHub</span>
         </div>
 
-        <Input label="Email *" placeholder="you@example.com" v-model="form.email" />
+        <Input label="Email *" placeholder="you@example.com" type="email" v-model="form.email" :invalid="showEmailError" />
 
-        <Input label="GNO address *" placeholder="e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl" v-model="form.gno_address" />
+        <Input label="GNO address *" placeholder="e.g. g1juwee0ynsdvaukvxk3j5s4cl6nn24uxwlydxrl" v-model="form.gno_address" :invalid="showGnoAddressError" />
 
         <Input label="Requested GNOT amount *" placeholder="e.g. 1000" type="number" v-model="form.requested_gnot_amount" />
 
         <Textarea label="What are you building or interested in building on Gno.land? *" placeholder="Describe your project or interest..." v-model="form.building_interest" :rows="3" />
 
-        <div class="flex flex-col items-start">        
+        <div class="flex flex-col items-start">
           <Select label="How did you learn about Gno.land? *" :options="howLearnedOptions" @update="(option) => (form.how_learned = String(option.value))" />
         </div>
 
         <Input label="Company / Organization" placeholder="e.g. Acme Corp" v-model="form.company" />
 
-        <!-- Socials--> 
-        <Input label="X" placeholder="e.g. @yourhandle" v-model="form.social_x" />
-        <Input label="Telegram" placeholder="e.g. @yourhandle" v-model="form.social_telegram" />
-        <Input label="Other" placeholder="e.g. https://yoursite.com" v-model="form.social_other" />
+        <!-- Socials -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Input label="X" placeholder="@yourhandle" v-model="form.social_x" />
+          <Input label="Telegram" placeholder="@yourhandle" v-model="form.social_telegram" />
+          <Input label="Other" placeholder="https://yoursite.com" v-model="form.social_other" />
+        </div>
       
 
         <Input label="Cosmos / Atone address" placeholder="e.g. cosmos1... or atone1..." v-model="form.cosmos_address"/>
@@ -64,6 +66,7 @@ import Button from '@/components/ui/Button.vue'
 import IconClose from '@/components/icons/IconClose.vue'
 import countryOptions from '@/data/countries.json'
 import { useFaucetDetail } from '@/stores/faucetDetail'
+import { isGnoAddressValid, isCosmosAddressValid, isEmailValid as checkEmail } from '@/utils/validation'
 import type { Faucet } from '@/types'
 
 type Props = {
@@ -99,30 +102,20 @@ const howLearnedOptions = [
   { content: 'Other', value: 'other' },
 ]
 
-const isBech32Valid = (address: string, prefix: string) => {
-  if (!address.startsWith(prefix + '1')) return false
-  return /^[ac-hj-np-z02-9]{23,38}$/.test(address.slice(prefix.length + 1).toLowerCase())
-}
-
-const isGnoAddressValid = (address: string) => {
- return isBech32Valid(address, 'g')
-}
-
-const isCosmosAddressValid = (address: string) => {
-  if (!address) return true // optional field
-  return isBech32Valid(address, 'cosmos') || isBech32Valid(address, 'atone')
-}
+const isEmailValid = computed(() => checkEmail(form.email))
+const showEmailError = computed(() => form.email.trim() !== '' && !isEmailValid.value)
+const showGnoAddressError = computed(() => form.gno_address.trim() !== '' && !isGnoAddressValid(form.gno_address.trim()))
 
 const isFormValid = computed(() => {
   return (
     store.interestFormGithubUsername &&
-    form.email.trim() !== '' &&
+    isEmailValid.value &&
     isGnoAddressValid(form.gno_address.trim()) &&
     isCosmosAddressValid(form.cosmos_address.trim()) &&
     form.building_interest.trim() !== '' &&
     form.how_learned !== '' &&
     form.country !== '' &&
-    form.requested_gnot_amount.trim() !== ''
+    String(form.requested_gnot_amount).trim() !== ''
   )
 })
 
@@ -151,7 +144,7 @@ const handleSubmit = async () => {
     gno_address: form.gno_address,
     cosmos_address: form.cosmos_address,
     country: form.country,
-    requested_gnot_amount: form.requested_gnot_amount,
+    requested_gnot_amount: String(form.requested_gnot_amount),
   })
 }
 </script>

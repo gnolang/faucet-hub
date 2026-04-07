@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" ref="container">
+  <div class="relative w-full" ref="container">
     <input
       type="text"
       v-model="search"
@@ -8,6 +8,7 @@
       :class="selected && !isOpen ? 'text-light' : ''"
       @focus="open"
       @input="open"
+      @click="open"
     />
     <div v-if="selected && !isOpen" class="absolute inset-0 flex items-center px-4 pointer-events-none">
       <span class="text-light">{{ selected.content }}</span>
