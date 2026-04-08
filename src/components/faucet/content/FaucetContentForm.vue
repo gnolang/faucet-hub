@@ -9,11 +9,6 @@
       <Recaptcha v-if="!store.selectedFaucet.github_oauth_client_id && (store.selectedFaucet.recaptcha || store.selectedFaucet.hcaptcha)" :key="store.status" @validation="captchaValidation" :recaptchakey="store.selectedFaucet.recaptcha" :hcaptchakey="store.selectedFaucet.hcaptcha" />
       <div>
         <div class="flex flex-col gap-3">
-          <div v-if="store.availableRewards >= 0" class="relative flex">
-            <div class="flex-1 absolute -right-2 md:right-2 md:top-1/2 rounded text-50 font-medium flex items-center bg-green-900 text-green-200 px-2.5 py-2 -translate-y-1/2 ">{{ convertFromUgnot(store.availableRewards.toString()) }}GNOT</div>
-            <Button text="Claim Reward" class="w-full" type="button" @click="handleClaimRewards" :disabled="!isFormValid || store.availableRewards <= 0" />
-          </div>
-          
           <Button :text="dripButtonText" class="w-full" type="submit" :disabled="!isFormValid" @click="handleDripFaucet" />
         </div>
         <div v-if="error" class="text-center text-red-200 mt-6">{{ error }}</div>
