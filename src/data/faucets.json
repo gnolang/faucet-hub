@@ -14,7 +14,7 @@
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test11.testnets.gno.land",
       "description": "The latest gno.land testnet running the latest stable versions of Gno, Gno.land and TM2",
-      "recaptcha": "6LfgVbUsAAAAAEVZm88eCe6jnqeTfXi4ll3mK3ek"
+      "recaptcha": "6LdXYLUsAAAAAGOXhpA56yhimwQi0W6SAffPSITH"
     },
     {
       "name": "Staging",
@@ -22,7 +22,7 @@
       "amounts": [1, 5, 10],
       "url": "https://faucet-api.staging.gno.land",
       "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, Gno.land, and TM2",
-      "recaptcha": "6LeQVLUsAAAAALu0wv8MA-EQ7qiYjqBNxtT9O8BV"
+      "recaptcha": "6LfgX7UsAAAAAP0NRH3eVJu84yWTag6-g7PgN2A_"
     },
     {
       "name": "dSocial Faucet",
