@@ -1,14 +1,6 @@
 {
   "faucets": [
     {
-      "name": "Beta Github Faucet",
-      "chain_id": "gnoland1",
-      "amounts": [10],
-      "url": "https://faucet-github.betanet.testnets.gno.land",
-      "description": "Authenticate with GitHub to receive test tokens on the Beta Mainnet",
-      "github_oauth_client_id": "Iv23liouslDM8nHS7rMq"
-    },
-    {
       "name": "Beta Gno.land",
       "chain_id": "gnoland1",
       "amounts": [5, 10, 15],
@@ -18,7 +10,7 @@
       "github_oauth_client_id": "Ov23liPRw4eULzImCFjR"
     },
     {
-      "name": "Test11 network",
+      "name": "Testnet Faucet",
       "chain_id": "test11",
       "amounts": [5, 10, 15],
       "url": "https://faucet-api.test11.testnets.gno.land",
