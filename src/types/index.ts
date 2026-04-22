@@ -11,4 +11,18 @@ export interface Faucet {
   token?: string // token name: default $GNOT
   github_oauth_client_id?: string // github oauth client id
   debug?: boolean // whether this is a debug faucet (advanced users only)
+  form_type?: 'drip' | 'interest' // form type: 'drip' (default) or 'interest' for manual-review applications
+}
+
+export interface InterestFormData {
+  github_token: string
+  email: string
+  building_interest: string
+  company: string
+  socials: string
+  how_learned: string
+  gno_address: string
+  cosmos_address: string
+  country: string
+  requested_gnot_amount: string
 }

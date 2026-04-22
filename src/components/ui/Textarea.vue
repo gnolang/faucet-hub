@@ -1,12 +1,11 @@
 <template>
-  <div class="flex flex-col items-start text-200">
+  <div class="flex flex-col items-start">
     <label class="mb-3">{{ label }}</label>
-    <input
-      :type="type"
+    <textarea
       v-model="model"
-      class="w-full rounded bg-grey-400 border p-4 outline-none focus:border-light hover:border-grey-100 ease-in-out duration-300"
-      :class="invalid ? 'border-red-200 focus:border-red-200 hover:border-red-200' : 'border-grey-300'"
+      class="w-full rounded bg-grey-400 border border-grey-300 p-4 outline-none focus:border-light hover:border-grey-100 ease-in-out duration-300 resize-none"
       :placeholder="placeholder"
+      :rows="rows"
     />
   </div>
 </template>
@@ -17,16 +16,14 @@ type Props = {
   label: string
   placeholder: string
   modelValue?: string
-  type?: string
-  invalid?: boolean
+  rows?: number
 }
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
-  type: 'text',
-  invalid: false,
+  rows: 4,
 })
 
-const emit = defineEmits(['update:modelValue', 'focus'])
+const emit = defineEmits(['update:modelValue'])
 const model = computed({
   get: () => props.modelValue,
   set: (value) => {

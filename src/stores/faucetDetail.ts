@@ -2,7 +2,7 @@ import { defineStore, storeToRefs, PiniaPluginContext } from 'pinia'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
 import { CSSPlugin } from 'gsap/CSSPlugin'
-import { RequestStatus, Faucet } from '@/types'
+import { RequestStatus, Faucet, InterestFormData } from '@/types'
 import { watch, nextTick } from 'vue'
 import { useFaucetApi } from '@/composables/useFaucetApi'
 import { convertToUgnot } from '@/utils/amount'
@@ -38,6 +38,8 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     availableRewards: -1,
     prefilledAddress: '',
     prefilledAmount: 0,
+    interestFormGithubUsername: '',
+    interestFormGithubToken: '',
   }),
   getters: {
     faucetAmount: (state) =>
@@ -80,6 +82,8 @@ export const useFaucetDetail = defineStore('faucetDetail', {
         this.availableRewards = -1
         this.prefilledAddress = ''
         this.prefilledAmount = 0
+        this.interestFormGithubUsername = ''
+        this.interestFormGithubToken = ''
         this.status = 'null'
         this.error = null
       }
@@ -437,9 +441,17 @@ export const useFaucetDetail = defineStore('faucetDetail', {
     handleGithubReturn() {
       const hasGithubCode = new URLSearchParams(window.location.search).has('code')
       if (hasGithubCode && Object.keys(this.selectedFaucet).length > 0) {
-        nextTick(() => {
-          this.initializeFromGithub()
-        })
+        const isInterestFlow = localStorage.getItem('interest-form-oauth') === 'true'
+        if (isInterestFlow) {
+          localStorage.removeItem('interest-form-oauth')
+          nextTick(() => {
+            this.handleInterestFormGithubReturn()
+          })
+        } else {
+          nextTick(() => {
+            this.initializeFromGithub()
+          })
+        }
       }
     },
 
@@ -475,7 +487,7 @@ export const useFaucetDetail = defineStore('faucetDetail', {
       try {
         const { requestFaucet } = useFaucetApi()
         const githubCode = localStorage.getItem('last-code')
-        
+
         await this.ensureMinLoadingTime(
           requestFaucet(this.selectedFaucet, {
             address: this.prefilledAddress,
@@ -483,6 +495,99 @@ export const useFaucetDetail = defineStore('faucetDetail', {
             githubCode: githubCode || undefined,
           })
         )
+        await this.handleRequestSuccess()
+      } catch (e) {
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
+      }
+    },
+
+    startInterestFormOAuth() {
+      localStorage.setItem('interest-form-oauth', 'true')
+
+      const params = new URLSearchParams({
+        client_id: this.selectedFaucet.github_oauth_client_id!,
+        redirect_uri: window.location.origin,
+        scope: 'read:user',
+      })
+
+      window.location.href = `https://github.com/login/oauth/authorize?${params}`
+    },
+
+    async handleInterestFormGithubReturn() {
+      const params = new URLSearchParams(window.location.search)
+      const code = params.get('code')
+
+      window.history.replaceState({}, document.title, window.location.pathname)
+
+      if (!code) {
+        return
+      }
+
+      // Open popup and show loading
+      this.isVisible = true
+      this.isOpen = true
+      this.contentStep = 1
+      this.status = 'pending'
+
+      gsap.set('.popup', {
+        autoAlpha: 1,
+        top: '50%',
+        'clip-path': 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+      })
+      if (this.DOM.bg) {
+        gsap.set(this.DOM.bg, { autoAlpha: 1, visibility: 'visible' })
+      }
+      gsap.set('.js-main', { scale: 0.9 })
+      gsap.set('.js-faucetform', { autoAlpha: 0 })
+      gsap.set('.js-faucetpending', { autoAlpha: 1 })
+
+      if (this.DOM.gnoRequestLogo) {
+        gsap.to(this.DOM.gnoRequestLogo, { autoAlpha: 1, delay: 0.5 })
+      }
+
+      this.setupPendingAnimation()
+      this.toggleLoader(true)
+
+      try {
+        const response = await fetch(`/.netlify/functions/github-user?code=${encodeURIComponent(code)}`)
+        const data = await response.json()
+
+        if (!response.ok || !data.username) {
+          throw new Error(data.error || 'Failed to get GitHub username')
+        }
+
+        this.interestFormGithubUsername = data.username
+        this.interestFormGithubToken = data.access_token
+
+        this.status = 'null'
+        this.contentStep = 0
+        this.toggleLoader(false)
+        this.cleanupPendingAnimation()
+
+        gsap.set('.js-faucetform', { autoAlpha: 1 })
+        gsap.set('.js-faucetpending', { autoAlpha: 0 })
+        gsap.set('.js-faucetsuccess', { autoAlpha: 0 })
+      } catch (e) {
+        await this.handleRequestError(e instanceof Error ? e.message : String(e))
+      }
+    },
+
+    async submitInterestForm(data: InterestFormData) {
+      await this.handleRequestAnimation()
+
+      try {
+        const response = await fetch('/.netlify/functions/interest-submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+
+        const result = await response.json()
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || 'Failed to submit application')
+        }
+
         await this.handleRequestSuccess()
       } catch (e) {
         await this.handleRequestError(e instanceof Error ? e.message : String(e))
