@@ -5,7 +5,7 @@
 
     <!-- Phase 1: Connect GitHub -->
     <div v-if="!store.interestFormGithubUsername" class="w-full space-y-7 md:space-y-12">
-      <p class="text-grey-100 text-200">Connect your GitHub account to request a larger amount of Gno.land Beta tokens</p>
+      <p class="text-grey-100 text-200">Connect your GitHub account and fill out a short form to request a larger amount of Gno.land Beta tokens</p>
       <Button text="Connect GitHub" class="w-full" type="button" @click="handleConnectGithub" />
     </div>
 
