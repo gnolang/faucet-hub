@@ -1,20 +1,20 @@
 {
   "faucets": [
     {
+      "name": "Topaz Faucet",
+      "chain_id": "topaz-1",
+      "amounts": [5, 10, 15],
+      "url": "https://faucet.topaz.testnets.gno.land",
+      "description": "The latest gno.land testnet, running chain topaz-1",
+      "hcaptcha": "b4d8f450-bb88-446e-85aa-4b2ac8e8a284"
+    },
+    {
       "name": "Test13 Faucet",
       "chain_id": "test-13",
       "amounts": [5, 10, 15],
       "url": "https://faucet.test13.testnets.gno.land",
-      "description": "The latest gno.land testnet, running chain test-13",
+      "description": "The previous gno.land testnet, running chain test-13",
       "hcaptcha": "6a84f72c-d920-4dce-8d98-4ea68a367122"
-    },
-    {
-      "name": "Test11 Faucet",
-      "chain_id": "test11",
-      "amounts": [5, 10, 15],
-      "url": "https://faucet-api.test11.testnets.gno.land",
-      "description": "The previous gno.land testnet, running chain test11",
-      "recaptcha": "6LdXYLUsAAAAAGOXhpA56yhimwQi0W6SAffPSITH"
     },
     {
       "name": "Boards2 Mobile Faucet",
