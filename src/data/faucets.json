@@ -9,14 +9,6 @@
       "hcaptcha": "b4d8f450-bb88-446e-85aa-4b2ac8e8a284"
     },
     {
-      "name": "Test13 Faucet",
-      "chain_id": "test-13",
-      "amounts": [5, 10, 15],
-      "url": "https://faucet.test13.testnets.gno.land",
-      "description": "The previous gno.land testnet, running chain test-13",
-      "hcaptcha": "6a84f72c-d920-4dce-8d98-4ea68a367122"
-    },
-    {
       "name": "Boards2 Mobile Faucet",
       "chain_id": "dev",
       "amounts": [1, 5, 10],
