@@ -1,11 +1,19 @@
 {
   "faucets": [
     {
+      "name": "Sapphire Faucet",
+      "chain_id": "sapphire-1",
+      "amounts": [100, 200, 300],
+      "url": "https://faucet.sapphire.testnets.gno.land",
+      "description": "The latest gno.land testnet, running chain sapphire-1",
+      "hcaptcha": "ca54bc92-cf7c-4938-a098-e3a864bc3a88"
+    },
+    {
       "name": "Topaz Faucet",
       "chain_id": "topaz-1",
       "amounts": [5, 10, 15],
       "url": "https://faucet.topaz.testnets.gno.land",
-      "description": "The latest gno.land testnet, running chain topaz-1",
+      "description": "The previous gno.land testnet, running chain topaz-1",
       "hcaptcha": "b4d8f450-bb88-446e-85aa-4b2ac8e8a284"
     },
     {
