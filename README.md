@@ -63,13 +63,17 @@ options for the faucet (in GNOT), the faucet URL, and the captcha site key.
 
 ```json
 {
-    "name": "Portal Loop",
-    "chain_id": "portal-loop",
-    "amounts": [1, 5, 10],
-    "url": "https://faucet-api.gno.land",
-    "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2.",
+    "name": "<Network> Faucet",
+    "chain_id": "<chain-id>",
+    "amounts": [100, 200, 300],
+    "url": "https://faucet.<network>.testnets.gno.land",
+    "description": "<one line: which network this faucet serves>",
     "hcaptcha": "<your-hcaptcha-site-key>"
 }
 ```
+
+Chain ids and network hostnames change every few weeks as testnets are replaced — see
+[Gno networks](https://docs.gno.land/testnets) for the current ones, and
+check [`faucets.json`](./src/data/faucets.json) for live examples of the shape.
 
 You can find an example PR [here](https://github.com/gnolang/faucet-hub/pull/16).
