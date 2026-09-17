@@ -9,14 +9,6 @@
       "hcaptcha": "d178bbae-615e-499c-b9fc-889096baae8c"
     },
     {
-      "name": "Sapphire Faucet",
-      "chain_id": "sapphire-1",
-      "amounts": [100, 200, 300],
-      "url": "https://faucet.sapphire.testnets.gno.land",
-      "description": "The previous gno.land testnet, running chain sapphire-1",
-      "hcaptcha": "ca54bc92-cf7c-4938-a098-e3a864bc3a88"
-    },
-    {
       "name": "Boards2 Mobile Faucet",
       "chain_id": "dev",
       "amounts": [1, 5, 10],

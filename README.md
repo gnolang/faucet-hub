@@ -63,11 +63,11 @@ options for the faucet (in GNOT), the faucet URL, and the captcha site key.
 
 ```json
 {
-    "name": "Portal Loop",
-    "chain_id": "portal-loop",
-    "amounts": [1, 5, 10],
-    "url": "https://faucet-api.gno.land",
-    "description": "A nightly staging testnet used for experimenting with the latest versions of Gno, gno.land, and TM2.",
+    "name": "Pearl Faucet",
+    "chain_id": "pearl-1",
+    "amounts": [100, 200, 300],
+    "url": "https://faucet.pearl.testnets.gno.land",
+    "description": "The latest gno.land testnet, running chain pearl-1",
     "hcaptcha": "<your-hcaptcha-site-key>"
 }
 ```
