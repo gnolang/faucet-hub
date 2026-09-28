@@ -72,7 +72,7 @@ options for the faucet (in GNOT), the faucet URL, and the captcha site key.
 }
 ```
 
-Chain ids and network hostnames change every few weeks as testnets are replaced — see
+Chain ids and network hostnames change when a testnet is replaced — see
 [Gno networks](https://docs.gno.land/testnets) for the current ones, and
 check [`faucets.json`](./src/data/faucets.json) for live examples of the shape.
 
