@@ -1,11 +1,19 @@
 {
   "faucets": [
     {
+      "name": "Onyx Faucet",
+      "chain_id": "onyx-1",
+      "amounts": [100, 200, 300],
+      "url": "https://faucet.onyx.testnets.gno.land",
+      "description": "The latest gno.land testnet, running chain onyx-1",
+      "hcaptcha": "85609fa2-6ed6-4fe0-904c-2bae865ab6ec"
+    },
+    {
       "name": "Pearl Faucet",
       "chain_id": "pearl-1",
       "amounts": [100, 200, 300],
       "url": "https://faucet.pearl.testnets.gno.land",
-      "description": "The latest gno.land testnet, running chain pearl-1",
+      "description": "The previous gno.land testnet, running chain pearl-1",
       "hcaptcha": "d178bbae-615e-499c-b9fc-889096baae8c"
     },
     {
